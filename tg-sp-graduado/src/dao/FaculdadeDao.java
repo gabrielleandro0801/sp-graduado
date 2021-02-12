@@ -6,16 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.Aluno;
 import model.Faculdade;
 
 public class FaculdadeDao {
 	ResultSet rs;
 	
 	public ArrayList<Faculdade> buscar(){
+		ArrayList<Faculdade> lista = new ArrayList<Faculdade>();
+		
 		String SQL_BUSCAFACULDADES = "select * from faculdade;";
 		
-		ArrayList<Faculdade> lista = new ArrayList<Faculdade>();
 		try(Connection conexao = ConnectionFactory.getConnection();
 		    PreparedStatement st = conexao.prepareStatement(SQL_BUSCAFACULDADES)){
 			rs = st.executeQuery();
@@ -28,10 +28,11 @@ public class FaculdadeDao {
 	            
 	            lista.add(linha);
 	        }
+			
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		return lista;
-              
+		
+		return lista;  
     }
 }

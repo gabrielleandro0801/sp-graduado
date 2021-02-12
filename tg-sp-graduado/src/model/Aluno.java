@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Date;
-
 public class Aluno extends Pessoa{
 	private int idAluno;
 	private int idPadrinho;
@@ -42,9 +40,7 @@ public class Aluno extends Pessoa{
 		this.descricao = descricao;
 	}
 	
-	public Aluno(){
-		
-	}
+	public Aluno(){}
 	
 	@Override
 	public String toString() {

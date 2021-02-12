@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Date;
-
 public class Padrinho extends Pessoa{
 	private int idPadrinho;
 	private String motivos;
@@ -26,9 +24,7 @@ public class Padrinho extends Pessoa{
 		this.motivos = motivos;
 	}
 	
-	public Padrinho() {
-		// TODO Auto-generated constructor stub
-	}
+	public Padrinho() {}
 	
 	@Override
 	public String toString() {
@@ -37,7 +33,5 @@ public class Padrinho extends Pessoa{
 				+ telCelular + ", docCpfOuCnpj=" + docCpfOuCnpj + ", tipoPessoa=" + tipoPessoa + ", dataNascimento="
 				+ dataNascimento + "]";
 	}
-
-	
 	
 }

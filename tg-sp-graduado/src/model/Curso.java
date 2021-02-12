@@ -26,5 +26,4 @@ public class Curso {
 		this.nomeCategoria = nomeCategoria;
 	}
 	
-
 }

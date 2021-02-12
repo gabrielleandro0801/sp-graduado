@@ -82,5 +82,4 @@ public class CursoFaculdade {
 		return true;
 	}
 	
-	
 }

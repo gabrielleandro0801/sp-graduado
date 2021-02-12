@@ -5,10 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import model.CursoFaculdade;
 
@@ -16,11 +12,11 @@ public class CursoFaculdadeDao {
 	ResultSet rs;
 	
 	public ArrayList<CursoFaculdade> buscar(int idFaculdade){
-		String SQL_BUSCACURSOFACULDADE = "select CF.idCursoFaculdade, CU.nomeCurso, CF.semestres, CF.turno, CF.modalidade from curso_faculdade CF "
-				+ "INNER JOIN curso CU on CF.idCurso = CU.idCurso where CF.idFaculdade = " + idFaculdade + " order by CF.idCursoFaculdade;\r\n" + 
-				"";
-		
 		ArrayList<CursoFaculdade> lista = new ArrayList<CursoFaculdade>();
+		
+		String SQL_BUSCACURSOFACULDADE = "select CF.idCursoFaculdade, CU.nomeCurso, CF.semestres, CF.turno, CF.modalidade from curso_faculdade CF "
+		+ "INNER JOIN curso CU on CF.idCurso = CU.idCurso where CF.idFaculdade = " + idFaculdade + " order by CF.idCursoFaculdade;\r\n";
+		
 		try(Connection conexao = ConnectionFactory.getConnection();
 		    PreparedStatement st = conexao.prepareStatement(SQL_BUSCACURSOFACULDADE)){
 			rs = st.executeQuery();
@@ -46,13 +42,13 @@ public class CursoFaculdadeDao {
 	            	linha.setModalidade("EAD");
 	            }
 	            
-	            
 	            lista.add(linha);
 	        }
+			
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		return lista;
-              
+		
+		return lista;  
     }
 }

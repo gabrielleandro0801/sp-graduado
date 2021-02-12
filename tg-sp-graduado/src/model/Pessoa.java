@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Date;
-
 public class Pessoa {
 	protected int idPessoa;
 	protected String nome;
