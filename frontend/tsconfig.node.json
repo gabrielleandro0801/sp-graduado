@@ -1,8 +1,28 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
+    "target": "ES2022",
     "composite": true,
-    "module": "esnext",
-    "moduleResolution": "node"
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "removeComments": true,
+    "noImplicitAny": true,
+    "pretty": true,
+    "noEmitOnError": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*"]
+    }
   },
-  "include": ["vite.config.ts"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
 }
