@@ -14,4 +14,5 @@ export default interface ITextField {
   multiline?: boolean;
   maxRows?: number;
   config: SxProps<Theme>;
+  classes?: any;
 }

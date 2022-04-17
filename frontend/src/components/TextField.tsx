@@ -3,7 +3,7 @@ import MUITextField from '@mui/material/TextField';
 import ITextFieldProps from '../interfaces/props/ITextField';
 
 const TextField = (props: ITextFieldProps): React.ReactElement => {
-  const { config, id, label, variantType, disabled, isRequired, hasError, errorMessage } = props;
+  const { config, id, label, variantType, disabled, isRequired, hasError, errorMessage, classes } = props;
 
   return (
     <MUITextField
@@ -15,6 +15,7 @@ const TextField = (props: ITextFieldProps): React.ReactElement => {
       sx={config}
       error={hasError || false}
       helperText={errorMessage}
+      InputProps={{ className: classes }}
     />
   );
 };
