@@ -1,8 +1,7 @@
 import React from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import MainTheme from './themes';
-import PrimaryButton from './components/PrimaryButton';
-import SecondaryButton from './components/SecondaryButton';
+import Button from './components/Button';
 import StyledSwitchTheme from './components/styles/SwitchTheme';
 import TextField from './components/TextField';
 import Constants from './commons/Constants';
@@ -21,13 +20,25 @@ const App = (): JSX.Element => {
     <ThemeProvider theme={changeTheme()}>
       <CssBaseline />
       <StyledSwitchTheme value={theme} defaultValue={Constants.THEMES.LIGHT} onChange={handleChange} />
-      <PrimaryButton size="medium" text="Primary Button" variantType="contained" />
-      <SecondaryButton size="medium" text="Primary Button" variantType="contained" />
+      <Button
+        size="medium"
+        text="Primary Button"
+        variantType="contained"
+        color="primary"
+        config={{ width: 300, height: 40, marginTop: 5 }}
+      />
+      <Button
+        size="medium"
+        text="Primary Button"
+        variantType="outlined"
+        color="secondary"
+        config={{ width: 300, height: 40, marginTop: 5 }}
+      />
       <TextField
         id="outlined-text-field"
         label="Outlined"
         variantType="outlined"
-        config={{ input: { color: '#000' } }}
+        config={{ input: { color: '#000' }, width: 300, padding: 1, marginTop: 5 }}
       />
     </ThemeProvider>
   );
