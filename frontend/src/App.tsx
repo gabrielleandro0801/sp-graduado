@@ -38,7 +38,7 @@ const App = (): JSX.Element => {
         id="outlined-text-field"
         label="Outlined"
         variantType="outlined"
-        config={{ input: { color: '#000' }, width: 300, padding: 1, marginTop: 5 }}
+        config={{ width: 300, padding: 1, marginTop: 5 }}
       />
     </ThemeProvider>
   );
