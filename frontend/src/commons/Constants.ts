@@ -1,4 +1,8 @@
 export default {
+  REGEX: {
+    EMAIL: '',
+    PASSWORD: '',
+  },
   HTTP: {
     STATUS: {
       OK: 200,
@@ -20,6 +24,10 @@ export default {
       500: 'Erro ao processar solicitação, tente novamente alguns minutos',
       503: 'O serviço está passando por instabilidades, tente novamente em alguns minutos',
       504: 'Tempo de resposta excedido. Tente novamente, se não obtiver sucesso contate um administrador',
+    },
+    VALIDATION: {
+      EMAIL: 'O formato email informado é inválido!',
+      PASSWORD: 'A senha deve conter ao menos 8 caracteres e pelomenos um caracter especial e uma letra maiúscula',
     },
   },
   THEMES: {

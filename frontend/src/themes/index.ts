@@ -9,8 +9,8 @@ const lightTheme: Theme = createTheme({
       contrastText: '#FFFFFF',
     },
     background: {
-      default: '#EEEEEE',
-      paper: '#EEEEEE',
+      default: '#FFFFFF',
+      paper: '#F5F7FA',
     },
     text: {
       primary: '#FFFFFF',
@@ -18,6 +18,7 @@ const lightTheme: Theme = createTheme({
     },
     mode: 'light',
   },
+  spacing: 0,
 });
 
 const darkTheme: Theme = createTheme({

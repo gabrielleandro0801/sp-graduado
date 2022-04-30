@@ -14,6 +14,7 @@
     "strictNullChecks": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "useUnknownInCatchVariables": false,
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*"]
