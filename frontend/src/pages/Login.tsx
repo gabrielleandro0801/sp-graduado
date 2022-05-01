@@ -4,8 +4,6 @@ import ToolBar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import AccountCircleSharp from '@mui/icons-material/AccountCircleSharp';
 import LockSharp from '@mui/icons-material/LockSharp';
 import Paper from '@mui/material/Paper';
@@ -17,6 +15,7 @@ import { ThemeProvider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Tooltip from '@mui/material/Tooltip';
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import Logo from '../components/Logo';
 import StyledTextField from '../components/styles/TextField';
@@ -25,6 +24,7 @@ import StyledButton from '../components/styles/Button';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import CONSTANTS from '../commons/Constants';
 import MainTheme from '../themes';
+import AlertDialog from '../components/AlertDialog';
 
 type TextFieldState = {
   value: string;
@@ -33,21 +33,16 @@ type TextFieldState = {
 };
 
 const Login = (): JSX.Element => {
+  const [authError, setAuthError]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = React.useState(
+    Boolean(1),
+  );
+  const [hasOpen, setHasOpen]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = React.useState(Boolean(0));
   const [themeEl, setTheme] = React.useState('light-theme');
-
-  const handleChange = (_event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-    const newTheme: string = !checked ? CONSTANTS.THEMES.LIGHT : CONSTANTS.THEMES.DARK;
-    setTheme(newTheme);
-  };
-
-  const changeTheme = () => (themeEl === CONSTANTS.THEMES.LIGHT ? MainTheme.lightTheme : MainTheme.darkTheme);
-
   const [email, setEmail]: [TextFieldState, React.Dispatch<React.SetStateAction<TextFieldState>>] = React.useState({
     errorMessage: '',
     hasError: false,
     value: '',
   } as TextFieldState);
-
   const [password, setPassword]: [TextFieldState, React.Dispatch<React.SetStateAction<TextFieldState>>] =
     React.useState({
       errorMessage: '',
@@ -55,41 +50,54 @@ const Login = (): JSX.Element => {
       value: '',
     } as TextFieldState);
 
-  const handleOnChangeEmail = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    const emailValue: string = e.target.value;
+  const navigate: NavigateFunction = useNavigate();
 
-    if (!new RegExp(CONSTANTS.REGEX.EMAIL).test(emailValue)) {
+  const handleChangeTheme = (_event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+    const newTheme: string = !checked ? CONSTANTS.THEMES.LIGHT : CONSTANTS.THEMES.DARK;
+    setTheme(newTheme);
+  };
+
+  const changeTheme = () => (themeEl === CONSTANTS.THEMES.LIGHT ? MainTheme.lightTheme : MainTheme.darkTheme);
+
+  const handleOnChangeEmail = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    const emailState: TextFieldState = {
+      errorMessage: '',
+      hasError: false,
+      value: e.target.value,
+    };
+
+    if (!new RegExp(CONSTANTS.REGEX.EMAIL).test(email.value)) {
       setEmail({
         errorMessage: CONSTANTS.MESSAGES.VALIDATION.EMAIL,
         hasError: true,
-        value: email.value,
+        value: emailState.value,
       });
+      setAuthError(true);
     } else {
-      const emailState: TextFieldState = {
-        errorMessage: '',
-        hasError: false,
-        value: emailValue,
-      };
       setEmail(emailState);
+      setAuthError(false);
+      setHasOpen(false);
     }
   };
 
   const handleOnChangePassword = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    const passwordValue: string = e.target.value;
+    const passwordState: TextFieldState = {
+      errorMessage: '',
+      hasError: false,
+      value: e.target.value,
+    };
 
-    if (!new RegExp(CONSTANTS.REGEX.PASSWORD).test(passwordValue)) {
-      setEmail({
+    if (!new RegExp(CONSTANTS.REGEX.PASSWORD).test(passwordState.value)) {
+      setPassword({
         errorMessage: CONSTANTS.MESSAGES.VALIDATION.PASSWORD,
         hasError: true,
-        value: password.value,
+        value: passwordState.value,
       });
+      setAuthError(true);
     } else {
-      const passwordState: TextFieldState = {
-        errorMessage: '',
-        hasError: false,
-        value: passwordValue,
-      };
       setPassword(passwordState);
+      setAuthError(false);
+      setHasOpen(false);
     }
   };
 
@@ -98,20 +106,26 @@ const Login = (): JSX.Element => {
     // console.log(googleResponse);
   };
 
-  const handleOnSubmit = (e: React.MouseEvent<HTMLFormElement>): void => {
-    e.preventDefault();
+  const handleCloseAlertDialog = () => {
+    setHasOpen(false);
+  };
 
-    const loginEntryArray: Array<boolean> = [email.hasError, password.hasError];
+  const handleOnSubmit = (event: React.MouseEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    const hasSuccessfullyLogin: boolean = [email.hasError, password.hasError].every((value) => !value);
 
-    if (loginEntryArray.every((value: boolean) => value)) {
-      // TODO: send request to login API
+    if (hasSuccessfullyLogin && !authError) {
+      setAuthError(false);
+      setHasOpen(false);
+      // TODO: Send request to Login API
+      // TODO: Create Google API Key
+      // TODO: Save login info on localStorage
+      navigate('/', {
+        replace: true,
+      });
     } else {
-      <Alert variant="outlined" severity="error" color="error">
-        <AlertTitle>Erro</AlertTitle>
-        <Typography variant="h3" sx={{ flexGrow: 1 }}>
-          Não foi possível efetuar o login — Verifique seu usuário e senha
-        </Typography>
-      </Alert>;
+      setAuthError(true);
+      setHasOpen(true);
     }
   };
 
@@ -197,9 +211,18 @@ const Login = (): JSX.Element => {
             >
               Sing In
             </Typography>
-            <Tooltip title="trocar tema" arrow>
-              <StyledSwitchTheme value={themeEl} defaultValue={CONSTANTS.THEMES.LIGHT} onChange={handleChange} />
+            <Tooltip title="Trocar tema" arrow>
+              <StyledSwitchTheme value={themeEl} defaultValue={CONSTANTS.THEMES.LIGHT} onChange={handleChangeTheme} />
             </Tooltip>
+            {authError && hasOpen && (
+              <AlertDialog
+                open={hasOpen}
+                titleText="Erro ao efetuar o login"
+                textContent="Verifique seu usuário e senha e tente novamente!"
+                buttonText="Fechar"
+                onClose={handleCloseAlertDialog}
+              />
+            )}
             <Box component="form" noValidate sx={{ mt: 1, padding: 5 }} onSubmit={handleOnSubmit}>
               <StyledTextField
                 variant="outlined"
