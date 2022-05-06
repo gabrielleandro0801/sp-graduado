@@ -16,7 +16,7 @@ const SnackBar = ({ hasOpen, text }: { hasOpen: boolean; text: string }): JSX.El
   };
 
   return (
-    <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
       <Alert
         onClose={handleClose}
         severity="success"
