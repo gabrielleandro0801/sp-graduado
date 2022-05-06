@@ -9,13 +9,13 @@ import LockSharp from '@mui/icons-material/LockSharp';
 import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import { ThemeProvider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Tooltip from '@mui/material/Tooltip';
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate, Link } from 'react-router-dom';
+import { Form, Formik, FormikProps } from 'formik';
 
 import Logo from '../components/Logo';
 import StyledTextField from '../components/styles/TextField';
@@ -24,32 +24,13 @@ import StyledButton from '../components/styles/Button';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import CONSTANTS from '../commons/Constants';
 import MainTheme from '../themes';
-import AlertDialog from '../components/AlertDialog';
-
-type TextFieldState = {
-  value: string;
-  hasError: boolean;
-  errorMessage: string;
-};
+import Copyright from '../components/Copyright';
+import LoginFormValidation from '../validations/LoginForm';
+import logoImg from '../assets/graduation-hat-and-diploma-purple.png';
+import ILogin from '../interfaces/ILogin';
 
 const Login = (): JSX.Element => {
-  const [authError, setAuthError]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = React.useState(
-    Boolean(1),
-  );
-  const [hasOpen, setHasOpen]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = React.useState(Boolean(0));
   const [themeEl, setTheme] = React.useState('light-theme');
-  const [email, setEmail]: [TextFieldState, React.Dispatch<React.SetStateAction<TextFieldState>>] = React.useState({
-    errorMessage: '',
-    hasError: false,
-    value: '',
-  } as TextFieldState);
-  const [password, setPassword]: [TextFieldState, React.Dispatch<React.SetStateAction<TextFieldState>>] =
-    React.useState({
-      errorMessage: '',
-      hasError: false,
-      value: '',
-    } as TextFieldState);
-
   const navigate: NavigateFunction = useNavigate();
 
   const handleChangeTheme = (_event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
@@ -59,74 +40,9 @@ const Login = (): JSX.Element => {
 
   const changeTheme = () => (themeEl === CONSTANTS.THEMES.LIGHT ? MainTheme.lightTheme : MainTheme.darkTheme);
 
-  const handleOnChangeEmail = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    const emailState: TextFieldState = {
-      errorMessage: '',
-      hasError: false,
-      value: e.target.value,
-    };
-
-    if (!new RegExp(CONSTANTS.REGEX.EMAIL).test(email.value)) {
-      setEmail({
-        errorMessage: CONSTANTS.MESSAGES.VALIDATION.EMAIL,
-        hasError: true,
-        value: emailState.value,
-      });
-      setAuthError(true);
-    } else {
-      setEmail(emailState);
-      setAuthError(false);
-      setHasOpen(false);
-    }
-  };
-
-  const handleOnChangePassword = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    const passwordState: TextFieldState = {
-      errorMessage: '',
-      hasError: false,
-      value: e.target.value,
-    };
-
-    if (!new RegExp(CONSTANTS.REGEX.PASSWORD).test(passwordState.value)) {
-      setPassword({
-        errorMessage: CONSTANTS.MESSAGES.VALIDATION.PASSWORD,
-        hasError: true,
-        value: passwordState.value,
-      });
-      setAuthError(true);
-    } else {
-      setPassword(passwordState);
-      setAuthError(false);
-      setHasOpen(false);
-    }
-  };
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleOnClickGoogleLogin = (googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline) => {
     // console.log(googleResponse);
-  };
-
-  const handleCloseAlertDialog = () => {
-    setHasOpen(false);
-  };
-
-  const handleOnSubmit = (event: React.MouseEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-    const hasSuccessfullyLogin: boolean = [email.hasError, password.hasError].every((value) => !value);
-
-    if (hasSuccessfullyLogin && !authError) {
-      setAuthError(false);
-      setHasOpen(false);
-      // TODO: Send request to Login API
-      // TODO: Create Google API Key
-      // TODO: Save login info on localStorage
-      navigate('/', {
-        replace: true,
-      });
-    } else {
-      setAuthError(true);
-      setHasOpen(true);
-    }
   };
 
   return (
@@ -142,6 +58,9 @@ const Login = (): JSX.Element => {
             <Logo
               width={62}
               height={62}
+              textLogo="SP GRADUADO"
+              imageUrl={logoImg}
+              alt="https://www.flaticon.com/authors/eucalyp"
               typographyStyles={{
                 flexGrow: 1,
                 color: (theme) => theme.palette.primary.main,
@@ -168,20 +87,22 @@ const Login = (): JSX.Element => {
               Sing Up
             </Typography>
             <Tooltip title="Sing up" arrow>
-              <IconButton
-                size="large"
-                aria-label="user login registration"
-                aria-controls="singup-appbar"
-                aria-haspopup="false"
-                color="primary"
-              >
-                <AccountCircleSharp
-                  sx={{
-                    width: 42,
-                    height: 42,
-                  }}
-                />
-              </IconButton>
+              <span>
+                <IconButton
+                  size="large"
+                  aria-label="user login registration"
+                  aria-controls="singup-appbar"
+                  aria-haspopup="false"
+                  color="primary"
+                >
+                  <AccountCircleSharp
+                    sx={{
+                      width: 42,
+                      height: 42,
+                    }}
+                  />
+                </IconButton>
+              </span>
             </Tooltip>
           </ToolBar>
         </AppBar>
@@ -212,63 +133,93 @@ const Login = (): JSX.Element => {
               Sing In
             </Typography>
             <Tooltip title="Trocar tema" arrow>
-              <StyledSwitchTheme value={themeEl} defaultValue={CONSTANTS.THEMES.LIGHT} onChange={handleChangeTheme} />
+              <span>
+                <StyledSwitchTheme value={themeEl} defaultValue={CONSTANTS.THEMES.LIGHT} onChange={handleChangeTheme} />
+              </span>
             </Tooltip>
-            {authError && hasOpen && (
-              <AlertDialog
-                open={hasOpen}
-                titleText="Erro ao efetuar o login"
-                textContent="Verifique seu usuário e senha e tente novamente!"
-                buttonText="Fechar"
-                onClose={handleCloseAlertDialog}
-              />
-            )}
-            <Box component="form" noValidate sx={{ mt: 1, padding: 5 }} onSubmit={handleOnSubmit}>
-              <StyledTextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                onChange={handleOnChangeEmail}
-                error={email.hasError}
-                helperText={email.errorMessage}
-              />
-              <StyledTextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={handleOnChangePassword}
-                error={password.hasError}
-                helperText={password.errorMessage}
-              />
-              <Link href="/forgot-password" variant="body2">
-                Esqueceu a senha?
-              </Link>
-              <StyledButton type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    color: '#FFF',
-                    flexGrow: 1,
-                    fontStyle: 'inherit',
-                    fontWeight: '500',
-                  }}
-                >
-                  Login
-                </Typography>
-              </StyledButton>
-            </Box>
+            <Formik
+              initialValues={LoginFormValidation.getInitialValues()}
+              validationSchema={LoginFormValidation.getValidationSchema()}
+              onSubmit={(fields: ILogin, { resetForm, setSubmitting }) => {
+                setSubmitting(false);
+                resetForm();
+                // TODO: Call API to login and pass userInfo into route state
+                // TODO: Implement Google Login
+                navigate('/menu/godfather', { replace: true, state: { hasOpen: true, userInfo: fields } });
+              }}
+            >
+              {(props: FormikProps<ILogin>) => (
+                <>
+                  <Form onSubmit={props.handleSubmit}>
+                    <Box sx={{ mt: 1, padding: 5 }}>
+                      <StyledTextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        error={props.touched.email && Boolean(props.errors.email)}
+                        helperText={props.touched.email && props.errors.email}
+                      />
+                      <StyledTextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        onBlur={props.handleBlur}
+                        onChange={props.handleChange}
+                        error={props.touched.password && Boolean(props.errors.password)}
+                        helperText={props.touched.password && props.errors.password}
+                      />
+                      <Link to="/forgot-password" replace>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            color: (theme) => theme.palette.primary.main,
+                            flexGrow: 1,
+                            fontStyle: 'inherit',
+                            fontWeight: '400',
+                            fontSize: '0.9em',
+                          }}
+                        >
+                          Esqueceu a senha?
+                        </Typography>
+                      </Link>
+                      <StyledButton
+                        type="submit"
+                        disabled={props.isSubmitting}
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                      >
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            color: '#FFF',
+                            flexGrow: 1,
+                            fontStyle: 'inherit',
+                            fontWeight: '500',
+                          }}
+                        >
+                          Login
+                        </Typography>
+                      </StyledButton>
+                    </Box>
+                  </Form>
+                </>
+              )}
+            </Formik>
             <Box sx={{ mt: 1 }}>
               <Grid container direction="row" spacing={{ xs: 2 }} alignItems="center" sx={{ m: 5 }}>
                 <Grid item xs>
@@ -278,6 +229,11 @@ const Login = (): JSX.Element => {
             </Box>
           </Paper>
         </Container>
+        <Grid container direction="column" spacing={{ xs: 1 }} alignItems="center" sx={{ m: 5, position: 'absolute' }}>
+          <Grid item xs sx={{ md: 5, mt: 5 }}>
+            <Copyright />
+          </Grid>
+        </Grid>
       </Box>
     </ThemeProvider>
   );

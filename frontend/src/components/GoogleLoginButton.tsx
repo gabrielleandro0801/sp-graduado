@@ -30,9 +30,11 @@ const GoogleLoginButton = (props: IGoogleLoginButtonProps): JSX.Element => {
             <Grid container direction="row" alignItems="center">
               <Grid item xs={3.3}>
                 <Tooltip title="Google Login">
-                  <IconButton onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                    <img src={googleLogoImg} width={42} height={42} alt="" />
-                  </IconButton>
+                  <span>
+                    <IconButton onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                      <img src={googleLogoImg} width={42} height={42} alt="" />
+                    </IconButton>
+                  </span>
                 </Tooltip>
               </Grid>
             </Grid>

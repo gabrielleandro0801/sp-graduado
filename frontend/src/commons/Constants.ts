@@ -1,7 +1,24 @@
 export default {
+  GRADUATE: {
+    MAX_INCOME_FAMILY: 3636,
+    MIN_INCOME_FAMILY: 1,
+  },
   REGEX: {
     EMAIL: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
     PASSWORD: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
+    PHONE: /^[0-9]{8,11}$/,
+    DATE: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
+    FLOAT: /^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/,
+    DOCUMENT: {
+      CPF: /^[0-9]{11,11}/,
+      CNPJ: /^[0-9]{14,14}/,
+    },
+  },
+  DATE: {
+    ISO8601: 'yyyy-MM-ddTHH:mm:ss.SSS',
+    BRAZILIAN: 'dd/MM/yyyy',
+    US: 'yyyy-MM-dd',
+    SP_TIMEZONE: 'America/Sao_Paulo',
   },
   HTTP: {
     STATUS: {
@@ -26,8 +43,8 @@ export default {
       504: 'Tempo de resposta excedido. Tente novamente, se não obtiver sucesso contate um administrador',
     },
     VALIDATION: {
-      EMAIL: 'O formato email informado é inválido!',
-      PASSWORD: 'A senha deve conter ao menos 8 caracteres e pelomenos um caracter especial e uma letra maiúscula',
+      EMAIL: 'O formato do email informado é inválido!',
+      PASSWORD: 'A senha deve conter ao menos 8 caracteres e pelo menos um caracter especial e uma letra maiúscula',
     },
   },
   THEMES: {

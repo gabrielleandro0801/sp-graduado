@@ -6,6 +6,7 @@ import { BrowserRouter, Routes as Router, Route } from 'react-router-dom';
 import MainTheme from '../themes';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
+import Godfather from '../pages/Godfather';
 
 const Routes = (): JSX.Element => {
   return (
@@ -15,6 +16,7 @@ const Routes = (): JSX.Element => {
         <Router>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/menu/godfather" element={<Godfather />} />
         </Router>
       </BrowserRouter>
     </ThemeProvider>
