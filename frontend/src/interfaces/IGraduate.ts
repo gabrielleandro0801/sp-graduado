@@ -1,3 +1,6 @@
+import ICollege from './ICollege';
+import ICourse from './ICourse';
+
 export default interface IGraduate {
   name: string;
   documentNumber: string;
@@ -10,16 +13,6 @@ export default interface IGraduate {
   password: string;
   confirmPassword: string;
   about: string;
-  course: {
-    name: string;
-    semesters: number;
-    period: string;
-    modality: string;
-    category: string;
-    college: {
-      id: number;
-      name: string;
-      city: string;
-    };
-  };
+  course: ICourse;
+  college: ICollege;
 }

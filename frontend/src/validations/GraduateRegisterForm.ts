@@ -2,6 +2,8 @@ import * as YUP from 'yup';
 
 import IGraduate from '../interfaces/IGraduate';
 import CONSTANTS from '../commons/Constants';
+import CourseModel from '../models/Course';
+import CollegeModel from '../models/College';
 
 export default class GraduateRegisterFormValidation {
   static getValidationSchema(): any {
@@ -22,16 +24,16 @@ export default class GraduateRegisterFormValidation {
       password: YUP.string().matches(CONSTANTS.REGEX.PASSWORD).required(),
       confirmPassword: YUP.string().oneOf([YUP.ref('password'), null]),
       course: YUP.object({
+        name: YUP.string().optional(),
+        semesters: YUP.number().optional(),
+        period: YUP.string().optional(),
+        modality: YUP.string().optional(),
+        category: YUP.string().optional(),
+      }),
+      college: YUP.object({
+        id: YUP.number().required(),
         name: YUP.string().required(),
-        semesters: YUP.number().required(),
-        period: YUP.string().required(),
-        modality: YUP.string().required(),
-        category: YUP.string().required(),
-        college: YUP.object({
-          id: YUP.number().required(),
-          name: YUP.string().required(),
-          city: YUP.string().required(),
-        }),
+        city: YUP.string().required(),
       }),
     });
     return schema;
@@ -50,18 +52,8 @@ export default class GraduateRegisterFormValidation {
       password: '',
       confirmPassword: '',
       about: '',
-      course: {
-        name: '',
-        semesters: 0,
-        period: '',
-        modality: '',
-        category: '',
-        college: {
-          id: 0,
-          name: '',
-          city: '',
-        },
-      },
+      course: CourseModel.getInitialValues(),
+      college: CollegeModel.getInitialValues(),
     };
     return initialValues;
   }
