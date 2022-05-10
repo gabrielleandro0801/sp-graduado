@@ -8,7 +8,6 @@ const Logo = (props: ILogo): JSX.Element => {
   const { height, width, typographyStyles, alt, imageUrl, textLogo } = props;
   return (
     <>
-      {/* <img src={logoImg} alt="https://www.flaticon.com/authors/eucalyp" width={width} height={height} /> */}
       <Avatar src={imageUrl} alt={alt} variant="square" sx={{ width, height }} />
       <Typography component="div" sx={typographyStyles}>
         {textLogo}

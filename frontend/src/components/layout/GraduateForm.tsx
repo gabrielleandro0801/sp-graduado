@@ -18,7 +18,9 @@ import IGraduate from '../../interfaces/IGraduate';
 import DateTime from '../../commons/DateTime';
 import CONSTANTS from '../../commons/Constants';
 import ICollege from '../../interfaces/ICollege';
-import ICourseContext from '../../interfaces/ICourseContext';
+import CourseContext from '../contexts/Course';
+import GraduateCoursesDialog from '../GraduateCoursesDialog';
+import SnackBar from '../SnackBar';
 
 const MOCKED_COLLEGES: ICollege[] = [
   {
@@ -34,20 +36,12 @@ const MOCKED_COLLEGES: ICollege[] = [
 ];
 
 const initialValues: IGraduate = GraduateRegisterFormValidation.getInitialValues();
-const courseContextInitialValues: ICourseContext = {
-  course: initialValues.course,
-  collgeId: 0,
-  setCourse: (): void => {},
-};
-
-export const CourseContext: React.Context<ICourseContext> = React.createContext(
-  courseContextInitialValues as ICourseContext,
-);
 
 const GraduateForm = (): JSX.Element => {
   const [colleges, setColleges] = React.useState([] as Array<ICollege>);
   const [college, setCollege] = React.useState(initialValues.college);
   const [course, setCourse] = React.useState(initialValues.course);
+  const [openDialog, setOpenDialog] = React.useState(false);
 
   const loadColleges = (): void => {
     const mockedColleges = MOCKED_COLLEGES;
@@ -58,6 +52,7 @@ const GraduateForm = (): JSX.Element => {
     setColleges([]);
     setCollege(initialValues.college);
     setCourse(initialValues.course);
+    setOpenDialog(false);
   };
 
   const handleSubmit = (fields: IGraduate, formikHelpers: FormikHelpers<IGraduate>): void => {
@@ -101,11 +96,12 @@ const GraduateForm = (): JSX.Element => {
 
     formik.handleChange(event);
     setCollege(currentCollege);
+    setOpenDialog(true);
   };
 
   return (
     <>
-      <CourseContext.Provider value={{ course, setCourse, collgeId: college.id }}>
+      <CourseContext.Provider value={{ course, collgeId: college.id, setCourse, setOpenDialog }}>
         <Container component="main" maxWidth="xl">
           <Logo
             width={62}
@@ -269,7 +265,16 @@ const GraduateForm = (): JSX.Element => {
                       </MenuItem>
                     ))}
                   </StyledTextField>
-                  {/* // TODO: implement Alert Dialog with list of courses of a selected college} */}
+                  {openDialog && (
+                    <GraduateCoursesDialog buttonText="Selecionar" open={openDialog} titleText="Qual o seu curso?" />
+                  )}
+                  {formik.touched.course && Boolean(formik.errors.course) && (
+                    <SnackBar
+                      severity="error"
+                      hasOpen={Boolean(formik.errors.course)}
+                      text="Selecione um curso para efetuar o cadastro!"
+                    />
+                  )}
                 </Paper>
               </Grid>
               <Grid item xs={12}>

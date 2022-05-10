@@ -11,14 +11,7 @@ import ErrorOutlineOutlined from '@mui/icons-material/ErrorOutlineOutlined';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { TransitionProps } from '@mui/material/transitions';
-
-interface IAlertDialogProps {
-  open: boolean;
-  titleText: string;
-  textContent: string;
-  buttonText: string;
-  onClose: () => any;
-}
+import IAlertDialogProps from '../interfaces/props/IAlertDialogProps';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {

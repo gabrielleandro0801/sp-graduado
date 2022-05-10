@@ -15,7 +15,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import Button from '@mui/material/Button';
 
 import ICourse from '../interfaces/ICourse';
-import { CourseContext } from './layout/GraduateForm';
+import CourseContext from './contexts/Course';
 import ICoursePagination from '../interfaces/ICoursePagination';
 
 const MOCKED_COURSES = {
@@ -97,7 +97,7 @@ const GraduateCoursesDialog = (props: IGraduateCoursesDialogProps): JSX.Element 
   const [open, setOpen] = React.useState(openProps);
   const [courses, setCourses] = React.useState(coursesInitialValues);
   const [page, setPage] = React.useState(1);
-  const { setCourse, collgeId } = React.useContext(CourseContext);
+  const { setCourse, setOpenDialog, collgeId } = React.useContext(CourseContext);
 
   const loadCourses = (): void => {
     const mockedCourses = MOCKED_COURSES.items.filter((currCourse: ICourse) => currCourse.id === collgeId);
@@ -122,10 +122,12 @@ const GraduateCoursesDialog = (props: IGraduateCoursesDialogProps): JSX.Element 
   ): void => {
     setCourse(selectedCourse);
     setOpen(false);
+    setOpenDialog(false);
   };
 
   const handleOnClose = (): void => {
     setOpen(false);
+    setOpenDialog(false);
   };
 
   const handlePageChange = (_event: React.ChangeEvent<unknown>, nextPage: number): void => {
