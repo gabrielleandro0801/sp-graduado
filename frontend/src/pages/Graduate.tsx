@@ -31,13 +31,14 @@ const renderStepContent = (currentStep: number, props?: ITermsAndConditionsProps
       return <RegisterType />;
     case 1:
       return <GraduateForm />;
-    case 3:
+    case 2:
       return <TermsAndConditions terms={String(props?.terms)} />;
     default:
       return <div> An error occured </div>; // TODO: Criar componente de erro
   }
 };
 
+// TODO: Remover componente para Page: Register.tsx e aplicar a logica para Padrinho/Aluno
 const Graduate = (): JSX.Element => {
   const [activeStep, setActiveStep] = React.useState(0);
 
