@@ -43,8 +43,25 @@ export default {
       504: 'Tempo de resposta excedido. Tente novamente, se não obtiver sucesso contate um administrador',
     },
     VALIDATION: {
-      EMAIL: 'O formato do email informado é inválido!',
+      EMAIL: 'O formato do email informado é inválido. Exemplo: email@provider.com',
       PASSWORD: 'A senha deve conter ao menos 8 caracteres e pelo menos um caracter especial e uma letra maiúscula',
+      CONFIRMATION_PASSWORD: 'A senha e a senha de confirmação devem ser idênticas',
+      TYPE: 'Selecione pelo menos um tipo de registro para prosseguir',
+      NAME: 'O nome informado é inválido. Deve conter pelo menos 10 caracteres',
+      DOCUMENT_NUMBER: {
+        CPF: 'O CPF informado é inválido. Ele é obrigatório para o cadastro',
+        CNPJ: 'O CNPJ informado é inválido. Ele é obrigatório para o cadastro',
+      },
+      BIRTH_DATE: 'A data de nascimento é obrigatória. Selecione uma data',
+      CONTACTS: {
+        PHONE_NUMBER: 'O número de telefone é obrigatório e deve ser um telefone válido',
+      },
+      TERMS_AND_CONDITIONS: 'O aceite nos termos e condições deve ser feito para prosseguir com o cadastro',
+      INCOME_FAMILY: 'Informe uma renda familiar válida',
+      ABOUT:
+        'A descrição sobre você é obrigatória e deve conter pelo menos 250 caracteres para prosseguir com o cadastro',
+      COURSE: 'Selecione um curso para efetuar o cadastro',
+      COLLEGE: 'Selecione uma faculdade para efetuar o cadastro',
     },
   },
   THEMES: {
@@ -69,4 +86,10 @@ export default {
     GRADUATE: 'Aluno',
     GODFATHER: 'Padrinho',
   },
+  REGISTRATION_STEPS: [
+    'Escolha o tipo de cadastro',
+    'Informe alguns dados',
+    'Termos e Condições',
+    'Confirme seus dados',
+  ],
 };

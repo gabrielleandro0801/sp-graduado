@@ -5,10 +5,10 @@ import Typography from '@mui/material/Typography';
 import CheckBox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import Logo from './Logo';
+import Logo from '../Logo';
 
-import termsAndConditionsImg from '../assets/contract-purple.png';
-import ITermsAndConditionsProps from '../interfaces/props/ITermsAndConditionsProps';
+import termsAndConditionsImg from '../../assets/contract-purple.png';
+import ITermsAndConditionsProps from '../../interfaces/props/ITermsAndConditionsProps';
 
 const TermsAndConditions = ({ terms }: ITermsAndConditionsProps): JSX.Element => {
   return (

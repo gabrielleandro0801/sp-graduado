@@ -1,6 +1,6 @@
 import React from 'react';
 
-import GraduateForm from '../components/layout/GraduateForm';
+import GraduateForm from '../components/register/graduate/GraduateForm';
 
 const Register = (): JSX.Element => {
   return <GraduateForm />;

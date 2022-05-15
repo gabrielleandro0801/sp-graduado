@@ -14,10 +14,9 @@ import { ThemeProvider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Tooltip from '@mui/material/Tooltip';
 import { NavigateFunction, useNavigate, Link } from 'react-router-dom';
-import { useFormik } from 'formik';
+import { Formik, FormikHelpers, FormikProps } from 'formik';
 
 import Logo from '../components/Logo';
-import StyledTextField from '../components/styles/TextField';
 import StyledSwitchTheme from '../components/styles/SwitchTheme';
 import StyledButton from '../components/styles/Button';
 import CONSTANTS from '../commons/Constants';
@@ -26,6 +25,7 @@ import Copyright from '../components/Copyright';
 import LoginFormValidation from '../validations/LoginForm';
 import logoImg from '../assets/graduation-hat-and-diploma-purple.png';
 import ILogin from '../interfaces/ILogin';
+import FormTextField from '../components/styles/FormTextField';
 
 const Login = (): JSX.Element => {
   const [themeEl, setTheme] = React.useState('light-theme');
@@ -38,17 +38,12 @@ const Login = (): JSX.Element => {
 
   const changeTheme = () => (themeEl === CONSTANTS.THEMES.LIGHT ? MainTheme.lightTheme : MainTheme.darkTheme);
 
-  const formik = useFormik({
-    initialValues: LoginFormValidation.getInitialValues(),
-    validationSchema: LoginFormValidation.getValidationSchema(),
-    onSubmit: (fields: ILogin, { resetForm, setSubmitting }) => {
-      setSubmitting(false);
-      resetForm();
-      // TODO: Call API to login and pass userInfo into route state
-      // TODO: Implement Google Login
-      navigate('/menu/godfather', { replace: true, state: { hasOpen: true, userInfo: fields } });
-    },
-  });
+  const handleSubmit = (fields: ILogin, { resetForm, setSubmitting }: FormikHelpers<ILogin>) => {
+    setSubmitting(false);
+    resetForm();
+    // TODO: Call API to login and pass userInfo into route state
+    navigate('/menu/godfather', { replace: true, state: { hasOpen: true, userInfo: fields } });
+  };
 
   return (
     <ThemeProvider theme={changeTheme()}>
@@ -65,7 +60,7 @@ const Login = (): JSX.Element => {
               height={62}
               textLogo="SP GRADUADO"
               imageUrl={logoImg}
-              alt="https://www.flaticon.com/authors/eucalyp"
+              alt="https://www.freepik.com"
               typographyStyles={{
                 flexGrow: 1,
                 color: (theme) => theme.palette.primary.main,
@@ -142,73 +137,75 @@ const Login = (): JSX.Element => {
                 <StyledSwitchTheme value={themeEl} defaultValue={CONSTANTS.THEMES.LIGHT} onChange={handleChangeTheme} />
               </span>
             </Tooltip>
-            <Box component="form" onSubmit={formik.handleSubmit}>
-              <Box sx={{ mt: 1, padding: 5 }}>
-                <StyledTextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
-                <StyledTextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.password && Boolean(formik.errors.password)}
-                  helperText={formik.touched.password && formik.errors.password}
-                />
-                <Link to="/forgot-password" replace>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: (theme) => theme.palette.primary.main,
-                      flexGrow: 1,
-                      fontStyle: 'inherit',
-                      fontWeight: '400',
-                      fontSize: '0.9em',
-                    }}
-                  >
-                    Esqueceu a senha?
-                  </Typography>
-                </Link>
-                <StyledButton
-                  type="submit"
-                  disabled={formik.isSubmitting}
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: '#FFF',
-                      flexGrow: 1,
-                      fontStyle: 'inherit',
-                      fontWeight: '500',
-                    }}
-                  >
-                    Login
-                  </Typography>
-                </StyledButton>
-              </Box>
-            </Box>
+            <Formik
+              initialValues={LoginFormValidation.getInitialValues()}
+              validationSchema={LoginFormValidation.getValidationSchema()}
+              onSubmit={handleSubmit}
+            >
+              {(props: FormikProps<ILogin>) => (
+                <Box component="form" onSubmit={props.handleSubmit}>
+                  <Box sx={{ mt: 1, padding: 5 }}>
+                    <FormTextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      placeholder="email@example.com"
+                      name="email"
+                      autoComplete="email"
+                      autoFocus
+                    />
+                    <FormTextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      placeholder="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                    />
+                    <Link to="/forgot-password" replace>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color: (theme) => theme.palette.primary.main,
+                          flexGrow: 1,
+                          fontStyle: 'inherit',
+                          fontWeight: '400',
+                          fontSize: '0.9em',
+                        }}
+                      >
+                        Esqueceu a senha?
+                      </Typography>
+                    </Link>
+                    <StyledButton
+                      type="submit"
+                      disabled={props.isSubmitting}
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                    >
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color: '#FFF',
+                          flexGrow: 1,
+                          fontStyle: 'inherit',
+                          fontWeight: '500',
+                        }}
+                      >
+                        Login
+                      </Typography>
+                    </StyledButton>
+                  </Box>
+                </Box>
+              )}
+            </Formik>
           </Paper>
         </Container>
         <Grid container direction="column" spacing={{ xs: 1 }} alignItems="center" sx={{ m: 5, position: 'absolute' }}>
