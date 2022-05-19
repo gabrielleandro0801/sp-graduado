@@ -13,21 +13,20 @@ import Grid from '@mui/material/Grid';
 import { ThemeProvider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Tooltip from '@mui/material/Tooltip';
-import { NavigateFunction, useNavigate, Link } from 'react-router-dom';
-import { Formik, FormikHelpers, FormikProps } from 'formik';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { Formik, FormikHelpers } from 'formik';
 
 import Logo from '../components/Logo';
 import StyledSwitchTheme from '../components/styles/SwitchTheme';
-import StyledButton from '../components/styles/Button';
 import CONSTANTS from '../commons/Constants';
 import MainTheme from '../themes';
 import Copyright from '../components/Copyright';
 import LoginFormValidation from '../validations/LoginForm';
 import logoImg from '../assets/graduation-hat-and-diploma-purple.png';
 import ILogin from '../interfaces/ILogin';
-import FormTextField from '../components/styles/FormTextField';
+import Login from '../components/Login';
 
-const Login = (): JSX.Element => {
+const LoginPage = (): JSX.Element => {
   const [themeEl, setTheme] = React.useState('light-theme');
   const navigate: NavigateFunction = useNavigate();
 
@@ -142,69 +141,7 @@ const Login = (): JSX.Element => {
               validationSchema={LoginFormValidation.getValidationSchema()}
               onSubmit={handleSubmit}
             >
-              {(props: FormikProps<ILogin>) => (
-                <Box component="form" onSubmit={props.handleSubmit}>
-                  <Box sx={{ mt: 1, padding: 5 }}>
-                    <FormTextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email Address"
-                      placeholder="email@example.com"
-                      name="email"
-                      autoComplete="email"
-                      autoFocus
-                    />
-                    <FormTextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      placeholder="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-                    />
-                    <Link to="/forgot-password" replace>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          color: (theme) => theme.palette.primary.main,
-                          flexGrow: 1,
-                          fontStyle: 'inherit',
-                          fontWeight: '400',
-                          fontSize: '0.9em',
-                        }}
-                      >
-                        Esqueceu a senha?
-                      </Typography>
-                    </Link>
-                    <StyledButton
-                      type="submit"
-                      disabled={props.isSubmitting}
-                      fullWidth
-                      variant="contained"
-                      sx={{ mt: 3, mb: 2 }}
-                    >
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          color: '#FFF',
-                          flexGrow: 1,
-                          fontStyle: 'inherit',
-                          fontWeight: '500',
-                        }}
-                      >
-                        Login
-                      </Typography>
-                    </StyledButton>
-                  </Box>
-                </Box>
-              )}
+              <Login />
             </Formik>
           </Paper>
         </Container>
@@ -218,4 +155,4 @@ const Login = (): JSX.Element => {
   );
 };
 
-export default Login;
+export default LoginPage;
