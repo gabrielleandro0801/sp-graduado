@@ -7,7 +7,7 @@ export default class GraduateModel {
     const initialValues: IGraduate = {
       name: '',
       documentNumber: '',
-      birthDate: '',
+      birthDate: new Date().toISOString(),
       incomeFamily: '0.0',
       contacts: {
         phoneNumber: '',

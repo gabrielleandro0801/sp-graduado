@@ -18,13 +18,14 @@ import Button from '@mui/material/Button';
 import ICourse from '../interfaces/ICourse';
 import ICoursePagination from '../interfaces/ICoursePagination';
 import IGraduate from '../interfaces/IGraduate';
+import CouseDialogContext from './contexts/CourseDialog';
 
 const MOCKED_COURSES = {
   previousPage: null,
   currentPage: 0,
   nextPage: 1,
   last: false,
-  totalPages: 3,
+  totalPages: 1,
   totalItems: 114,
   maxItemsPerPage: 50,
   totalItemsPage: 50,
@@ -98,6 +99,7 @@ const GraduateCoursesDialog = (props: IGraduateCoursesDialogProps): JSX.Element 
   const [open, setOpen] = React.useState(openProps);
   const [courses, setCourses] = React.useState(coursesInitialValues);
   const [page, setPage] = React.useState(1);
+  const { setOpenDialog } = React.useContext(CouseDialogContext);
 
   const formik = useFormikContext<IGraduate>();
 
@@ -126,10 +128,12 @@ const GraduateCoursesDialog = (props: IGraduateCoursesDialogProps): JSX.Element 
   ): void => {
     formik.setFieldValue('course', selectedCourse);
     setOpen(false);
+    setOpenDialog(false);
   };
 
   const handleOnClose = (): void => {
     setOpen(false);
+    setOpenDialog(false);
   };
 
   const handlePageChange = (_event: React.ChangeEvent<unknown>, nextPage: number): void => {
@@ -151,7 +155,7 @@ const GraduateCoursesDialog = (props: IGraduateCoursesDialogProps): JSX.Element 
             <>
               <Grid container direction="column" spacing={{ md: 1 }}>
                 {courses.pagination.items.map((item: ICourse) => (
-                  <Grid key={item.id} item xs={2}>
+                  <Grid key={`${item.id}-${item.modality}-${item.period}`} item xs={2}>
                     <Card sx={{ minWidth: 245, bgcolor: 'background.paper', m: 1 }}>
                       <CardContent>
                         <Typography

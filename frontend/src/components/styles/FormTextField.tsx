@@ -8,8 +8,9 @@ const FormTextField = ({ ...props }: any): JSX.Element => {
 
   return (
     <StyledTextField
+      type="text"
       error={meta.touched && Boolean(meta.error)}
-      helperText={meta.touched && meta.error}
+      helperText={meta.touched && meta.error && true}
       {...field}
       {...props}
     />

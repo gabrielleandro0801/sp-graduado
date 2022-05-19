@@ -108,7 +108,7 @@ const Login = (): JSX.Element => {
         </AppBar>
         <Container component="main" maxWidth="sm">
           <Paper
-            elevation={6}
+            elevation={10}
             sx={{
               marginTop: 25,
               display: 'flex',

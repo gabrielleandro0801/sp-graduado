@@ -1,40 +1,87 @@
 import React from 'react';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { useFormikContext } from 'formik';
 
-import StyledFormControlLabel from '../styles/FormControlLabel';
+import graduateLogoImg from '../../assets/graduation-hat-and-diploma-black.png';
+import godfatherLogoImg from '../../assets/ladder-1-black.png';
 import CONSTANTS from '../../commons/Constants';
 import IGraduate from '../../interfaces/IGraduate';
 import SnackBar from '../SnackBar';
+import StyledToggleButton from '../styles/ToggleButton';
+import Logo from '../Logo';
 
 const RegisterType = (): JSX.Element => {
+  const [alignment, setAlignment] = React.useState('');
   const formik = useFormikContext<IGraduate>();
 
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
     formik.handleChange(event);
-    formik.setFieldValue('type', (CONSTANTS.REGISTER_TYPE as any)[event.target.value]);
+    setAlignment(newAlignment);
+    formik.setFieldValue('type', (CONSTANTS.REGISTER_TYPE as any)[newAlignment]);
   };
 
   return (
     <>
-      <FormControl>
-        <FormLabel id="controlled-register-type">Selecione o Tipo do seu Cadastro</FormLabel>
-        <RadioGroup
-          value={formik.values.termsAndCoditionsAccepted}
-          onChange={handleOnChange}
-          aria-labelledby="contolled-register-type"
-          name="controlled-radio-button-register-type"
+      <Box>
+        <Typography
+          id="title-typo"
+          sx={{
+            fontSize: '1.6em',
+            fontWeight: 600,
+            padding: 1,
+            color: (theme) => (theme.palette.mode === 'dark' ? '#FFF' : '#000'),
+            fontStyle: 'inherit',
+          }}
         >
-          <StyledFormControlLabel value="GRADUATE" control={<Radio size="medium" />} label="Graduando" />
-          <StyledFormControlLabel value="GODFATHER" control={<Radio size="medium" />} label="Padrinho" />
-        </RadioGroup>
-        {formik.touched.type && Boolean(formik.errors.type) && (
-          <SnackBar hasOpen={Boolean(formik.errors.type)} severity="error" text={String(formik.errors.type)} />
-        )}
-      </FormControl>
+          Selecione a Forma de Cadastro
+        </Typography>
+        <ToggleButtonGroup
+          id="toggle-button-group"
+          orientation="vertical"
+          value={alignment}
+          exclusive
+          onChange={handleOnChange}
+          sx={{ m: 4 }}
+        >
+          <StyledToggleButton id="godfather-toggle-button" value="GODFATHER">
+            <Logo
+              key="graduate-logo"
+              imageUrl={godfatherLogoImg}
+              width={72}
+              height={72}
+              textLogo="Padrinho"
+              alt=""
+              typographyStyles={{
+                fontSize: '1.7em',
+                fontWeight: 600,
+                padding: 1,
+                color: (theme) => (theme.palette.mode === 'dark' ? '#FFF' : '#000'),
+              }}
+            />
+          </StyledToggleButton>
+          <StyledToggleButton id="graduate" value="GRADUATE">
+            <Logo
+              key="graduate-logo"
+              imageUrl={graduateLogoImg}
+              width={72}
+              height={72}
+              textLogo="Graduando"
+              alt=""
+              typographyStyles={{
+                fontSize: '1.7em',
+                fontWeight: 600,
+                padding: 1,
+                color: (theme) => (theme.palette.mode === 'dark' ? '#FFF' : '#000'),
+              }}
+            />
+          </StyledToggleButton>
+        </ToggleButtonGroup>
+      </Box>
+      {formik.touched.type && Boolean(formik.errors.type) && (
+        <SnackBar hasOpen={Boolean(formik.errors.type)} severity="error" text={String(formik.errors.type)} />
+      )}
     </>
   );
 };
