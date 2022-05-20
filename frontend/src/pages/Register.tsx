@@ -114,16 +114,10 @@ const Register = (): JSX.Element => {
       <Container component="main" maxWidth="xl" sx={{ padding: 3 }}>
         <Stepper activeStep={activeStep}>
           {FORM_STEPS.map((step: string) => (
-            <Step
-              key={step}
-              sx={{
-                fontSize: '1em',
-              }}
-            >
+            <Step key={step}>
               <StepLabel>
                 <Typography
                   sx={{
-                    color: (theme) => (theme.palette.mode === 'dark' ? theme.palette.text.primary : 'gray'),
                     fontStyle: 'inherit',
                     fontSize: '1.2em',
                     fontWeight: 500,
@@ -155,31 +149,35 @@ const Register = (): JSX.Element => {
                 >
                   <StepperContent currentStep={activeStep} />
                   <Grid container direction="row" sx={{ justifyContent: 'center' }}>
-                    <Grid item sx={{ mx: 2 }} xs={8} sm={4}>
-                      <StyledButton
-                        fullWidth
-                        variant="outlined"
-                        sx={{
-                          mt: 3,
-                          mb: 2,
-                          background: (theme) =>
-                            theme.palette.mode === 'dark' ? '#000' : theme.palette.background.paper,
-                        }}
-                      >
-                        <Typography
-                          variant="h6"
+                    {activeStep !== 0 && (
+                      <Grid item sx={{ mx: 2 }} xs={8} sm={4}>
+                        <StyledButton
+                          fullWidth
+                          variant="outlined"
+                          onClick={handleOnClickBack}
                           sx={{
-                            flexGrow: 1,
-                            fontStyle: 'inherit',
-                            fontWeight: '500',
+                            mt: 3,
+                            mb: 2,
+                            background: (theme) =>
+                              theme.palette.mode === 'dark' ? '#000' : theme.palette.background.paper,
                           }}
                         >
-                          Voltar
-                        </Typography>
-                      </StyledButton>
-                    </Grid>
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              flexGrow: 1,
+                              fontStyle: 'inherit',
+                              fontWeight: '500',
+                            }}
+                          >
+                            Voltar
+                          </Typography>
+                        </StyledButton>
+                      </Grid>
+                    )}
                     <Grid item sx={{ mx: 2 }} xs={8} sm={4}>
                       <StyledButton
+                        type="submit"
                         fullWidth
                         variant="outlined"
                         sx={{

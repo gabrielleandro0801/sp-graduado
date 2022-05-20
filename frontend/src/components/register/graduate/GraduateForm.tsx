@@ -17,6 +17,7 @@ import ICollege from '../../../interfaces/ICollege';
 import GraduateCoursesDialog from '../../GraduateCoursesDialog';
 import SnackBar from '../../SnackBar';
 import CourseDialogContext from '../../contexts/CourseDialog';
+import StyledTextField from '../../styles/TextField';
 
 const MOCKED_COLLEGES: ICollege[] = [
   {
@@ -101,9 +102,8 @@ const GraduateForm = (): JSX.Element => {
                   margin="normal"
                   required
                   fullWidth
-                  id="cpf"
-                  name="cpf"
-                  autoComplete="cpf"
+                  id="documentNumber"
+                  name="documentNumber"
                   label="000.000.000-00"
                   placeholder="000.000.000-00"
                 />
@@ -116,16 +116,7 @@ const GraduateForm = (): JSX.Element => {
                     value={formik.values.birthDate}
                     onChange={(event) => handleBirthDateOnChange(event)}
                     renderInput={(params) => (
-                      <FormTextField
-                        {...params}
-                        id="birth-date-date-picker"
-                        key="birth-date-date-picker"
-                        name="birth-date-date-picker"
-                        onBlur={formik.handleBlur}
-                        error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}
-                        helperText={formik.errors.birthDate}
-                        sx={{ mt: 2 }}
-                      />
+                      <StyledTextField {...params} id="birthDate" key="birthDate" name="birthDate" sx={{ mt: 2 }} />
                     )}
                   />
                 </LocalizationProvider>
@@ -139,9 +130,8 @@ const GraduateForm = (): JSX.Element => {
                   margin="normal"
                   required
                   fullWidth
-                  id="income"
-                  name="income"
-                  autoComplete="income"
+                  id="incomeFamily"
+                  name="incomeFamily"
                 />
               </Grid>
               <Grid item xs={6} sm={6}>
@@ -150,34 +140,36 @@ const GraduateForm = (): JSX.Element => {
                   margin="normal"
                   required
                   fullWidth
-                  id="phone-number"
-                  name="phone-number"
-                  autoComplete="phone-number"
+                  id="contacts.phoneNumber"
+                  name="contacts.phoneNumber"
+                  autoComplete="phoneNumber"
                   label="(99) 99999-9999"
                   placeholder="(99) 99999-9999"
                 />
               </Grid>
               <Grid item xs>
-                <FormTextField
+                <StyledTextField
                   variant="outlined"
                   margin="normal"
                   select
                   required
                   fullWidth
-                  id="college-select"
+                  id="college"
                   label="Selecione uma faculdade"
-                  placeholder="Selecione"
+                  placeholder="Selecione uma faculdade"
                   name="college"
-                  autoComplete="college"
                   onChange={handleCollegesOnChange}
                   value={formik.values.college.name}
                 >
                   {colleges.map((currCollege) => (
-                    <MenuItem key={currCollege.name} value={`${currCollege.name}`}>
+                    <MenuItem
+                      key={`${currCollege.name}-${currCollege.id}-${currCollege.city}`}
+                      value={`${currCollege.name}`}
+                    >
                       {currCollege.city}
                     </MenuItem>
                   ))}
-                </FormTextField>
+                </StyledTextField>
               </Grid>
               <Grid item xs={12} sm={12}>
                 <FormTextField
@@ -230,11 +222,10 @@ const GraduateForm = (): JSX.Element => {
                     margin="normal"
                     required
                     fullWidth
-                    id="email"
+                    id="contacts.email"
                     label="Email Address"
                     placeholder="email@example.com"
-                    name="email"
-                    autoComplete="email"
+                    name="contacts.email"
                   />
                 </Grid>
                 <Grid item xs={10} sm={10}>
@@ -257,11 +248,10 @@ const GraduateForm = (): JSX.Element => {
                     margin="normal"
                     required
                     fullWidth
-                    id="confirm-password"
+                    id="confirmPassword"
                     label="Confirm Password"
                     placeholder="Confirm Password"
-                    name="confirm-password"
-                    autoComplete="confirm-password"
+                    name="confirmPassword"
                     type="password"
                   />
                 </Grid>

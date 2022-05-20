@@ -12,11 +12,9 @@ import ITermsAndConditionsProps from '../../interfaces/props/ITermsAndConditions
 import IPerson from '../../interfaces/IPerson';
 
 const TermsAndConditions = ({ terms }: ITermsAndConditionsProps): JSX.Element => {
-  const [accepted, setAccepted] = React.useState(false);
   const formik = useFormikContext<IPerson>();
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAccepted(event.target.checked);
     formik.handleChange(event);
     formik.setFieldValue('termsAndCoditionsAccepted', event.target.checked);
   };
@@ -81,7 +79,12 @@ const TermsAndConditions = ({ terms }: ITermsAndConditionsProps): JSX.Element =>
       <Box sx={{ justifyContent: 'center', display: 'flex' }}>
         <FormControlLabel
           control={
-            <CheckBox id="terms-and-conditions-checkbox" size="medium" checked={accepted} onChange={handleOnChange} />
+            <CheckBox
+              id="terms-and-conditions-checkbox"
+              size="medium"
+              checked={formik.values.termsAndCoditionsAccepted}
+              onChange={handleOnChange}
+            />
           }
           label="Eu li e estou de acordo com os termos declarados acima."
           sx={{ color: 'primary.main', '& .MuiSvgIcon-root': { fontSize: '2em' } }}

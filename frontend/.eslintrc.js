@@ -34,5 +34,6 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
     'react/jsx-props-no-spreading': 0,
+    'react/jsx-wrap-multilines': 0,
   },
 };

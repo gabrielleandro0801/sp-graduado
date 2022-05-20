@@ -14,12 +14,12 @@ const StepperContent = ({ currentStep }: { currentStep: number }): JSX.Element =
 
   switch (currentStep) {
     case 0:
-      return <TermsAndConditions terms={String(termsAndCoditions)} />;
+      return <RegisterType />;
     case 1:
       return <GraduateForm />;
     // return type === CONSTANTS.REGISTER_TYPE.GRADUATE ? <GraduateForm /> : <GodfatherForm />;
     case 2:
-      return <RegisterType />;
+      return <TermsAndConditions terms={String(termsAndCoditions)} />;
     default:
       return <div> An error occured </div>; // TODO: Criar componente de erro
   }
