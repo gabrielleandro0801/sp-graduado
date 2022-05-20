@@ -5,7 +5,6 @@ import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -22,6 +21,7 @@ import graduateLogoImg from '../assets/graduation-hat-and-diploma-purple.png';
 import StyledButton from '../components/styles/Button';
 import ConfirmRegistration from '../components/register/ConfirmRegistration';
 import StepperContent from '../components/register/StepperContent';
+import Copyright from '../components/Copyright';
 
 const VALIDATION_SCHEMAS = GraduateRegisterFormValidation.getValidationSchema();
 const FORM_STEPS = CONSTANTS.REGISTRATION_STEPS;
@@ -111,7 +111,7 @@ const Register = (): JSX.Element => {
           Registre-se
         </Typography>
       </AppBar>
-      <Container component="main" maxWidth="lg" sx={{ padding: 3 }}>
+      <Container component="main" maxWidth="xl" sx={{ padding: 3 }}>
         <Stepper activeStep={activeStep}>
           {FORM_STEPS.map((step: string) => (
             <Step
@@ -149,16 +149,13 @@ const Register = (): JSX.Element => {
                   elevation={6}
                   sx={{
                     marginTop: 5,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
                     borderRadius: 3,
                     padding: 5,
                   }}
                 >
-                  <StepperContent currentStep={activeStep} terms="Terms and conditions" />
+                  <StepperContent currentStep={activeStep} />
                   <Grid container direction="row" sx={{ justifyContent: 'center' }}>
-                    <Grid item sx={{ mx: 2 }} xs={2}>
+                    <Grid item sx={{ mx: 2 }} xs={8} sm={4}>
                       <StyledButton
                         fullWidth
                         variant="outlined"
@@ -181,7 +178,7 @@ const Register = (): JSX.Element => {
                         </Typography>
                       </StyledButton>
                     </Grid>
-                    <Grid item sx={{ mx: 2 }} xs={2}>
+                    <Grid item sx={{ mx: 2 }} xs={8} sm={4}>
                       <StyledButton
                         fullWidth
                         variant="outlined"
@@ -211,6 +208,11 @@ const Register = (): JSX.Element => {
           )}
         </>
       </Container>
+      <Grid container direction="column" spacing={{ xs: 1 }} alignItems="center" sx={{ m: 5, position: 'absolute' }}>
+        <Grid item xs sx={{ md: 5, mt: 5 }}>
+          <Copyright />
+        </Grid>
+      </Grid>
     </Box>
   );
 };

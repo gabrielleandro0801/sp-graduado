@@ -24,7 +24,12 @@ const RegisterType = (): JSX.Element => {
 
   return (
     <>
-      <Box>
+      <Box
+        sx={{
+          justifyContent: 'center',
+          display: 'flex',
+        }}
+      >
         <Typography
           id="title-typo"
           sx={{
@@ -37,6 +42,13 @@ const RegisterType = (): JSX.Element => {
         >
           Selecione a Forma de Cadastro
         </Typography>
+      </Box>
+      <Box
+        sx={{
+          justifyContent: 'center',
+          display: 'flex',
+        }}
+      >
         <ToggleButtonGroup
           id="toggle-button-group"
           orientation="vertical"
