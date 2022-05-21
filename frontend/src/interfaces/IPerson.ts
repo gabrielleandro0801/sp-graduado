@@ -1,5 +1,5 @@
 export default interface IPerson {
-  type: 'Aluno' | 'Padrinho' | undefined;
+  type: string;
   name: string;
   documentNumber: string;
   birthDate: string;

@@ -104,11 +104,11 @@ const GraduateForm = (): JSX.Element => {
                   fullWidth
                   id="documentNumber"
                   name="documentNumber"
-                  label="000.000.000-00"
+                  label="CPF"
                   placeholder="000.000.000-00"
                 />
               </Grid>
-              <Grid item xs={3} sm={3}>
+              <Grid item xs={4} sm={4}>
                 <LocalizationProvider dateAdapter={AdapterLuxon}>
                   <DesktopDatePicker
                     label="Data de Nascimento"
@@ -116,7 +116,15 @@ const GraduateForm = (): JSX.Element => {
                     value={formik.values.birthDate}
                     onChange={(event) => handleBirthDateOnChange(event)}
                     renderInput={(params) => (
-                      <StyledTextField {...params} id="birthDate" key="birthDate" name="birthDate" sx={{ mt: 2 }} />
+                      <StyledTextField
+                        {...params}
+                        id="birthDate"
+                        key="birthDate"
+                        name="birthDate"
+                        error={formik.touched?.birthDate && Boolean(formik.errors.birthDate)}
+                        helperText={formik.errors.birthDate}
+                        sx={{ mt: 2 }}
+                      />
                     )}
                   />
                 </LocalizationProvider>
@@ -134,7 +142,7 @@ const GraduateForm = (): JSX.Element => {
                   name="incomeFamily"
                 />
               </Grid>
-              <Grid item xs={6} sm={6}>
+              <Grid item xs={5} sm={5}>
                 <FormTextField
                   variant="outlined"
                   margin="normal"
@@ -182,7 +190,7 @@ const GraduateForm = (): JSX.Element => {
                   name="about"
                   autoComplete="about"
                   multiline
-                  rows={8}
+                  rows={4}
                   placeholder="Conte um pouco sobre você!"
                 />
               </Grid>

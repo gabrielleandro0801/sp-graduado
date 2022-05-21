@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import * as YUP from 'yup';
 
 import CONSTANTS from '../commons/Constants';
@@ -8,7 +9,7 @@ export default class GraduateRegisterFormValidation {
       YUP.object({
         type: YUP.string()
           .required(CONSTANTS.MESSAGES.VALIDATION.TYPE)
-          .oneOf([CONSTANTS.REGISTER_TYPE.GODFATHER, CONSTANTS.REGISTER_TYPE.GRADUATE]),
+          .oneOf(['GODFATHER', 'GRADUATE'], CONSTANTS.MESSAGES.VALIDATION.TYPE),
       }),
       YUP.object({
         name: YUP.string().min(10).required(CONSTANTS.MESSAGES.VALIDATION.NAME),
@@ -17,11 +18,19 @@ export default class GraduateRegisterFormValidation {
           .max(11, CONSTANTS.MESSAGES.VALIDATION.DOCUMENT_NUMBER.CPF)
           .matches(CONSTANTS.REGEX.DOCUMENT.CPF, CONSTANTS.MESSAGES.VALIDATION.DOCUMENT_NUMBER.CPF)
           .required(CONSTANTS.MESSAGES.VALIDATION.DOCUMENT_NUMBER.CPF),
-        birthDate: YUP.date().required(CONSTANTS.MESSAGES.VALIDATION.BIRTH_DATE),
-        incomeFamily: YUP.string()
+        birthDate: YUP.date()
+          .required(CONSTANTS.MESSAGES.VALIDATION.BIRTH_DATE)
+          .test('minAge', CONSTANTS.MESSAGES.VALIDATION.BIRTH_DATE, (value) => {
+            if (value) {
+              const currentAge: number =
+                DateTime.now().setZone(CONSTANTS.DATE.SP_TIMEZONE).year - DateTime.fromJSDate(value).year;
+              return currentAge >= CONSTANTS.MINIMUM_AGE;
+            }
+            return false;
+          }),
+        incomeFamily: YUP.number()
           .min(CONSTANTS.GRADUATE.MIN_INCOME_FAMILY, CONSTANTS.MESSAGES.VALIDATION.INCOME_FAMILY)
           .max(CONSTANTS.GRADUATE.MAX_INCOME_FAMILY, CONSTANTS.MESSAGES.VALIDATION.INCOME_FAMILY)
-          .matches(CONSTANTS.REGEX.FLOAT, CONSTANTS.MESSAGES.VALIDATION.INCOME_FAMILY)
           .required(CONSTANTS.MESSAGES.VALIDATION.INCOME_FAMILY),
         contacts: YUP.object({
           phoneNumber: YUP.string()

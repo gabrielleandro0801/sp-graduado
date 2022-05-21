@@ -47,6 +47,38 @@ const MOCKED_COURSES = {
       category: 'Humanas',
     },
     {
+      id: 2,
+      semesters: 10,
+      period: 'Noturno',
+      modality: 'Presencial',
+      name: 'Engenharia Civil',
+      category: 'Exatas',
+    },
+    {
+      id: 2,
+      semesters: 10,
+      period: 'Matutino',
+      modality: 'Presencial',
+      name: 'Engenharia Civil',
+      category: 'Exatas',
+    },
+    {
+      id: 3,
+      semesters: 10,
+      period: 'Noturno',
+      modality: 'Presencial',
+      name: 'Matemática',
+      category: 'Exatas',
+    },
+    {
+      id: 3,
+      semesters: 10,
+      period: 'Matutino',
+      modality: 'Presencial',
+      name: 'Matemática',
+      category: 'Exatas',
+    },
+    {
       id: 3,
       semesters: 10,
       period: 'Noturno',
@@ -152,19 +184,19 @@ const GraduateCoursesDialog = (props: IGraduateCoursesDialogProps): JSX.Element 
       <DialogContent>
         <Box sx={{ mt: 1, flexGrow: 1 }}>
           <>
-            <Grid container direction="column" spacing={{ md: 1 }}>
+            <Grid container spacing={3}>
               {courses.pagination.items.map((item: ICourse) => (
-                <Grid key={`${item.id}-${item.modality}-${item.period}`} item xs={2}>
-                  <Card sx={{ minWidth: 245, bgcolor: 'background.paper', m: 1 }}>
+                <Grid key={`${item.id}-${item.modality}-${item.period}-${item.category}`} item xs={6}>
+                  <Card sx={{ minWidth: 245, bgcolor: 'background.paper', m: 1, boxShadow: '6px 6px 15px #A8AAAD' }}>
                     <CardContent>
                       <Typography
-                        sx={{ fontSize: '1.4em', fontWeight: 600, bgColor: 'primary.main' }}
+                        sx={{ fontSize: '1.4em', fontWeight: 800, bgColor: 'primary.main' }}
                         color="text.secondary"
                         gutterBottom
                       >
                         {item.name}
                       </Typography>
-                      <Divider />
+                      <Divider sx={{ padding: 1, mb: 2 }} />
                       <Typography sx={{ fontSize: '1.2em', fontWeight: 500 }} color="gray" gutterBottom>
                         {`Categoria: ${item.category}`}
                       </Typography>

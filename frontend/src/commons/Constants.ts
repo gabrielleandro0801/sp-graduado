@@ -1,4 +1,5 @@
 export default {
+  MINIMUM_AGE: 17,
   GRADUATE: {
     MAX_INCOME_FAMILY: 3636,
     MIN_INCOME_FAMILY: 1,
@@ -51,7 +52,7 @@ export default {
         CPF: 'O CPF informado é inválido. Ele é obrigatório para o cadastro',
         CNPJ: 'O CNPJ informado é inválido. Ele é obrigatório para o cadastro',
       },
-      BIRTH_DATE: 'A data de nascimento é obrigatória. Selecione uma data',
+      BIRTH_DATE: 'Selecione uma data de nascimento válida',
       CONTACTS: {
         PHONE_NUMBER: 'O número de telefone é obrigatório e deve ser um telefone válido',
       },

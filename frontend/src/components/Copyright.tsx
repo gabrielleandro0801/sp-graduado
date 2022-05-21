@@ -10,8 +10,8 @@ const Copyright = (): JSX.Element => {
           sx={{
             color: (theme) => theme.palette.primary.main,
             flexGrow: 0,
-            fontSize: '0.8rem',
-            textDecoration: 'underline',
+            fontSize: '1rem',
+            fontWeight: 700,
           }}
         >
           Copyright ©2022 SP Graduado | Todos os direitos reservados | Politica de Privacidade | Contate-nos

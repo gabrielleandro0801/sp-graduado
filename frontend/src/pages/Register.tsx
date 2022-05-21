@@ -52,7 +52,7 @@ const Register = (): JSX.Element => {
       },
       college: fields.college,
       termsAndCoditionsAccepted: fields.termsAndCoditionsAccepted,
-      type: fields.type,
+      type: (CONSTANTS.REGISTER_TYPE as any)[fields.type],
     };
 
     formikHelpers.setSubmitting(false);
@@ -149,37 +149,38 @@ const Register = (): JSX.Element => {
                 >
                   <StepperContent currentStep={activeStep} />
                   <Grid container direction="row" sx={{ justifyContent: 'center' }}>
-                    {activeStep !== 0 && (
-                      <Grid item sx={{ mx: 2 }} xs={8} sm={4}>
-                        <StyledButton
-                          fullWidth
-                          variant="outlined"
-                          onClick={handleOnClickBack}
+                    <Grid item sx={{ mx: 2 }} xs={8} sm={4}>
+                      <StyledButton
+                        fullWidth
+                        variant="outlined"
+                        disabled={activeStep === 0 || activeStep === 1}
+                        onClick={handleOnClickBack}
+                        sx={{
+                          mt: 3,
+                          mb: 2,
+                          background: (theme) =>
+                            theme.palette.mode === 'dark' ? '#000' : theme.palette.background.paper,
+                        }}
+                      >
+                        <Typography
+                          variant="h6"
                           sx={{
-                            mt: 3,
-                            mb: 2,
-                            background: (theme) =>
-                              theme.palette.mode === 'dark' ? '#000' : theme.palette.background.paper,
+                            flexGrow: 1,
+                            fontStyle: 'inherit',
+                            fontWeight: '500',
                           }}
                         >
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              flexGrow: 1,
-                              fontStyle: 'inherit',
-                              fontWeight: '500',
-                            }}
-                          >
-                            Voltar
-                          </Typography>
-                        </StyledButton>
-                      </Grid>
-                    )}
+                          Voltar
+                        </Typography>
+                      </StyledButton>
+                    </Grid>
+
                     <Grid item sx={{ mx: 2 }} xs={8} sm={4}>
                       <StyledButton
                         type="submit"
                         fullWidth
                         variant="outlined"
+                        disabled={activeStep === FORM_STEPS.length}
                         sx={{
                           mt: 3,
                           mb: 2,

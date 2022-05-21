@@ -6,20 +6,19 @@ import { useFormikContext } from 'formik';
 
 import graduateLogoImg from '../../assets/graduation-hat-and-diploma-black.png';
 import godfatherLogoImg from '../../assets/ladder-1-black.png';
-import CONSTANTS from '../../commons/Constants';
 import IPerson from '../../interfaces/IPerson';
 import SnackBar from '../SnackBar';
 import StyledToggleButton from '../styles/ToggleButton';
 import Logo from '../Logo';
 
 const RegisterType = (): JSX.Element => {
-  const [alignment, setAlignment] = React.useState('');
   const formik = useFormikContext<IPerson>();
+  const [alignment, setAlignment] = React.useState(formik.values.type || '');
 
   const handleOnChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
     formik.handleChange(event);
     setAlignment(newAlignment);
-    formik.setFieldValue('type', (CONSTANTS.REGISTER_TYPE as any)[newAlignment]);
+    formik.setFieldValue('type', newAlignment);
   };
 
   return (
