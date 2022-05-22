@@ -7,5 +7,6 @@ export default ({ mode }: { mode: string }): UserConfigExport => {
   return defineConfig({
     plugins: [react()],
     envDir: './src',
+    logLevel: 'error',
   });
 };

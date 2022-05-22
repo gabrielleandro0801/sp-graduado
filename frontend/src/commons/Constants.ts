@@ -20,6 +20,12 @@ export default {
     US: 'yyyy-MM-dd',
     SP_TIMEZONE: 'America/Sao_Paulo',
   },
+  METHOD: {
+    POST: 'POST',
+    GET: 'GET',
+    PUT: 'PUT',
+    DELETE: 'DELETE',
+  },
   HTTP: {
     STATUS: {
       OK: 200,
@@ -35,6 +41,8 @@ export default {
   },
   EXCEPTIONS: {
     DEFAULT: 'SpGraduadoException',
+    BACKEND: 'SpGraduadoBackendException',
+    UNEXPECTED: 'SpGraduadoUnexpectedException',
   },
   MESSAGES: {
     DEFAULT: {
@@ -93,4 +101,28 @@ export default {
     'Termos e Condições',
     'Confirme seus dados',
   ],
+  PATH: {
+    STUDENDS: {
+      POST: '/v1/students',
+      GET: '/v1/students',
+      GET_BY_ID: '/v1/students/{studentId}',
+      DELETE: '/v1/students/{studentId}',
+      PUT: ' /v1/students/{studentId}',
+    },
+    SPONSORS: {
+      POST: '/v1/sponsors',
+      DELETE: '/v1/sponsors/{sponsorId}',
+      PUT: '/v1/sponsors/{sponsorId}/sponsorize',
+    },
+    CATEGORIES: {
+      GET: '/v1/categories',
+    },
+    COLLEGES: {
+      GET: '/v1/colleges',
+      GET_BY_ID: '/v1/colleges/{collegeId}',
+    },
+    LOGIN: {
+      POST: '/v1/login',
+    },
+  },
 };

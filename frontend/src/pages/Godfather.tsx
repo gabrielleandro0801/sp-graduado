@@ -10,7 +10,7 @@ const Godfather = (): JSX.Element => {
   return (
     <>
       {locationState.hasOpen && (
-        <SnackBar hasOpen={Boolean(locationState?.hasOpen)} text="Login efetuado com sucesso!" />
+        <SnackBar hasOpen={Boolean(locationState?.hasOpen)} severity="info" text="Login efetuado com sucesso!" />
       )}
       <Typography variant="h2" color="primary">
         Godfather

@@ -52,7 +52,6 @@ const RegisterPage = (): JSX.Element => {
   };
 
   const handleSubmit = (fields: IGraduate | IGodfather, formikHelpers: FormikHelpers<IGraduate | IGodfather>): void => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     if (IS_LAST_STEP) {
       submitForm(fields, formikHelpers);
     } else {

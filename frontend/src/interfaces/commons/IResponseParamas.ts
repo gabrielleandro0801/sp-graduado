@@ -1,5 +1,5 @@
 export default interface IResponseParams {
-    data: any;
-    statusCode: number;
-    statusText: string;
+  data: any;
+  statusCode: number;
+  statusText: string;
 }

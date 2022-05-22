@@ -25,6 +25,7 @@ import LoginFormValidation from '../validations/LoginForm';
 import logoImg from '../assets/graduation-hat-and-diploma-purple.png';
 import ILogin from '../interfaces/ILogin';
 import Login from '../components/Login';
+import LoginModel from '../models/Login';
 
 const LoginPage = (): JSX.Element => {
   const [themeEl, setTheme] = React.useState('light-theme');
@@ -142,7 +143,7 @@ const LoginPage = (): JSX.Element => {
               </span>
             </Tooltip>
             <Formik
-              initialValues={LoginFormValidation.getInitialValues()}
+              initialValues={LoginModel.getInitialValues()}
               validationSchema={LoginFormValidation.getValidationSchema()}
               onSubmit={handleSubmit}
             >
