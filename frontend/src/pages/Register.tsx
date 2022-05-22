@@ -56,8 +56,6 @@ const RegisterPage = (): JSX.Element => {
     if (IS_LAST_STEP) {
       submitForm(fields, formikHelpers);
     } else {
-      console.log(type);
-      console.log(INITIAL_VALUES);
       setActiveStep(activeStep + 1);
       formikHelpers.setTouched({});
       formikHelpers.setSubmitting(false);
