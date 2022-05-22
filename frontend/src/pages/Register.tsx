@@ -11,61 +11,53 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import { FormikHelpers, Formik, Form } from 'formik';
 
-import DateTime from '../commons/DateTime';
 import CONSTANTS from '../commons/Constants';
 import IGraduate from '../interfaces/IGraduate';
 import GraduateRegisterFormValidation from '../validations/GraduateRegisterForm';
+import GodfatherRegisterFormValidation from '../validations/GodfatherRegisterForm';
 import Logo from '../components/Logo';
 import GraduateModel from '../models/Graduate';
 import graduateLogoImg from '../assets/graduation-hat-and-diploma-purple.png';
 import StyledButton from '../components/styles/Button';
-import ConfirmRegistration from '../components/register/ConfirmRegistration';
 import StepperContent from '../components/register/StepperContent';
 import Copyright from '../components/Copyright';
+import RegisterTypeContext from '../components/contexts/RegisterType';
+import IGodfather from '../interfaces/IGodfather';
+import GodfatherModel from '../models/Godfather';
 
-const VALIDATION_SCHEMAS = GraduateRegisterFormValidation.getValidationSchema();
 const FORM_STEPS = CONSTANTS.REGISTRATION_STEPS;
+const DEFAULT_TYPE = 'GRADUATE';
 
-const Register = (): JSX.Element => {
+const RegisterPage = (): JSX.Element => {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [type, setType] = React.useState('');
 
   const IS_LAST_STEP = activeStep === FORM_STEPS.length - 1;
+  const VALIDATION_SCHEMAS =
+    type === DEFAULT_TYPE
+      ? GraduateRegisterFormValidation.getValidationSchema()
+      : GodfatherRegisterFormValidation.getValidationSchema();
+  const INITIAL_VALUES = type === DEFAULT_TYPE ? GraduateModel.getInitialValues() : GodfatherModel.getInitialValues();
   const CURRENT_VALIDATION_SCHEMA = VALIDATION_SCHEMAS[activeStep];
 
   const handleOnClickBack = (): void => {
     setActiveStep(activeStep - 1);
   };
 
-  const submitForm = (fields: IGraduate, formikHelpers: FormikHelpers<IGraduate>): void => {
-    const rawFields: IGraduate = {
-      name: fields.name,
-      birthDate: DateTime.toFormat(fields.birthDate, CONSTANTS.DATE.BRAZILIAN, CONSTANTS.DATE.US),
-      documentNumber: fields.documentNumber.replace(/[.-]/g, ''),
-      incomeFamily: fields.incomeFamily,
-      about: fields.about,
-      course: fields.course,
-      password: fields.password,
-      confirmPassword: fields.confirmPassword,
-      contacts: {
-        email: fields.contacts.email,
-        phoneNumber: fields.contacts.phoneNumber.replace(/[-() ]/g, ''),
-      },
-      college: fields.college,
-      termsAndCoditionsAccepted: fields.termsAndCoditionsAccepted,
-      type: (CONSTANTS.REGISTER_TYPE as any)[fields.type],
-    };
-
+  const submitForm = (fields: IGraduate | IGodfather, formikHelpers: FormikHelpers<IGraduate | IGodfather>): void => {
     formikHelpers.setSubmitting(false);
     setActiveStep(activeStep + 1);
     formikHelpers.resetForm();
     // TODO: Call API TO register
   };
 
-  const handleSubmit = (fields: IGraduate, formikHelpers: FormikHelpers<IGraduate>): void => {
+  const handleSubmit = (fields: IGraduate | IGodfather, formikHelpers: FormikHelpers<IGraduate | IGodfather>): void => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     if (IS_LAST_STEP) {
       submitForm(fields, formikHelpers);
     } else {
+      console.log(type);
+      console.log(INITIAL_VALUES);
       setActiveStep(activeStep + 1);
       formikHelpers.setTouched({});
       formikHelpers.setSubmitting(false);
@@ -73,71 +65,65 @@ const Register = (): JSX.Element => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        elevation={0}
-        position="static"
-        sx={{ backgroundColor: (theme) => theme.palette.background.default, padding: 2, alignItems: 'center' }}
-      >
-        <Toolbar>
-          <Logo
-            width={102}
-            height={102}
-            textLogo="SP GRADUADO"
-            imageUrl={graduateLogoImg}
-            alt="https://www.freepik.com"
-            typographyStyles={{
+    <RegisterTypeContext.Provider value={{ type, setType }}>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar
+          elevation={0}
+          position="static"
+          sx={{ backgroundColor: (theme) => theme.palette.background.default, padding: 2, alignItems: 'center' }}
+        >
+          <Toolbar>
+            <Logo
+              width={102}
+              height={102}
+              textLogo="SP GRADUADO"
+              imageUrl={graduateLogoImg}
+              alt="https://www.freepik.com"
+              typographyStyles={{
+                color: (theme) => theme.palette.primary.main,
+                fontStyle: 'inherit',
+                fontSize: '3em',
+                fontWeight: 'bold',
+                m: 1,
+                letterSpacing: -1,
+              }}
+            />
+          </Toolbar>
+          <Typography
+            sx={{
+              flexGrow: 1,
               color: (theme) => theme.palette.primary.main,
-              fontStyle: 'inherit',
-              fontSize: '3em',
+              fontStyle: 'italic',
+              fontSize: '2.9em',
               fontWeight: 'bold',
-              m: 1,
+              m: -4,
+              padding: 1,
               letterSpacing: -1,
             }}
-          />
-        </Toolbar>
-        <Typography
-          sx={{
-            flexGrow: 1,
-            color: (theme) => theme.palette.primary.main,
-            fontStyle: 'italic',
-            fontSize: '2.9em',
-            fontWeight: 'bold',
-            m: -4,
-            padding: 1,
-            letterSpacing: -1,
-          }}
-        >
-          Registre-se
-        </Typography>
-      </AppBar>
-      <Container component="main" maxWidth="xl" sx={{ padding: 3 }}>
-        <Stepper activeStep={activeStep}>
-          {FORM_STEPS.map((step: string) => (
-            <Step key={step}>
-              <StepLabel>
-                <Typography
-                  sx={{
-                    fontStyle: 'inherit',
-                    fontSize: '1.2em',
-                    fontWeight: 500,
-                  }}
-                >
-                  {step}
-                </Typography>
-              </StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <>
-          {activeStep === FORM_STEPS.length ? (
-            <ConfirmRegistration />
-          ) : (
-            <Formik
-              initialValues={GraduateModel.getInitialValues()}
-              validationSchema={CURRENT_VALIDATION_SCHEMA}
-              onSubmit={handleSubmit}
-            >
+          >
+            Registre-se
+          </Typography>
+        </AppBar>
+        <Container component="main" maxWidth="xl" sx={{ padding: 3 }}>
+          <Stepper activeStep={activeStep}>
+            {FORM_STEPS.map((step: string) => (
+              <Step key={step}>
+                <StepLabel>
+                  <Typography
+                    sx={{
+                      fontStyle: 'inherit',
+                      fontSize: '1.2em',
+                      fontWeight: 500,
+                    }}
+                  >
+                    {step}
+                  </Typography>
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <>
+            <Formik initialValues={INITIAL_VALUES} validationSchema={CURRENT_VALIDATION_SCHEMA} onSubmit={handleSubmit}>
               <Form id="graduate-form-registration">
                 <Paper
                   elevation={6}
@@ -204,16 +190,16 @@ const Register = (): JSX.Element => {
                 </Paper>
               </Form>
             </Formik>
-          )}
-        </>
-      </Container>
-      <Grid container direction="column" spacing={{ xs: 1 }} alignItems="center" sx={{ m: 5, position: 'absolute' }}>
-        <Grid item xs sx={{ md: 5, mt: 5 }}>
-          <Copyright />
+          </>
+        </Container>
+        <Grid container direction="column" spacing={{ xs: 1 }} alignItems="center" sx={{ m: 5, position: 'absolute' }}>
+          <Grid item xs sx={{ md: 5, mt: 5 }}>
+            <Copyright />
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </RegisterTypeContext.Provider>
   );
 };
 
-export default Register;
+export default RegisterPage;

@@ -50,7 +50,7 @@ export default {
       NAME: 'O nome informado é inválido. Deve conter pelo menos 10 caracteres',
       DOCUMENT_NUMBER: {
         CPF: 'O CPF informado é inválido. Ele é obrigatório para o cadastro',
-        CNPJ: 'O CNPJ informado é inválido. Ele é obrigatório para o cadastro',
+        CPF_CNPJ: 'O CPF/CNPJ informado é inválido. Ele é obrigatório para o cadastro',
       },
       BIRTH_DATE: 'Selecione uma data de nascimento válida',
       CONTACTS: {
@@ -58,8 +58,9 @@ export default {
       },
       TERMS_AND_CONDITIONS: 'O aceite nos termos e condições deve ser feito para prosseguir com o cadastro',
       INCOME_FAMILY: 'Informe uma renda familiar válida',
+      MONTHLY_INCOME: 'Informe uma renda mensal válida',
       ABOUT:
-        'A descrição sobre você é obrigatória e deve conter pelo menos 250 caracteres para prosseguir com o cadastro',
+        'A descrição sobre você é obrigatória e deve conter no máximo 200 caracteres para prosseguir com o cadastro',
       COURSE: 'Selecione um curso para efetuar o cadastro',
       COLLEGE: 'Selecione uma faculdade para efetuar o cadastro',
     },
@@ -83,7 +84,7 @@ export default {
       'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.',
   },
   REGISTER_TYPE: {
-    GRADUATE: 'Aluno',
+    GRADUATE: 'Graduando',
     GODFATHER: 'Padrinho',
   },
   REGISTRATION_STEPS: [

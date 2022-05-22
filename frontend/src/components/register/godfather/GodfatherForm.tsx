@@ -97,8 +97,8 @@ const GodfatherForm = (): JSX.Element => {
                 margin="normal"
                 required
                 fullWidth
-                id="incomeFamily"
-                name="incomeFamily"
+                id="monthlyIncome"
+                name="monthlyIncome"
               />
             </Grid>
             <Grid item xs={5} sm={5}>
@@ -120,13 +120,13 @@ const GodfatherForm = (): JSX.Element => {
                 margin="normal"
                 required
                 fullWidth
-                id="about"
-                label="Conte um pouco sobre você!"
-                name="about"
-                autoComplete="about"
+                id="reasonWhy"
+                label="Conte um pouco para nós do porque você quer ser um padrinho!"
+                name="reasonWhy"
+                autoComplete="reasonWhy"
                 multiline
                 rows={6}
-                placeholder="Conte um pouco sobre você!"
+                placeholder="Conte um pouco para nós do porque você quer ser um padrinho!"
               />
             </Grid>
           </Grid>

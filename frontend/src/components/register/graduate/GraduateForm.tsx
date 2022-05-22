@@ -167,7 +167,7 @@ const GraduateForm = (): JSX.Element => {
                   placeholder="Selecione uma faculdade"
                   name="college"
                   onChange={handleCollegesOnChange}
-                  value={formik.values.college.name}
+                  value={formik.values?.college?.name || ''}
                 >
                   {colleges.map((currCollege) => (
                     <MenuItem

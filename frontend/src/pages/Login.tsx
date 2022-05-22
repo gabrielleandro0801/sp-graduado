@@ -30,18 +30,22 @@ const LoginPage = (): JSX.Element => {
   const [themeEl, setTheme] = React.useState('light-theme');
   const navigate: NavigateFunction = useNavigate();
 
+  const changeTheme = () => (themeEl === CONSTANTS.THEMES.LIGHT ? MainTheme.lightTheme : MainTheme.darkTheme);
+
   const handleChangeTheme = (_event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
     const newTheme: string = !checked ? CONSTANTS.THEMES.LIGHT : CONSTANTS.THEMES.DARK;
     setTheme(newTheme);
   };
 
-  const changeTheme = () => (themeEl === CONSTANTS.THEMES.LIGHT ? MainTheme.lightTheme : MainTheme.darkTheme);
+  const handleOnClickSingUp = (): void => {
+    navigate(CONSTANTS.ROUTING.REGISTER, { replace: true });
+  };
 
   const handleSubmit = (fields: ILogin, { resetForm, setSubmitting }: FormikHelpers<ILogin>) => {
     setSubmitting(false);
     resetForm();
     // TODO: Call API to login and pass userInfo into route state
-    navigate('/menu/godfather', { replace: true, state: { hasOpen: true, userInfo: fields } });
+    navigate(CONSTANTS.ROUTING.MENU.GODFATHER, { replace: true, state: { hasOpen: true, userInfo: fields } });
   };
 
   return (
@@ -93,6 +97,7 @@ const LoginPage = (): JSX.Element => {
                   aria-controls="singup-appbar"
                   aria-haspopup="false"
                   color="primary"
+                  onClick={handleOnClickSingUp}
                 >
                   <AccountCircleSharp
                     sx={{

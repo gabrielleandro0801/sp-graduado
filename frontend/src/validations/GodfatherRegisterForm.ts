@@ -3,7 +3,7 @@ import * as YUP from 'yup';
 
 import CONSTANTS from '../commons/Constants';
 
-export default class GraduateRegisterFormValidation {
+export default class GodfatherRegisterFormValidation {
   static getValidationSchema(): any[] {
     const schemaSteps = [
       YUP.object({
@@ -14,10 +14,9 @@ export default class GraduateRegisterFormValidation {
       YUP.object({
         name: YUP.string().min(10).required(CONSTANTS.MESSAGES.VALIDATION.NAME),
         documentNumber: YUP.string()
-          .min(11, CONSTANTS.MESSAGES.VALIDATION.DOCUMENT_NUMBER.CPF)
-          .max(11, CONSTANTS.MESSAGES.VALIDATION.DOCUMENT_NUMBER.CPF)
-          .matches(CONSTANTS.REGEX.DOCUMENT.CPF, CONSTANTS.MESSAGES.VALIDATION.DOCUMENT_NUMBER.CPF)
-          .required(CONSTANTS.MESSAGES.VALIDATION.DOCUMENT_NUMBER.CPF),
+          .min(11, CONSTANTS.MESSAGES.VALIDATION.DOCUMENT_NUMBER.CPF_CNPJ)
+          .max(14, CONSTANTS.MESSAGES.VALIDATION.DOCUMENT_NUMBER.CPF_CNPJ)
+          .required(CONSTANTS.MESSAGES.VALIDATION.DOCUMENT_NUMBER.CPF_CNPJ),
         birthDate: YUP.date()
           .required(CONSTANTS.MESSAGES.VALIDATION.BIRTH_DATE)
           .test('minAge', CONSTANTS.MESSAGES.VALIDATION.BIRTH_DATE, (value) => {
@@ -28,10 +27,10 @@ export default class GraduateRegisterFormValidation {
             }
             return false;
           }),
-        incomeFamily: YUP.number()
-          .min(CONSTANTS.GRADUATE.MIN_INCOME_FAMILY, CONSTANTS.MESSAGES.VALIDATION.INCOME_FAMILY)
-          .max(CONSTANTS.GRADUATE.MAX_INCOME_FAMILY, CONSTANTS.MESSAGES.VALIDATION.INCOME_FAMILY)
-          .required(CONSTANTS.MESSAGES.VALIDATION.INCOME_FAMILY),
+        monthlyIncome: YUP.number()
+          .min(CONSTANTS.GRADUATE.MIN_INCOME_FAMILY, CONSTANTS.MESSAGES.VALIDATION.MONTHLY_INCOME)
+          .max(CONSTANTS.GRADUATE.MAX_INCOME_FAMILY, CONSTANTS.MESSAGES.VALIDATION.MONTHLY_INCOME)
+          .required(CONSTANTS.MESSAGES.VALIDATION.MONTHLY_INCOME),
         contacts: YUP.object({
           phoneNumber: YUP.string()
             .min(10, CONSTANTS.MESSAGES.VALIDATION.CONTACTS.PHONE_NUMBER)
@@ -40,7 +39,9 @@ export default class GraduateRegisterFormValidation {
             .required(CONSTANTS.MESSAGES.VALIDATION.CONTACTS.PHONE_NUMBER),
           email: YUP.string().email(CONSTANTS.MESSAGES.VALIDATION.EMAIL).required(CONSTANTS.MESSAGES.VALIDATION.EMAIL),
         }),
-        about: YUP.string().required(CONSTANTS.MESSAGES.VALIDATION.ABOUT).min(200, CONSTANTS.MESSAGES.VALIDATION.ABOUT),
+        reasonWhy: YUP.string()
+          .required(CONSTANTS.MESSAGES.VALIDATION.ABOUT)
+          .min(250, CONSTANTS.MESSAGES.VALIDATION.ABOUT),
         password: YUP.string()
           .matches(CONSTANTS.REGEX.PASSWORD, CONSTANTS.MESSAGES.VALIDATION.PASSWORD)
           .required(CONSTANTS.MESSAGES.VALIDATION.PASSWORD),
@@ -48,18 +49,6 @@ export default class GraduateRegisterFormValidation {
           [YUP.ref('password'), null],
           CONSTANTS.MESSAGES.VALIDATION.CONFIRMATION_PASSWORD,
         ),
-        course: YUP.object({
-          name: YUP.string().required(CONSTANTS.MESSAGES.VALIDATION.COURSE),
-          semesters: YUP.number().required(CONSTANTS.MESSAGES.VALIDATION.COURSE),
-          period: YUP.string().required(CONSTANTS.MESSAGES.VALIDATION.COURSE),
-          modality: YUP.string().required(CONSTANTS.MESSAGES.VALIDATION.COURSE),
-          category: YUP.string().required(CONSTANTS.MESSAGES.VALIDATION.COURSE),
-        }).optional(),
-        college: YUP.object({
-          id: YUP.number().required(CONSTANTS.MESSAGES.VALIDATION.COLLEGE),
-          name: YUP.string().required(CONSTANTS.MESSAGES.VALIDATION.COLLEGE),
-          city: YUP.string().required(CONSTANTS.MESSAGES.VALIDATION.COLLEGE),
-        }).required(CONSTANTS.MESSAGES.VALIDATION.COLLEGE),
         type: YUP.string().required(CONSTANTS.MESSAGES.VALIDATION.TYPE).oneOf(['GODFATHER', 'GRADUATE']),
         termsAndCoditionsAccepted: YUP.boolean()
           .default(false)

@@ -7,7 +7,7 @@ import MainTheme from '../themes';
 import Home from '../pages/Home';
 import LoginPage from '../pages/Login';
 import Godfather from '../pages/Godfather';
-import Register from '../pages/Register';
+import RegisterPage from '../pages/Register';
 import CONSTANTS from '../commons/Constants';
 
 const Routes = (): JSX.Element => {
@@ -19,7 +19,7 @@ const Routes = (): JSX.Element => {
           <Route path={CONSTANTS.ROUTING.HOME} element={<Home />} />
           <Route path={CONSTANTS.ROUTING.LOGIN} element={<LoginPage />} />
           <Route path={CONSTANTS.ROUTING.MENU.GODFATHER} element={<Godfather />} />
-          <Route path={CONSTANTS.ROUTING.REGISTER} element={<Register />} />
+          <Route path={CONSTANTS.ROUTING.REGISTER} element={<RegisterPage />} />
         </Router>
       </BrowserRouter>
     </ThemeProvider>

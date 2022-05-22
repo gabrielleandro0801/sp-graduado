@@ -10,15 +10,18 @@ import IPerson from '../../interfaces/IPerson';
 import SnackBar from '../SnackBar';
 import StyledToggleButton from '../styles/ToggleButton';
 import Logo from '../Logo';
+import RegisterTypeContext from '../contexts/RegisterType';
 
 const RegisterType = (): JSX.Element => {
   const formik = useFormikContext<IPerson>();
   const [alignment, setAlignment] = React.useState(formik.values.type || '');
+  const { setType } = React.useContext(RegisterTypeContext);
 
   const handleOnChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
     formik.handleChange(event);
     setAlignment(newAlignment);
     formik.setFieldValue('type', newAlignment);
+    setType(newAlignment);
   };
 
   return (
@@ -36,10 +39,10 @@ const RegisterType = (): JSX.Element => {
             fontWeight: 600,
             padding: 1,
             color: (theme) => (theme.palette.mode === 'dark' ? '#FFF' : '#000'),
-            fontStyle: 'inherit',
+            fontStyle: 'italic',
           }}
         >
-          Selecione a Forma de Cadastro
+          Como deseja se registrar?
         </Typography>
       </Box>
       <Box

@@ -66,7 +66,7 @@ const TermsAndConditions = ({ terms }: ITermsAndConditionsProps): JSX.Element =>
                 color: 'black',
                 fontStyle: 'inherit',
                 fontSize: '1.5em',
-                fontWeight: 'bold',
+                fontWeight: 600,
                 padding: 5,
                 letterSpacing: -1,
               }}
