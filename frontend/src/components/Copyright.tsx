@@ -2,10 +2,12 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
+import CONSTANTS from '../commons/Constants';
+
 const Copyright = (): JSX.Element => {
   return (
     <>
-      <Link to="/copyright" replace>
+      <Link to={CONSTANTS.ROUTING.COPYRIGHT} replace>
         <Typography
           sx={{
             color: (theme) => theme.palette.primary.main,
@@ -14,7 +16,8 @@ const Copyright = (): JSX.Element => {
             fontWeight: 700,
           }}
         >
-          Copyright ©2022 SP Graduado | Todos os direitos reservados | Politica de Privacidade | Contate-nos
+          {`Copyright ©${new Date().getFullYear()} SP Graduado | Todos os direitos reservados | Politica de Privacidade |
+          Contate-nos`}
         </Typography>
       </Link>
     </>

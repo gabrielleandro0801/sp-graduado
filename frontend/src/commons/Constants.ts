@@ -81,8 +81,12 @@ export default {
     HOME: '/',
     LOGIN: '/login',
     REGISTER: '/register',
+    COPYRIGHT: '/copyright',
     MENU: {
       GODFATHER: '/menu/godfather',
+    },
+    PROFILE: {
+      GODFATHER: '/profile/godfather',
     },
   },
   TERMS_CONDITIONS: {
