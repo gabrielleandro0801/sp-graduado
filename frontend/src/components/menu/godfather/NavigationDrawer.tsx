@@ -1,9 +1,11 @@
 import React from 'react';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 
 import MenuList from './MenuList';
 import Header from './Header';
+import MenuGodfatherAppBar from './AppBar';
 
 const GodafatherNavigationDrawer = (): JSX.Element => {
   const [open, setOpen] = React.useState(true);
@@ -22,16 +24,24 @@ const GodafatherNavigationDrawer = (): JSX.Element => {
 
   return (
     <>
-      <Drawer
-        anchor="left"
-        open={open}
-        onClose={toggleDrawer(false)}
-        sx={{ color: (theme) => theme.palette.primary.main }}
-      >
-        <Header />
-        <Divider sx={{ m: 0 }} />
-        <MenuList />
-      </Drawer>
+      <Box sx={{ display: 'flex' }}>
+        <MenuGodfatherAppBar />
+        <Drawer
+          variant="temporary"
+          anchor="left"
+          open={open}
+          onClose={toggleDrawer(false)}
+          sx={{
+            color: (theme) => theme.palette.primary.main,
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: { boxSizing: 'border-box' },
+          }}
+        >
+          <Header />
+          <Divider sx={{ m: 0 }} />
+          <MenuList />
+        </Drawer>
+      </Box>
     </>
   );
 };
