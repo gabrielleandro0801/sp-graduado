@@ -6,31 +6,12 @@ import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import CheckBox from '@mui/material/Checkbox';
 
-import IGraduate from '../../../interfaces/IGraduate';
 import IGodfather from '../../../interfaces/IGodfather';
 import CONSTANTS from '../../../commons/Constants';
 import DateTime from '../../../commons/DateTime';
 
-const MOCKED_GRADUATE: IGodfather = {
-  name: 'Alexandre Souza Rocha',
-  reasonWhy:
-    'AAUSDHASUHDASUDHAS UDHAUDAHSUDASHUAHU ASAAUSDHASUHDAS UDHASUD HAUDAHSUDASHUAHUASAAUS DHASUHDASUDHAS UDHAUDAHSUDASHU AHUASAAUSDHASUHDASU DHASUDHAUDAHSU DASHUAH UAS',
-  birthDate: '2000-07-29',
-  monthlyIncome: 32000,
-  type: 'GODFATHER',
-  contacts: {
-    email: 'example@email.com',
-    phoneNumber: '11953215110',
-  },
-  documentNumber: '23097770801',
-  termsAndCoditionsAccepted: true,
-  confirmPassword: 'MyPassword@2000',
-  password: 'MyPassword@2000',
-};
-
 const GodfatherConfirmRegistration = (): JSX.Element => {
-  const formik = useFormikContext<IGraduate | IGodfather>();
-  formik.values = MOCKED_GRADUATE;
+  const formik = useFormikContext<IGodfather>();
 
   return (
     <>

@@ -24,7 +24,6 @@ import logoImg from '../assets/graduation-hat-and-diploma-purple.png';
 import ILogin from '../interfaces/ILogin';
 import Login from '../components/Login';
 import LoginModel from '../models/Login';
-import MaterialLayout from '../components/MaterialLayout';
 
 const LoginPage = (): JSX.Element => {
   const [themeEl, setTheme] = React.useState('light-theme');
@@ -41,7 +40,7 @@ const LoginPage = (): JSX.Element => {
     navigate(CONSTANTS.ROUTING.REGISTER, { replace: true });
   };
 
-  const handleSubmit = (fields: ILogin, { resetForm, setSubmitting }: FormikHelpers<ILogin>) => {
+  const handleSubmit = async (fields: ILogin, { resetForm, setSubmitting }: FormikHelpers<ILogin>) => {
     setSubmitting(false);
     resetForm();
     // TODO: Call API to login and pass userInfo into route state
@@ -49,115 +48,109 @@ const LoginPage = (): JSX.Element => {
   };
 
   return (
-    <MaterialLayout>
-      <ThemeProvider theme={changeTheme()}>
-        <CssBaseline />
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar
-            elevation={0}
-            position="static"
-            sx={{ backgroundColor: (theme) => theme.palette.background.default, padding: 2 }}
-          >
-            <ToolBar>
-              <Logo
-                width={62}
-                height={62}
-                textLogo="SP GRADUADO"
-                imageUrl={logoImg}
-                alt="https://www.freepik.com"
-                typographyStyles={{
-                  flexGrow: 1,
-                  color: (theme) => theme.palette.primary.main,
-                  fontStyle: 'inherit',
-                  fontSize: '2.5em',
-                  fontWeight: 'bold',
-                  mx: 1,
-                  my: 1,
-                  letterSpacing: -1,
-                }}
-              />
-              <Typography
-                component="div"
-                sx={{
-                  flexGrow: 0,
-                  color: (theme) => theme.palette.primary.main,
-                  fontStyle: 'inherit',
-                  fontWeight: '600',
-                  fontSize: '1.2em',
-                  letterSpacing: -1,
-                  mx: -1,
-                }}
-              >
-                Sing Up
-              </Typography>
-              <Tooltip title="Sing up" arrow>
-                <span>
-                  <IconButton
-                    size="large"
-                    aria-label="user login registration"
-                    aria-controls="singup-appbar"
-                    aria-haspopup="false"
-                    color="primary"
-                    onClick={handleOnClickSingUp}
-                  >
-                    <AccountCircleSharp
-                      sx={{
-                        width: 42,
-                        height: 42,
-                      }}
-                    />
-                  </IconButton>
-                </span>
-              </Tooltip>
-            </ToolBar>
-          </AppBar>
-          <Container component="main" maxWidth="sm">
-            <Paper
-              elevation={10}
+    <ThemeProvider theme={changeTheme()}>
+      <CssBaseline />
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar
+          elevation={0}
+          position="static"
+          sx={{ backgroundColor: (theme) => theme.palette.background.default, padding: 2 }}
+        >
+          <ToolBar>
+            <Logo
+              width={62}
+              height={62}
+              textLogo="SP GRADUADO"
+              imageUrl={logoImg}
+              alt="https://www.freepik.com"
+              typographyStyles={{
+                flexGrow: 1,
+                color: (theme) => theme.palette.primary.main,
+                fontStyle: 'inherit',
+                fontSize: '2.5em',
+                fontWeight: 'bold',
+                mx: 1,
+                my: 1,
+                letterSpacing: -1,
+              }}
+            />
+            <Typography
+              component="div"
               sx={{
-                marginTop: 25,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                borderRadius: 3,
+                flexGrow: 0,
+                color: (theme) => theme.palette.primary.main,
+                fontStyle: 'inherit',
+                fontWeight: '600',
+                fontSize: '1.2em',
+                letterSpacing: -1,
+                mx: -1,
               }}
             >
-              <Avatar sx={{ mt: 5, bgcolor: 'primary.main', width: 72, height: 72 }}>
-                <LockSharp />
-              </Avatar>
-              <Typography
-                component="h1"
-                sx={{
-                  flexGrow: 0,
-                  color: (theme) => theme.palette.primary.main,
-                  fontStyle: 'inherit',
-                  fontWeight: '500',
-                  fontSize: '1.7em',
-                }}
-              >
-                Sing In
-              </Typography>
-              <Tooltip title="Trocar tema" arrow>
-                <span>
-                  <StyledSwitchTheme
-                    value={themeEl}
-                    defaultValue={CONSTANTS.THEMES.LIGHT}
-                    onChange={handleChangeTheme}
+              Sing Up
+            </Typography>
+            <Tooltip title="Sing up" arrow>
+              <span>
+                <IconButton
+                  size="large"
+                  aria-label="user login registration"
+                  aria-controls="singup-appbar"
+                  aria-haspopup="false"
+                  color="primary"
+                  onClick={handleOnClickSingUp}
+                >
+                  <AccountCircleSharp
+                    sx={{
+                      width: 42,
+                      height: 42,
+                    }}
                   />
-                </span>
-              </Tooltip>
-              <Formik
-                initialValues={LoginModel.getInitialValues()}
-                validationSchema={LoginFormValidation.getValidationSchema()}
-                onSubmit={handleSubmit}
-              >
-                <Login />
-              </Formik>
-            </Paper>
-          </Container>
-        </Box>
-      </ThemeProvider>
-    </MaterialLayout>
+                </IconButton>
+              </span>
+            </Tooltip>
+          </ToolBar>
+        </AppBar>
+        <Container component="main" maxWidth="sm">
+          <Paper
+            elevation={10}
+            sx={{
+              marginTop: 25,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              borderRadius: 3,
+            }}
+          >
+            <Avatar sx={{ mt: 5, bgcolor: 'primary.main', width: 72, height: 72 }}>
+              <LockSharp />
+            </Avatar>
+            <Typography
+              component="h1"
+              sx={{
+                flexGrow: 0,
+                color: (theme) => theme.palette.primary.main,
+                fontStyle: 'inherit',
+                fontWeight: '500',
+                fontSize: '1.7em',
+              }}
+            >
+              Sing In
+            </Typography>
+            <Tooltip title="Trocar tema" arrow>
+              <span>
+                <StyledSwitchTheme value={themeEl} defaultValue={CONSTANTS.THEMES.LIGHT} onChange={handleChangeTheme} />
+              </span>
+            </Tooltip>
+            <Formik
+              initialValues={LoginModel.getInitialValues()}
+              validationSchema={LoginFormValidation.getValidationSchema()}
+              onSubmit={handleSubmit}
+            >
+              <Login />
+            </Formik>
+          </Paper>
+        </Container>
+      </Box>
+    </ThemeProvider>
   );
 };
 

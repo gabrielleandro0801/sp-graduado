@@ -33,11 +33,7 @@ const StepperContent = ({ currentStep }: { currentStep: number }): JSX.Element =
     case 2:
       return <TermsAndConditions terms={String(termsAndCoditions)} />;
     case 3:
-      return formik.values?.type === CONSTANTS.REGISTER_TYPE.GRADUATE ? (
-        <GraduateConfirmRegistration />
-      ) : (
-        <GodfatherConfirmRegistration />
-      );
+      return formik.values?.type === 'GRADUATE' ? <GraduateConfirmRegistration /> : <GodfatherConfirmRegistration />;
     default:
       return <div> An error occured </div>; // TODO: Criar componente de erro
   }

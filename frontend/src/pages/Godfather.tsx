@@ -2,7 +2,6 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import { useLocation } from 'react-router-dom';
 import SnackBar from '../components/SnackBar';
-import MaterialLayout from '../components/MaterialLayout';
 import GodafatherNavigationDrawer from '../components/menu/godfather/NavigationDrawer';
 
 const Godfather = (): JSX.Element => {
@@ -10,7 +9,7 @@ const Godfather = (): JSX.Element => {
   const locationState: any = location.state;
 
   return (
-    <MaterialLayout>
+    <>
       {locationState?.hasOpen && (
         <SnackBar hasOpen={Boolean(locationState?.hasOpen)} severity="info" text="Login efetuado com sucesso!" />
       )}
@@ -18,7 +17,7 @@ const Godfather = (): JSX.Element => {
         Godfather
       </Typography>
       <GodafatherNavigationDrawer />
-    </MaterialLayout>
+    </>
   );
 };
 

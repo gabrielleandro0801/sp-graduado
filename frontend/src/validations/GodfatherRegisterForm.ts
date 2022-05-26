@@ -41,7 +41,7 @@ export default class GodfatherRegisterFormValidation {
         }),
         reasonWhy: YUP.string()
           .required(CONSTANTS.MESSAGES.VALIDATION.ABOUT)
-          .min(250, CONSTANTS.MESSAGES.VALIDATION.ABOUT),
+          .max(200, CONSTANTS.MESSAGES.VALIDATION.ABOUT),
         password: YUP.string()
           .matches(CONSTANTS.REGEX.PASSWORD, CONSTANTS.MESSAGES.VALIDATION.PASSWORD)
           .required(CONSTANTS.MESSAGES.VALIDATION.PASSWORD),

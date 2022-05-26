@@ -18,7 +18,6 @@ const lightTheme: Theme = createTheme({
     },
     mode: 'light',
   },
-  spacing: 0,
 });
 
 const darkTheme: Theme = createTheme({

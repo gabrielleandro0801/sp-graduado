@@ -3,7 +3,7 @@ import ICourse from './ICourse';
 import IPerson from './IPerson';
 
 export default interface IGraduate extends IPerson {
-  incomeFamily: string;
+  incomeFamily: number;
   about: string;
   course: ICourse;
   college: ICollege;

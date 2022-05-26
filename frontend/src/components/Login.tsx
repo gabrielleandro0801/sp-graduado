@@ -3,9 +3,9 @@ import { Form, useFormikContext } from 'formik';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 import FormTextField from './styles/FormTextField';
-import StyledButton from './styles/Button';
 import ILogin from '../interfaces/ILogin';
 
 const Login = (): JSX.Element => {
@@ -51,19 +51,32 @@ const Login = (): JSX.Element => {
             Esqueceu a senha?
           </Typography>
         </Link>
-        <StyledButton type="submit" disabled={formik.isSubmitting} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+        <LoadingButton
+          type="submit"
+          loadingPosition="center"
+          loading={formik.isSubmitting}
+          disabled={formik.isSubmitting}
+          fullWidth
+          variant="outlined"
+          sx={{
+            mt: 3,
+            mb: 2,
+            background: (theme) => (theme.palette.mode === 'dark' ? '#000' : theme.palette.background.paper),
+          }}
+        >
           <Typography
             variant="h6"
             sx={{
-              color: '#FFF',
+              color: (theme) => theme.palette.primary.main,
               flexGrow: 1,
               fontStyle: 'inherit',
               fontWeight: '500',
+              height: 30,
             }}
           >
-            Login
+            {formik.isSubmitting ? '' : 'Login'}
           </Typography>
-        </StyledButton>
+        </LoadingButton>
       </Box>
     </Form>
   );

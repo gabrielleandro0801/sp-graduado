@@ -7,43 +7,11 @@ import Divider from '@mui/material/Divider';
 import CheckBox from '@mui/material/Checkbox';
 
 import IGraduate from '../../../interfaces/IGraduate';
-import IGodfather from '../../../interfaces/IGodfather';
 import CONSTANTS from '../../../commons/Constants';
 import DateTime from '../../../commons/DateTime';
 
-const MOCKED_GRADUATE: IGraduate = {
-  name: 'Alexandre Souza Rocha',
-  about:
-    'AAUSDHASUHDASUDHAS UDHAUDAHSUDASHUAHU ASAAUSDHASUHDAS UDHASUD HAUDAHSUDASHUAHUASAAUS DHASUHDASUDHAS UDHAUDAHSUDASHU AHUASAAUSDHASUHDASU DHASUDHAUDAHSU DASHUAH UAS',
-  birthDate: '2000-07-29',
-  incomeFamily: '1500',
-  type: 'GRADUATE',
-  contacts: {
-    email: 'example@email.com',
-    phoneNumber: '11953215110',
-  },
-  college: {
-    id: 2,
-    city: 'Pirapora do Bom Jesus',
-    name: 'FATEC Pirapora',
-  },
-  documentNumber: '23097770801',
-  termsAndCoditionsAccepted: true,
-  course: {
-    id: 300,
-    category: 'Tecnologia',
-    modality: 'Presencial',
-    name: 'Análise e Desenvolvimento de Sistemas',
-    period: 'Noturno',
-    semesters: 6,
-  },
-  confirmPassword: 'MyPassword@2000',
-  password: 'MyPassword@2000',
-};
-
 const GraduateConfirmRegistration = (): JSX.Element => {
-  const formik = useFormikContext<IGraduate | IGodfather>();
-  formik.values = MOCKED_GRADUATE;
+  const formik = useFormikContext<IGraduate>();
 
   return (
     <>
@@ -132,7 +100,7 @@ const GraduateConfirmRegistration = (): JSX.Element => {
                       letterSpacing: -1,
                     }}
                   >
-                    {DateTime.toFormat(formik.values.birthDate, CONSTANTS.DATE.US, CONSTANTS.DATE.BRAZILIAN)}
+                    {DateTime.fromJsToFormat(formik.values.birthDate, CONSTANTS.DATE.BRAZILIAN)}
                   </Typography>
                 </Grid>
               </Grid>
@@ -199,7 +167,7 @@ const GraduateConfirmRegistration = (): JSX.Element => {
               <Divider sx={{ m: 2 }} />
             </Box>
             <Grid container>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Typography
                   gutterBottom
                   sx={{

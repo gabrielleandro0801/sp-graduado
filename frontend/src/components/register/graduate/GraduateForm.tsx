@@ -140,6 +140,7 @@ const GraduateForm = (): JSX.Element => {
                   fullWidth
                   id="incomeFamily"
                   name="incomeFamily"
+                  value={formik.values?.incomeFamily || 0}
                 />
               </Grid>
               <Grid item xs={5} sm={5}>

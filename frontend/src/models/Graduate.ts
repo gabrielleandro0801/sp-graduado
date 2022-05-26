@@ -8,7 +8,7 @@ export default class GraduateModel {
       name: '',
       documentNumber: '',
       birthDate: new Date().toISOString(),
-      incomeFamily: '0.0',
+      incomeFamily: 0,
       contacts: {
         phoneNumber: '',
         email: '',

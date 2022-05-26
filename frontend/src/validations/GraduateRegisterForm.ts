@@ -40,7 +40,10 @@ export default class GraduateRegisterFormValidation {
             .required(CONSTANTS.MESSAGES.VALIDATION.CONTACTS.PHONE_NUMBER),
           email: YUP.string().email(CONSTANTS.MESSAGES.VALIDATION.EMAIL).required(CONSTANTS.MESSAGES.VALIDATION.EMAIL),
         }),
-        about: YUP.string().required(CONSTANTS.MESSAGES.VALIDATION.ABOUT).min(200, CONSTANTS.MESSAGES.VALIDATION.ABOUT),
+        about: YUP.string()
+          .required(CONSTANTS.MESSAGES.VALIDATION.ABOUT)
+          .min(20, CONSTANTS.MESSAGES.VALIDATION.ABOUT)
+          .max(200, CONSTANTS.MESSAGES.VALIDATION.ABOUT),
         password: YUP.string()
           .matches(CONSTANTS.REGEX.PASSWORD, CONSTANTS.MESSAGES.VALIDATION.PASSWORD)
           .required(CONSTANTS.MESSAGES.VALIDATION.PASSWORD),

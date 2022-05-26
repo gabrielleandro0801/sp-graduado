@@ -5,27 +5,79 @@ import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import AccountCircle from '@mui/icons-material/AccountCircleTwoTone';
+import AccountCircle from '@mui/icons-material/AccountCircleRounded';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 import Logo from '../../Logo';
 import logoImg from '../../../assets/graduation-hat-and-diploma-white.png';
+import DraweContext from '../../contexts/Drawer';
 
 const MenuGodfatherAppBar = (): JSX.Element => {
+  const { openDrawer, setOpenDrawer } = React.useContext(DraweContext);
+
+  const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+    setOpenDrawer(open);
+  };
+
   return (
     <>
       <Box>
         <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, flexGrow: 1 }}>
           <Toolbar>
             <IconButton
-              size="large"
+              size="small"
               aria-label="user account profile"
               aria-controls="account-profile-appbar"
               aria-haspopup="false"
-              sx={{ color: '#fff', mr: 5 }}
-              onClick={() => {}}
+              sx={{
+                color: '#fff',
+                mr: 5,
+                ...(openDrawer && {
+                  display: 'none',
+                  transition: (theme) =>
+                    theme.transitions.create('margin', {
+                      easing: theme.transitions.easing.easeOut,
+                      duration: theme.transitions.duration.enteringScreen,
+                    }),
+                }),
+              }}
+              onClick={toggleDrawer(true)}
             >
               <MenuIcon
+                sx={{
+                  width: 32,
+                  height: 32,
+                }}
+              />
+            </IconButton>
+            <IconButton
+              size="small"
+              aria-label="user account profile"
+              aria-controls="account-profile-appbar"
+              aria-haspopup="false"
+              sx={{
+                color: '#fff',
+                mr: 5,
+                ...(!openDrawer && {
+                  display: 'none',
+                  transition: (theme) =>
+                    theme.transitions.create('margin', {
+                      easing: theme.transitions.easing.easeOut,
+                      duration: theme.transitions.duration.enteringScreen,
+                    }),
+                }),
+              }}
+              onClick={toggleDrawer(false)}
+            >
+              <CloseIcon
                 sx={{
                   width: 32,
                   height: 32,
@@ -58,7 +110,7 @@ const MenuGodfatherAppBar = (): JSX.Element => {
                 fontWeight: 400,
                 fontSize: '1.2em',
                 letterSpacing: -1,
-                mx: -1,
+                mx: 1,
               }}
             >
               Padrinho, Biri Chompiras
@@ -66,7 +118,7 @@ const MenuGodfatherAppBar = (): JSX.Element => {
             <Tooltip title="Minha Conta" arrow>
               <span>
                 <IconButton
-                  size="large"
+                  size="small"
                   aria-label="user account profile"
                   aria-controls="account-profile-appbar"
                   aria-haspopup="false"
