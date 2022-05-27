@@ -28,8 +28,7 @@ export default class GodfatherRegisterFormValidation {
             return false;
           }),
         monthlyIncome: YUP.number()
-          .min(CONSTANTS.GRADUATE.MIN_INCOME_FAMILY, CONSTANTS.MESSAGES.VALIDATION.MONTHLY_INCOME)
-          .max(CONSTANTS.GRADUATE.MAX_INCOME_FAMILY, CONSTANTS.MESSAGES.VALIDATION.MONTHLY_INCOME)
+          .min(CONSTANTS.GODFATHER.MIN_INCOME_MONTHLY, CONSTANTS.MESSAGES.VALIDATION.MONTHLY_INCOME)
           .required(CONSTANTS.MESSAGES.VALIDATION.MONTHLY_INCOME),
         contacts: YUP.object({
           phoneNumber: YUP.string()

@@ -53,11 +53,11 @@ const RegisterPage = (): JSX.Element => {
     fields: IGraduate | IGodfather,
     formikHelpers: FormikHelpers<IGraduate | IGodfather>,
   ): Promise<void> => {
+    await Utils.sleep(3000);
     formikHelpers.setSubmitting(false);
     setActiveStep(activeStep + 1);
     formikHelpers.resetForm();
-    Utils.sleep(3000);
-    navigate('/register/success', { replace: true, state: { ...fields } });
+    navigate(CONSTANTS.ROUTING.REGISTER.SUCCESS, { replace: true, state: { ...fields } });
   };
 
   const handleSubmit = (fields: IGraduate | IGodfather, formikHelpers: FormikHelpers<IGraduate | IGodfather>): void => {

@@ -15,6 +15,7 @@ const SnackBar = (props: ISnackBarProps): JSX.Element => {
     if (reason === 'clickaway') {
       return;
     }
+
     setOpen(false);
   };
 

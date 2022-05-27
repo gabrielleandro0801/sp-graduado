@@ -4,6 +4,9 @@ export default {
     MAX_INCOME_FAMILY: 3636,
     MIN_INCOME_FAMILY: 1,
   },
+  GODFATHER: {
+    MIN_INCOME_MONTHLY: 15000,
+  },
   REGEX: {
     EMAIL: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
     PASSWORD: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
@@ -80,8 +83,11 @@ export default {
   ROUTING: {
     HOME: '/',
     LOGIN: '/login',
-    REGISTER: '/register',
-    COPYRIGHT: '/copyright',
+    REGISTER: {
+      SUCCESS: '/register/success',
+      CREATE: '/register',
+    },
+    CONTACT: '/contact-us',
     MENU: {
       GODFATHER: '/menu/godfather',
     },
@@ -129,4 +135,30 @@ export default {
       POST: '/v1/login',
     },
   },
+  CONTACTS: [
+    {
+      email: 'alexandre.rocha3@fatec.sp.gov.br',
+      name: 'Alexandre Souza Rocha',
+    },
+    {
+      email: 'gabriel.santos231@fatec.sp.gov.br',
+      name: 'Gabriel Espanhol Santos',
+    },
+    {
+      email: 'gabriel.sousa17@fatec.sp.gov.br',
+      name: 'Gabriel Leandro Santos Sousa',
+    },
+    {
+      email: 'gabrielle.santana@fatec.sp.gov.br',
+      name: 'Gabrielle Nunes de Santana',
+    },
+    {
+      email: 'luiz.silva284@fatec.sp.gov.br',
+      name: 'Luiz Guilherme da Silva',
+    },
+    {
+      email: 'matheus.silva263@fatec.sp.gov.br',
+      name: 'Matheus Carpeggiane Montenegro da Silva',
+    },
+  ],
 };

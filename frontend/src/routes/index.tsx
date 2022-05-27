@@ -6,7 +6,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Home from '../pages/Home';
 import LoginPage from '../pages/Login';
 import Godfather from '../pages/Godfather';
+import SuccessPage from '../pages/Success';
 import RegisterPage from '../pages/Register';
+import ContactsPage from '../pages/Contacts';
 import CONSTANTS from '../commons/Constants';
 import MainTheme from '../themes';
 
@@ -19,7 +21,9 @@ const Routes = (): JSX.Element => {
           <Route path={CONSTANTS.ROUTING.HOME} element={<Home />} />
           <Route path={CONSTANTS.ROUTING.LOGIN} element={<LoginPage />} />
           <Route path={CONSTANTS.ROUTING.MENU.GODFATHER} element={<Godfather />} />
-          <Route path={CONSTANTS.ROUTING.REGISTER} element={<RegisterPage />} />
+          <Route path={CONSTANTS.ROUTING.REGISTER.CREATE} element={<RegisterPage />} />
+          <Route path={CONSTANTS.ROUTING.REGISTER.SUCCESS} element={<SuccessPage />} />
+          <Route path={CONSTANTS.ROUTING.CONTACT} element={<ContactsPage />} />
         </Router>
       </BrowserRouter>
     </ThemeProvider>
