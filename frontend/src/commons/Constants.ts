@@ -75,6 +75,11 @@ export default {
       COURSE: 'Selecione um curso para efetuar o cadastro',
       COLLEGE: 'Selecione uma faculdade para efetuar o cadastro',
     },
+    BACKEND: {
+      REGISTER: {
+        DEFAULT: 'Não foi possível concluir o registro. Verifique os dados e tente novamente!',
+      },
+    },
   },
   THEMES: {
     LIGHT: 'light-theme',
@@ -94,6 +99,7 @@ export default {
     PROFILE: {
       GODFATHER: '/profile/godfather',
     },
+    FORGOT_PASSWORD: '/forgot-password',
   },
   TERMS_CONDITIONS: {
     GRADUATE:

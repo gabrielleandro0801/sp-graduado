@@ -9,6 +9,7 @@ import Godfather from '../pages/Godfather';
 import SuccessPage from '../pages/Success';
 import RegisterPage from '../pages/Register';
 import ContactsPage from '../pages/Contacts';
+import ForgotPasswordPage from '../pages/ForgotPassword';
 import CONSTANTS from '../commons/Constants';
 import MainTheme from '../themes';
 
@@ -24,6 +25,7 @@ const Routes = (): JSX.Element => {
           <Route path={CONSTANTS.ROUTING.REGISTER.CREATE} element={<RegisterPage />} />
           <Route path={CONSTANTS.ROUTING.REGISTER.SUCCESS} element={<SuccessPage />} />
           <Route path={CONSTANTS.ROUTING.CONTACT} element={<ContactsPage />} />
+          <Route path={CONSTANTS.ROUTING.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
         </Router>
       </BrowserRouter>
     </ThemeProvider>

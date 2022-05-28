@@ -26,12 +26,15 @@ import RegisterTypeContext from '../components/contexts/RegisterType';
 import IGodfather from '../interfaces/IGodfather';
 import GodfatherModel from '../models/Godfather';
 import MaterialLayout from '../components/MaterialLayout';
+import AlertDialog from '../components/AlertDialog';
 import Utils from '../commons/Utils';
 
 const FORM_STEPS = CONSTANTS.REGISTRATION_STEPS;
 const DEFAULT_TYPE = 'GRADUATE';
+const errorInitialValues = { isError: false, message: '' };
 
 const RegisterPage = (): JSX.Element => {
+  const [hasError, setHasError] = React.useState(errorInitialValues);
   const [activeStep, setActiveStep] = React.useState(0);
   const [type, setType] = React.useState('');
 
@@ -49,15 +52,24 @@ const RegisterPage = (): JSX.Element => {
     setActiveStep(activeStep - 1);
   };
 
+  const handleOnCloseAlertDialog = (): void => {
+    setHasError(errorInitialValues);
+  };
+
   const submitForm = async (
     fields: IGraduate | IGodfather,
     formikHelpers: FormikHelpers<IGraduate | IGodfather>,
   ): Promise<void> => {
-    await Utils.sleep(3000);
-    formikHelpers.setSubmitting(false);
-    setActiveStep(activeStep + 1);
-    formikHelpers.resetForm();
-    navigate(CONSTANTS.ROUTING.REGISTER.SUCCESS, { replace: true, state: { ...fields } });
+    try {
+      await Utils.sleep(3000);
+      formikHelpers.setSubmitting(false);
+      setActiveStep(activeStep + 1);
+      formikHelpers.resetForm();
+      navigate(CONSTANTS.ROUTING.REGISTER.SUCCESS, { replace: true, state: { ...fields } });
+    } catch (error) {
+      // TODO: Fazer De/Para das mensagens retornadas no backend
+      setHasError({ isError: true, message: CONSTANTS.MESSAGES.BACKEND.REGISTER.DEFAULT });
+    }
   };
 
   const handleSubmit = (fields: IGraduate | IGodfather, formikHelpers: FormikHelpers<IGraduate | IGodfather>): void => {
@@ -208,6 +220,15 @@ const RegisterPage = (): JSX.Element => {
               </Formik>
             </>
           </Container>
+          {hasError.isError && (
+            <AlertDialog
+              buttonText="Ok"
+              open={hasError.isError}
+              onClose={handleOnCloseAlertDialog}
+              textContent={hasError.message}
+              titleText="Erro ao Registrar"
+            />
+          )}
         </Box>
       </RegisterTypeContext.Provider>
     </MaterialLayout>

@@ -8,13 +8,21 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircleRounded';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { useNavigate } from 'react-router-dom';
 
 import Logo from '../../Logo';
 import logoImg from '../../../assets/graduation-hat-and-diploma-white.png';
 import DraweContext from '../../contexts/Drawer';
+import CONSTANTS from '../../../commons/Constants';
 
 const MenuGodfatherAppBar = (): JSX.Element => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { openDrawer, setOpenDrawer } = React.useContext(DraweContext);
+  const navigation = useNavigate();
+
+  const openMenu = Boolean(anchorEl);
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -25,6 +33,28 @@ const MenuGodfatherAppBar = (): JSX.Element => {
       return;
     }
     setOpenDrawer(open);
+  };
+
+  const handleClose = (): void => {
+    setAnchorEl(null);
+  };
+
+  const handleOnClick = (event: React.MouseEvent<HTMLElement>): void => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleOnClickMyProfile = (event: React.MouseEvent<HTMLElement>): void => {
+    event.preventDefault();
+    handleClose();
+    navigation(CONSTANTS.ROUTING.PROFILE.GODFATHER, { replace: true });
+  };
+
+  const handleOnClickLogOut = (event: React.MouseEvent<HTMLElement>): void => {
+    event.preventDefault();
+    localStorage.removeItem('userInfo');
+    localStorage.clear();
+    handleClose();
+    navigation(CONSTANTS.ROUTING.HOME, { replace: true });
   };
 
   return (
@@ -123,7 +153,7 @@ const MenuGodfatherAppBar = (): JSX.Element => {
                   aria-controls="account-profile-appbar"
                   aria-haspopup="false"
                   sx={{ color: '#fff' }}
-                  onClick={() => {}}
+                  onClick={handleOnClick}
                 >
                   <AccountCircle
                     sx={{
@@ -134,6 +164,24 @@ const MenuGodfatherAppBar = (): JSX.Element => {
                 </IconButton>
               </span>
             </Tooltip>
+            <Menu
+              id="demo-positioned-menu"
+              aria-labelledby="demo-positioned-button"
+              anchorEl={anchorEl}
+              open={openMenu}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+            >
+              <MenuItem onClick={handleOnClickMyProfile}>Meu Perfil</MenuItem>
+              <MenuItem onClick={handleOnClickLogOut}>Logout</MenuItem>
+            </Menu>
           </Toolbar>
         </AppBar>
       </Box>

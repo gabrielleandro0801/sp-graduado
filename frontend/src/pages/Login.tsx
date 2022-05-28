@@ -56,7 +56,7 @@ const LoginPage = (): JSX.Element => {
       setSubmitting(false);
       resetForm();
       // TODO: Call API to login and pass userInfo into route state
-      navigate(CONSTANTS.ROUTING.MENU.GODFATHER, { replace: true, state: { hasOpen: true, userInfo: fields } });
+      navigate(CONSTANTS.ROUTING.MENU.GODFATHER, { replace: true, state: { hasOpen: true, userInfo: {} } });
     } catch (error) {
       setHasError(true);
     }
