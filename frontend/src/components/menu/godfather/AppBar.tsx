@@ -19,7 +19,7 @@ import CONSTANTS from '../../../commons/Constants';
 
 const MenuGodfatherAppBar = (): JSX.Element => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const { openDrawer, setOpenDrawer } = React.useContext(DraweContext);
+  const { openDrawer, setOpenDrawer, setCurrentContent } = React.useContext(DraweContext);
   const navigation = useNavigate();
 
   const openMenu = Boolean(anchorEl);
@@ -43,18 +43,18 @@ const MenuGodfatherAppBar = (): JSX.Element => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleOnClickMyProfile = (event: React.MouseEvent<HTMLElement>): void => {
-    event.preventDefault();
-    handleClose();
-    navigation(CONSTANTS.ROUTING.PROFILE.GODFATHER, { replace: true });
-  };
-
   const handleOnClickLogOut = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
     localStorage.removeItem('userInfo');
     localStorage.clear();
     handleClose();
     navigation(CONSTANTS.ROUTING.HOME, { replace: true });
+  };
+
+  const handleOnClickMyProfile = (event: React.MouseEvent<HTMLElement>): void => {
+    event.preventDefault();
+    handleClose();
+    setCurrentContent(1);
   };
 
   return (

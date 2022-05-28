@@ -8,8 +8,15 @@ import { Link } from 'react-router-dom';
 import Logo from '../../Logo';
 import godfatherLogoImg from '../../../assets/ladder-1-black.png';
 import CONSTANTS from '../../../commons/Constants';
+import DrawerContext from '../../contexts/Drawer';
 
 const MenuGodfatherHeader = (): JSX.Element => {
+  const { setCurrentContent, setOpenDrawer } = React.useContext(DrawerContext);
+
+  const handleOnClickContacts = (): void => {
+    setCurrentContent(0);
+    setOpenDrawer(false);
+  };
   return (
     <>
       <Container component="main">
@@ -32,7 +39,7 @@ const MenuGodfatherHeader = (): JSX.Element => {
           />
         </Container>
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1, mb: 3 }}>
-          <Link to={CONSTANTS.ROUTING.PROFILE.GODFATHER}>
+          <Link to={CONSTANTS.ROUTING.MENU.GODFATHER} onClick={handleOnClickContacts}>
             <Grid container direction="row" spacing={1} alignContent="center">
               <Grid item>
                 <Typography

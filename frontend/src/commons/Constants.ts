@@ -79,6 +79,14 @@ export default {
       REGISTER: {
         DEFAULT: 'Não foi possível concluir o registro. Verifique os dados e tente novamente!',
       },
+      PATRONIZE: {
+        DEFAULT: 'Nào foi possível apadrinhar o graduando selecionado!',
+        SUCCESS: 'Graduando apadrinhado com sucesso! Obrigado por colaborar com a causa!',
+      },
+      UNPATRONIZE: {
+        DEFAULT: 'Nào foi possível desapadrinhar o graduando selecionado!',
+        SUCCESS: 'Graduando desapadrinhado com sucesso! Esperamos tê-lo como padinho novamente!',
+      },
     },
   },
   THEMES: {

@@ -4,6 +4,8 @@ import IDrawerContext from '../../interfaces/IDrawerContext';
 
 const drawerContextInitialValues: IDrawerContext = {
   openDrawer: false,
+  currentContent: 0,
+  setCurrentContent: (): void => {},
   setOpenDrawer: (): void => {},
 };
 

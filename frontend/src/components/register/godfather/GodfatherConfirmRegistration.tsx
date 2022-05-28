@@ -282,7 +282,11 @@ const GodfatherConfirmRegistration = (): JSX.Element => {
                       letterSpacing: -1,
                     }}
                   >
-                    {Number(formik.values.monthlyIncome).toFixed(2)}
+                    {Intl.NumberFormat('pt-BR', {
+                      maximumSignificantDigits: 2,
+                      style: 'currency',
+                      currency: 'BRL',
+                    }).format(formik.values.monthlyIncome)}
                   </Typography>
                 </Grid>
               </Grid>

@@ -6,6 +6,7 @@ import SnackBar from '../components/SnackBar';
 import GodafatherNavigationDrawer from '../components/menu/godfather/NavigationDrawer';
 import AlertDialog from '../components/AlertDialog';
 import CONSTANTS from '../commons/Constants';
+import MaterialLayout from '../components/MaterialLayout';
 
 const Godfather = (): JSX.Element => {
   const [hasLoggedIn, setHasLoggedIn] = React.useState(true);
@@ -27,7 +28,7 @@ const Godfather = (): JSX.Element => {
   };
 
   React.useEffect(() => {
-    if (!isLoggedIn()) {
+    if (!isLoggedIn() && !isOnStorage()) {
       setHasLoggedIn(false);
     } else {
       persistUserInfoOnLocalStorage();
@@ -41,7 +42,7 @@ const Godfather = (): JSX.Element => {
   };
 
   return (
-    <>
+    <MaterialLayout>
       {locationState?.hasOpen && (
         <SnackBar hasOpen={Boolean(locationState?.hasOpen)} severity="info" text="Login efetuado com sucesso!" />
       )}
@@ -58,7 +59,7 @@ const Godfather = (): JSX.Element => {
           titleText="Erro ao Acessar"
         />
       )}
-    </>
+    </MaterialLayout>
   );
 };
 

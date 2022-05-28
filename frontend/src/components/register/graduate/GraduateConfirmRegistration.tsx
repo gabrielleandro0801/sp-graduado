@@ -485,7 +485,11 @@ const GraduateConfirmRegistration = (): JSX.Element => {
                       letterSpacing: -1,
                     }}
                   >
-                    {Number(formik.values.incomeFamily).toFixed(2)}
+                    {Intl.NumberFormat('pt-BR', {
+                      maximumSignificantDigits: 2,
+                      style: 'currency',
+                      currency: 'BRL',
+                    }).format(formik.values.incomeFamily)}
                   </Typography>
                 </Grid>
               </Grid>

@@ -219,11 +219,16 @@ const GraduateCoursesDialog = (props: IGraduateCoursesDialogProps): JSX.Element 
             </Grid>
           </>
           <Pagination
+            variant="outlined"
             count={courses.pagination.totalPages}
             page={page}
             siblingCount={1}
             boundaryCount={1}
             onChange={handlePageChange}
+            sx={{
+              marginTop: 3,
+              color: (theme) => theme.palette.primary.main,
+            }}
           />
         </Box>
       </DialogContent>
