@@ -4,4 +4,5 @@ export default interface ISnackBarProps {
   hasOpen: boolean;
   text: string;
   severity: AlertColor;
+  closeSnackbar?: () => void;
 }

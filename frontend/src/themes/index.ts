@@ -9,16 +9,15 @@ const lightTheme: Theme = createTheme({
       contrastText: '#FFFFFF',
     },
     background: {
-      default: '#FFFFFF',
+      default: '#EEEEEE',
       paper: '#F5F7FA',
     },
     text: {
-      primary: '#FFFFFF',
+      primary: '#000',
       secondary: '#929292',
     },
     mode: 'light',
   },
-  spacing: 0,
 });
 
 const darkTheme: Theme = createTheme({

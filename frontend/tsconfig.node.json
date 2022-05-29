@@ -15,7 +15,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "useUnknownInCatchVariables": false,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
       "*": ["node_modules/*"]
     }

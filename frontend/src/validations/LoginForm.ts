@@ -1,6 +1,5 @@
 import * as YUP from 'yup';
 
-import ILogin from '../interfaces/ILogin';
 import CONSTANTS from '../commons/Constants';
 
 export default class LoginFormValidation {
@@ -14,13 +13,5 @@ export default class LoginFormValidation {
     });
 
     return schema;
-  }
-
-  static getInitialValues(): ILogin {
-    const values: ILogin = {
-      email: '',
-      password: '',
-    };
-    return values;
   }
 }

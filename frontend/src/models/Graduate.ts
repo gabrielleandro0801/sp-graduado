@@ -7,8 +7,8 @@ export default class GraduateModel {
     const initialValues: IGraduate = {
       name: '',
       documentNumber: '',
-      birthDate: '',
-      incomeFamily: '0.0',
+      birthDate: new Date().toISOString(),
+      incomeFamily: 0,
       contacts: {
         phoneNumber: '',
         email: '',
@@ -19,8 +19,21 @@ export default class GraduateModel {
       course: CourseModel.getInitialValues(),
       college: CollegeModel.getInitialValues(),
       termsAndCoditionsAccepted: false,
-      type: undefined,
+      type: '',
     };
     return initialValues;
+  }
+
+  static normalizeToBackendBody(graduate: IGraduate): any {
+    return {
+      name: graduate.name,
+      email: graduate.contacts.email,
+      password: graduate.password,
+      phone: graduate.contacts.phoneNumber,
+      income: Number(graduate.incomeFamily),
+      document: graduate.documentNumber,
+      birth_date: graduate.birthDate,
+      about: graduate.about,
+    };
   }
 }

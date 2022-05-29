@@ -1,6 +1,4 @@
 import React from 'react';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { useFormikContext } from 'formik';
 import Avatar from '@mui/material/Avatar';
@@ -8,16 +6,18 @@ import Typography from '@mui/material/Typography';
 import LockRounded from '@mui/icons-material/LockRounded';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
+import Paper from '@mui/material/Paper';
 
 import FormTextField from '../../styles/FormTextField';
-import Logo from '../../Logo';
-import graduateLogoImg from '../../../assets/graduation-hat-and-diploma-black.png';
 import IGraduate from '../../../interfaces/IGraduate';
 import CONSTANTS from '../../../commons/Constants';
 import ICollege from '../../../interfaces/ICollege';
 import GraduateCoursesDialog from '../../GraduateCoursesDialog';
 import SnackBar from '../../SnackBar';
+import CourseDialogContext from '../../contexts/CourseDialog';
+import StyledTextField from '../../styles/TextField';
 
 const MOCKED_COLLEGES: ICollege[] = [
   {
@@ -57,40 +57,33 @@ const GraduateForm = (): JSX.Element => {
     setOpenDialog(true);
   };
 
+  const handleBirthDateOnChange = (date: string | null): void => {
+    formik.setFieldValue('birthDate', date?.toString());
+  };
+
   return (
     <>
-      <Container component="main" maxWidth="xl">
-        <Logo
-          width={62}
-          height={62}
-          textLogo="FORMANDO"
-          imageUrl={graduateLogoImg}
-          alt="https://www.freepik.com"
-          typographyStyles={{
-            flexGrow: 1,
-            color: (theme) => theme.palette.primary.main,
-            fontStyle: 'inherit',
-            fontSize: '2.5em',
-            fontWeight: 'bold',
-            mx: 1,
-            my: 1,
-            letterSpacing: -1,
-          }}
-        />
-
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container direction="column">
-            <Grid item xs={12}>
-              <Paper
-                elevation={6}
-                sx={{
-                  marginTop: 25,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  borderRadius: 3,
-                }}
-              >
+      <CourseDialogContext.Provider value={{ openDialog, setOpenDialog }}>
+        <Box sx={{ justifyContent: 'center', display: 'flex' }}>
+          <Typography
+            sx={{
+              color: (theme) => theme.palette.primary.main,
+              fontStyle: 'inherit',
+              fontSize: '2.7em',
+              fontWeight: 600,
+              mx: 1,
+              my: 1,
+              letterSpacing: -1,
+              filter: 'drop-shadow(5px 1px 5px gray)',
+            }}
+          >
+            Bem vindo, Graduando!
+          </Typography>
+        </Box>
+        <Grid container direction="row" spacing={6}>
+          <Grid item xs>
+            <Grid container spacing={3}>
+              <Grid item xs={6} sm={6}>
                 <FormTextField
                   variant="outlined"
                   margin="normal"
@@ -102,66 +95,69 @@ const GraduateForm = (): JSX.Element => {
                   autoComplete="name"
                   autoFocus
                 />
+              </Grid>
+              <Grid item xs={6} sm={6}>
                 <FormTextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="cpf"
-                  name="cpf"
-                  autoComplete="cpf"
-                  label="000.000.000-00"
+                  id="documentNumber"
+                  name="documentNumber"
+                  label="CPF"
                   placeholder="000.000.000-00"
                 />
-
-                <KeyboardDatePicker
-                  format={CONSTANTS.DATE.BRAZILIAN}
-                  clearable
-                  value={formik.values?.birthDate}
-                  onChange={formik.handleChange}
-                  minDate={new Date()}
-                  error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}
-                  helperText={formik.errors.birthDate}
-                  placeholder="10/10/2018"
-                />
-
+              </Grid>
+              <Grid item xs={4} sm={4}>
+                <LocalizationProvider dateAdapter={AdapterLuxon}>
+                  <DesktopDatePicker
+                    label="Data de Nascimento"
+                    inputFormat={CONSTANTS.DATE.BRAZILIAN}
+                    value={formik.values.birthDate}
+                    onChange={(event) => handleBirthDateOnChange(event)}
+                    renderInput={(params) => (
+                      <StyledTextField
+                        {...params}
+                        id="birthDate"
+                        key="birthDate"
+                        name="birthDate"
+                        error={formik.touched?.birthDate && Boolean(formik.errors.birthDate)}
+                        helperText={formik.errors.birthDate}
+                        sx={{ mt: 2 }}
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={3} sm={3}>
                 <FormTextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="phone-number"
-                  name="phone-number"
-                  autoComplete="phone-number"
-                  label="(99) 99999-9999"
-                  placeholder="(99) 99999-9999"
-                />
-
-                <FormTextField
+                  type="number"
                   label="99999.00"
                   placeholder="99999.00"
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="income"
-                  name="income"
-                  autoComplete="income"
-                  mask="99999.00"
+                  id="incomeFamily"
+                  name="incomeFamily"
+                  value={formik.values?.incomeFamily || 0}
                 />
+              </Grid>
+              <Grid item xs={5} sm={5}>
                 <FormTextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="about"
-                  label="Conte um sobre você!"
-                  name="about"
-                  autoComplete="about"
-                  multiline
-                  placeholder="Conte um sobre você!"
+                  id="contacts.phoneNumber"
+                  name="contacts.phoneNumber"
+                  autoComplete="phoneNumber"
+                  label="(99) 99999-9999"
+                  placeholder="(99) 99999-9999"
                 />
-                <FormTextField
+              </Grid>
+              <Grid item xs>
+                <StyledTextField
                   variant="outlined"
                   margin="normal"
                   select
@@ -169,98 +165,121 @@ const GraduateForm = (): JSX.Element => {
                   fullWidth
                   id="college"
                   label="Selecione uma faculdade"
-                  placeholder="Selecione"
+                  placeholder="Selecione uma faculdade"
                   name="college"
-                  autoComplete="college"
                   onChange={handleCollegesOnChange}
+                  value={formik.values?.college?.name || ''}
                 >
                   {colleges.map((currCollege) => (
-                    <MenuItem key={currCollege.id} value={`${currCollege.name}`}>
+                    <MenuItem
+                      key={`${currCollege.name}-${currCollege.id}-${currCollege.city}`}
+                      value={`${currCollege.name}`}
+                    >
                       {currCollege.city}
                     </MenuItem>
                   ))}
-                </FormTextField>
-                {openDialog && (
-                  <GraduateCoursesDialog buttonText="Selecionar" open={openDialog} titleText="Qual o seu curso?" />
-                )}
-                {formik.touched.course && Boolean(formik.errors.course) && (
-                  <SnackBar
-                    severity="error"
-                    hasOpen={Boolean(formik.errors.course)}
-                    text={String(CONSTANTS.MESSAGES.VALIDATION.COURSE)}
-                  />
-                )}
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper
-                elevation={6}
-                sx={{
-                  marginTop: 25,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  borderRadius: 3,
-                }}
-              >
-                <Avatar sx={{ mt: 5, bgcolor: 'primary.main', width: 72, height: 72 }}>
-                  <LockRounded />
-                </Avatar>
-                <Typography
-                  component="h1"
-                  sx={{
-                    flexGrow: 0,
-                    color: (theme) => theme.palette.primary.main,
-                    fontStyle: 'inherit',
-                    fontWeight: '500',
-                    fontSize: '1.7em',
-                  }}
-                >
-                  Login Information
-                </Typography>
-                <FormTextField
-                  variant="outlined"
-                  margin="normal"
-                  select
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  placeholder="email@example.com"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                />
-                <FormTextField
-                  variant="outlined"
-                  margin="normal"
-                  select
-                  required
-                  fullWidth
-                  id="password"
-                  label="Password"
-                  placeholder="Password"
-                  name="password"
-                  autoComplete="password"
-                  autoFocus
-                />
+                </StyledTextField>
+              </Grid>
+              <Grid item xs={12} sm={12}>
                 <FormTextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="confirm-password"
-                  label="Confirm Password"
-                  placeholder="Confirm Password"
-                  name="confirm-password"
-                  autoComplete="confirm-password"
-                  autoFocus
+                  id="about"
+                  label="Conte um pouco sobre você!"
+                  name="about"
+                  autoComplete="about"
+                  multiline
+                  rows={4}
+                  placeholder="Conte um pouco sobre você!"
                 />
-              </Paper>
+              </Grid>
             </Grid>
           </Grid>
-        </Box>
-      </Container>
+          <Grid item xs>
+            <Paper
+              elevation={6}
+              sx={{
+                m: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                borderRadius: 3,
+                padding: 5,
+                alignItems: 'center',
+                boxShadow: '6px 6px 15px #A8AAAD',
+              }}
+            >
+              <Avatar sx={{ bgcolor: 'primary.main', width: 72, height: 72 }}>
+                <LockRounded />
+              </Avatar>
+              <Typography
+                component="h1"
+                sx={{
+                  color: (theme) => theme.palette.primary.main,
+                  fontStyle: 'inherit',
+                  fontWeight: '600',
+                  fontSize: '1.7em',
+                }}
+              >
+                Dados para Login
+              </Typography>
+              <Grid container spacing={3} sx={{ justifyContent: 'center' }}>
+                <Grid item xs={10} sm={10}>
+                  <FormTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="contacts.email"
+                    label="Email Address"
+                    placeholder="email@example.com"
+                    name="contacts.email"
+                  />
+                </Grid>
+                <Grid item xs={10} sm={10}>
+                  <FormTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="password"
+                    label="Password"
+                    placeholder="Password"
+                    name="password"
+                    autoComplete="password"
+                    type="password"
+                  />
+                </Grid>
+                <Grid item xs={10} sm={10}>
+                  <FormTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="confirmPassword"
+                    label="Confirm Password"
+                    placeholder="Confirm Password"
+                    name="confirmPassword"
+                    type="password"
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+
+          {openDialog && (
+            <GraduateCoursesDialog buttonText="Selecionar" open={openDialog} titleText="Qual o seu curso?" />
+          )}
+          {formik.touched.course && Boolean(formik.errors.course) && (
+            <SnackBar
+              severity="error"
+              hasOpen={Boolean(formik.errors.course)}
+              text={String(CONSTANTS.MESSAGES.VALIDATION.COURSE)}
+            />
+          )}
+        </Grid>
+      </CourseDialogContext.Provider>
     </>
   );
 };

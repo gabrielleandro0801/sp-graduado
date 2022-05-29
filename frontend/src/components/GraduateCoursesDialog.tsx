@@ -18,13 +18,14 @@ import Button from '@mui/material/Button';
 import ICourse from '../interfaces/ICourse';
 import ICoursePagination from '../interfaces/ICoursePagination';
 import IGraduate from '../interfaces/IGraduate';
+import CouseDialogContext from './contexts/CourseDialog';
 
 const MOCKED_COURSES = {
   previousPage: null,
   currentPage: 0,
   nextPage: 1,
   last: false,
-  totalPages: 3,
+  totalPages: 1,
   totalItems: 114,
   maxItemsPerPage: 50,
   totalItemsPage: 50,
@@ -44,6 +45,38 @@ const MOCKED_COURSES = {
       modality: 'Presencial',
       name: 'Direito',
       category: 'Humanas',
+    },
+    {
+      id: 2,
+      semesters: 10,
+      period: 'Noturno',
+      modality: 'Presencial',
+      name: 'Engenharia Civil',
+      category: 'Exatas',
+    },
+    {
+      id: 2,
+      semesters: 10,
+      period: 'Matutino',
+      modality: 'Presencial',
+      name: 'Engenharia Civil',
+      category: 'Exatas',
+    },
+    {
+      id: 3,
+      semesters: 10,
+      period: 'Noturno',
+      modality: 'Presencial',
+      name: 'Matemática',
+      category: 'Exatas',
+    },
+    {
+      id: 3,
+      semesters: 10,
+      period: 'Matutino',
+      modality: 'Presencial',
+      name: 'Matemática',
+      category: 'Exatas',
     },
     {
       id: 3,
@@ -98,13 +131,14 @@ const GraduateCoursesDialog = (props: IGraduateCoursesDialogProps): JSX.Element 
   const [open, setOpen] = React.useState(openProps);
   const [courses, setCourses] = React.useState(coursesInitialValues);
   const [page, setPage] = React.useState(1);
+  const { setOpenDialog } = React.useContext(CouseDialogContext);
 
   const formik = useFormikContext<IGraduate>();
 
   const loadCourses = (): void => {
-    const mockedCourses = MOCKED_COURSES.items.filter(
-      (currCourse: ICourse) => currCourse.id === formik.values.college.id,
-    );
+    const mockedCourses = MOCKED_COURSES.items.filter((currCourse: ICourse) => {
+      return currCourse.id === formik.values.college.id;
+    });
     setCourses({
       pagination: {
         previousPage: MOCKED_COURSES.previousPage,
@@ -126,10 +160,12 @@ const GraduateCoursesDialog = (props: IGraduateCoursesDialogProps): JSX.Element 
   ): void => {
     formik.setFieldValue('course', selectedCourse);
     setOpen(false);
+    setOpenDialog(false);
   };
 
   const handleOnClose = (): void => {
     setOpen(false);
+    setOpenDialog(false);
   };
 
   const handlePageChange = (_event: React.ChangeEvent<unknown>, nextPage: number): void => {
@@ -141,59 +177,62 @@ const GraduateCoursesDialog = (props: IGraduateCoursesDialogProps): JSX.Element 
   }, [page]);
 
   return (
-    <>
-      <Dialog open={open} keepMounted onClose={handleOnClose} TransitionComponent={Transition}>
-        <DialogTitle color="primary.main" sx={{ fontWeight: 500, fontSize: '1.1em' }}>
-          {titleText}
-        </DialogTitle>
-        <DialogContent>
-          <Box sx={{ mt: 1, flexGrow: 1 }}>
-            <>
-              <Grid container direction="column" spacing={{ md: 1 }}>
-                {courses.pagination.items.map((item: ICourse) => (
-                  <Grid key={item.id} item xs={2}>
-                    <Card sx={{ minWidth: 245, bgcolor: 'background.paper', m: 1 }}>
-                      <CardContent>
-                        <Typography
-                          sx={{ fontSize: '1.4em', fontWeight: 600, bgColor: 'primary.main' }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
-                          {item.name}
-                        </Typography>
-                        <Divider />
-                        <Typography sx={{ fontSize: '1.2em', fontWeight: 500 }} color="gray" gutterBottom>
-                          {`Categoria: ${item.category}`}
-                        </Typography>
-                        <Typography sx={{ fontSize: '1.2em', fontWeight: 500 }} color="gray" gutterBottom>
-                          {`Modalidade: ${item.modality}`}
-                        </Typography>
-                        <Typography sx={{ fontSize: '1.2em', fontWeight: 500 }} color="gray" gutterBottom>
-                          {`Período: ${item.period}`}
-                        </Typography>
-                        <Typography sx={{ fontSize: '1.2em', fontWeight: 500 }} color="gray" gutterBottom>
-                          {`Semestres: ${item.semesters}`}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button onClick={(event) => handleOnClickDialog(event, item)}>{buttonText}</Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </>
-            <Pagination
-              count={courses.pagination.totalPages}
-              page={page}
-              siblingCount={1}
-              boundaryCount={1}
-              onChange={handlePageChange}
-            />
-          </Box>
-        </DialogContent>
-      </Dialog>
-    </>
+    <Dialog open={open} keepMounted onClose={handleOnClose} TransitionComponent={Transition}>
+      <DialogTitle color="primary.main" sx={{ fontWeight: 500, fontSize: '1.1em' }}>
+        {titleText}
+      </DialogTitle>
+      <DialogContent>
+        <Box sx={{ mt: 1, flexGrow: 1 }}>
+          <>
+            <Grid container spacing={3}>
+              {courses.pagination.items.map((item: ICourse) => (
+                <Grid key={`${item.id}-${item.modality}-${item.period}-${item.category}`} item xs={6}>
+                  <Card sx={{ minWidth: 245, bgcolor: 'background.paper', m: 1, boxShadow: '6px 6px 15px #A8AAAD' }}>
+                    <CardContent>
+                      <Typography
+                        sx={{ fontSize: '1.4em', fontWeight: 800, bgColor: 'primary.main' }}
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {item.name}
+                      </Typography>
+                      <Divider sx={{ padding: 1, mb: 2 }} />
+                      <Typography sx={{ fontSize: '1.2em', fontWeight: 500 }} color="gray" gutterBottom>
+                        {`Categoria: ${item.category}`}
+                      </Typography>
+                      <Typography sx={{ fontSize: '1.2em', fontWeight: 500 }} color="gray" gutterBottom>
+                        {`Modalidade: ${item.modality}`}
+                      </Typography>
+                      <Typography sx={{ fontSize: '1.2em', fontWeight: 500 }} color="gray" gutterBottom>
+                        {`Período: ${item.period}`}
+                      </Typography>
+                      <Typography sx={{ fontSize: '1.2em', fontWeight: 500 }} color="gray" gutterBottom>
+                        {`Semestres: ${item.semesters}`}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button onClick={(event) => handleOnClickDialog(event, item)}>{buttonText}</Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </>
+          <Pagination
+            variant="outlined"
+            count={courses.pagination.totalPages}
+            page={page}
+            siblingCount={1}
+            boundaryCount={1}
+            onChange={handlePageChange}
+            sx={{
+              marginTop: 3,
+              color: (theme) => theme.palette.primary.main,
+            }}
+          />
+        </Box>
+      </DialogContent>
+    </Dialog>
   );
 };
 

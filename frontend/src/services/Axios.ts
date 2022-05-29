@@ -2,8 +2,10 @@ import axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios';
 import IRequestParams from '../interfaces/commons/IRequestParams';
 import IRequestAdapter from '../interfaces/adapters/IRequestAdapter';
 import IResponseParamas from '../interfaces/commons/IResponseParamas';
+import Exception from '../commons/Exception';
+import CONSTANTS from '../commons/Constants';
 
-export default class AxiosService implements IRequestAdapter {
+class AxiosService implements IRequestAdapter {
   private request: AxiosInstance;
 
   constructor() {
@@ -33,7 +35,16 @@ export default class AxiosService implements IRequestAdapter {
 
       return AxiosService.normalizeToResponseParams(status, statusText, data);
     } catch (error) {
-      throw new Error(error.message);
+      if (error && error.isAxiosError()) {
+        throw new Exception({
+          error: error.response,
+          message: error.message,
+          statusCode: error.response.status,
+          type: CONSTANTS.EXCEPTIONS.DEFAULT,
+        });
+      }
+
+      throw error;
     }
   }
 
@@ -46,3 +57,5 @@ export default class AxiosService implements IRequestAdapter {
     return responseParams;
   }
 }
+
+export default new AxiosService();
