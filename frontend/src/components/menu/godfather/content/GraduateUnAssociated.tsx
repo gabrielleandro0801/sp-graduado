@@ -31,7 +31,7 @@ const MOCKED_GRADUATES: any = {
   items: [
     {
       id: 2,
-      sponsor_id: 2,
+      sponsor_id: null,
       course_college_id: null,
       description:
         'Lorem ipsum etiam morbi eros velit, ad rutrum consectetur pharetra lacinia auctor, ultricies etiam ipsum fermentum. pellentesque dictum imperdiet, tincidunt. ',
@@ -43,7 +43,7 @@ const MOCKED_GRADUATES: any = {
     },
     {
       id: 4,
-      sponsor_id: 2,
+      sponsor_id: null,
       course_college_id: 12,
       description:
         'Lorem ipsum etiam morbi eros velit, ad rutrum consectetur pharetra lacinia auctor, ultricies etiam ipsum fermentum. pellentesque dictum imperdiet, tincidunt. ',
@@ -55,7 +55,7 @@ const MOCKED_GRADUATES: any = {
     },
     {
       id: 3,
-      sponsor_id: 2,
+      sponsor_id: null,
       course_college_id: null,
       description:
         'Lorem ipsum etiam morbi eros velit, ad rutrum consectetur pharetra lacinia auctor, ultricies etiam ipsum fermentum. pellentesque dictum imperdiet, tincidunt. ',
@@ -67,36 +67,36 @@ const MOCKED_GRADUATES: any = {
     },
     {
       id: 6,
-      sponsor_id: 2,
+      sponsor_id: null,
       course_college_id: 12,
       description:
         'Lorem ipsum etiam morbi eros velit, ad rutrum consectetur pharetra lacinia auctor, ultricies etiam ipsum fermentum. pellentesque dictum imperdiet, tincidunt. ',
-      name: 'Biruleibes Souza',
-      email: 'biruleibes@gmail.com',
+      name: 'Maria Souza',
+      email: 'maria@gmail.com',
       phone: '11979922135',
       income: 1500.0,
       birth_date: '01/06/1994',
     },
     {
       id: 7,
-      sponsor_id: 2,
+      sponsor_id: null,
       course_college_id: null,
       description:
         'Lorem ipsum etiam morbi eros velit, ad rutrum consectetur pharetra lacinia auctor, ultricies etiam ipsum fermentum. pellentesque dictum imperdiet, tincidunt. ',
-      name: 'Biri Chompiras',
-      email: 'birichompiras@gmail.com',
+      name: 'Biri Jims',
+      email: 'birijims@gmail.com',
       phone: '11968340465',
       income: 2000.0,
       birth_date: '22/01/2001',
     },
     {
       id: 8,
-      sponsor_id: 2,
+      sponsor_id: null,
       course_college_id: 12,
       description:
         'Lorem ipsum etiam morbi eros velit, ad rutrum consectetur pharetra lacinia auctor, ultricies etiam ipsum fermentum. pellentesque dictum imperdiet, tincidunt. ',
-      name: 'Biruleibes Souza',
-      email: 'biruleibes@gmail.com',
+      name: 'José Souza',
+      email: 'js@gmail.com',
       phone: '11979922135',
       income: 1500.0,
       birth_date: '01/06/1994',
@@ -106,7 +106,7 @@ const MOCKED_GRADUATES: any = {
 
 const openDialogInitialvalues = { open: false, message: '', severity: 'info' };
 
-const associatedGraduatesInitialValues: IAssociatedGraduatesPagination = {
+const unAssociatedGraduatesInitialValues: IAssociatedGraduatesPagination = {
   pagination: {
     previousPage: 0 || null,
     currentPage: 0,
@@ -136,23 +136,18 @@ const NoGraduatesFoundContent = (): JSX.Element => {
             letterSpacing: -1,
           }}
         >
-          Você não possui nenhum apadrinhamento no momento!
+          Não foi encontrado nenhum Graduando disponível para apadrinhamento!
         </Typography>
       </Box>
     </>
   );
 };
 
-const GraduateAssociatedContent = (): JSX.Element => {
-  const [associatedGraduates, setAssociatedGraduates] = React.useState(associatedGraduatesInitialValues);
+const GraduateUnAssociatedContent = (): JSX.Element => {
+  const [unAssociatedGraduates, setUnAssociatedGraduates] = React.useState(unAssociatedGraduatesInitialValues);
   const [page, setPage] = React.useState(0);
   const [openDialog, setOpenDialog] = React.useState(openDialogInitialvalues);
   const [subimitting, setSubimitting] = React.useState(false);
-
-  const getUserInfo = (): any => {
-    const userInfo = localStorage.getItem('userInfo');
-    return userInfo ? JSON.parse(userInfo) : {};
-  };
 
   const handleClose = (): void => {
     setOpenDialog(openDialogInitialvalues);
@@ -162,19 +157,19 @@ const GraduateAssociatedContent = (): JSX.Element => {
     setPage(nextPage);
   };
 
-  const handleOnClickUnPatronize = async (graduateId: number): Promise<void> => {
+  const handleOnClicPatronize = async (graduateId: number): Promise<void> => {
     try {
       setSubimitting(true);
       await Utils.sleep(2000);
-      setAssociatedGraduates({
+      setUnAssociatedGraduates({
         pagination: {
-          ...associatedGraduates.pagination,
-          items: associatedGraduates.pagination.items.filter((graduate) => graduate.id !== graduateId),
+          ...unAssociatedGraduates.pagination,
+          items: unAssociatedGraduates.pagination.items.filter((graduate) => graduate.id !== graduateId),
         },
       });
       setOpenDialog({
         open: true,
-        message: CONSTANTS.MESSAGES.BACKEND.UNPATRONIZE.SUCCESS,
+        message: CONSTANTS.MESSAGES.BACKEND.PATRONIZE.SUCCESS,
         severity: 'success',
       });
     } finally {
@@ -182,9 +177,8 @@ const GraduateAssociatedContent = (): JSX.Element => {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const loadAssociatedGraduates = async (_godfatherId: number): Promise<void> => {
-    setAssociatedGraduates({
+  const loadUnAssociatedGraduates = async (): Promise<void> => {
+    setUnAssociatedGraduates({
       pagination: {
         previousPage: MOCKED_GRADUATES.previousPage,
         currentPage: MOCKED_GRADUATES.currentPage,
@@ -200,13 +194,12 @@ const GraduateAssociatedContent = (): JSX.Element => {
   };
 
   React.useEffect(() => {
-    const godfather = getUserInfo();
-    loadAssociatedGraduates(godfather.id);
+    loadUnAssociatedGraduates();
   }, [page]);
 
   return (
     <>
-      {!associatedGraduates.pagination.items.length ? (
+      {!unAssociatedGraduates.pagination.items.length ? (
         <NoGraduatesFoundContent />
       ) : (
         <>
@@ -224,12 +217,12 @@ const GraduateAssociatedContent = (): JSX.Element => {
                   letterSpacing: -1,
                 }}
               >
-                Graduandos apoiados por você! : )
+                Seja o padrinho do sonho de um Graduando!
               </Typography>
             </Box>
           </Container>
           <Grid container spacing={3}>
-            {associatedGraduates.pagination.items.map((graduate: any) => (
+            {unAssociatedGraduates.pagination.items.map((graduate: any) => (
               <Grid item key={`${graduate.id}-${graduate.email}-${graduate.phone}`}>
                 <Card
                   elevation={6}
@@ -274,8 +267,8 @@ const GraduateAssociatedContent = (): JSX.Element => {
                   <CardActions>
                     <Grid container alignContent="center">
                       <Grid item>
-                        <LoadingButton loading={subimitting} onClick={() => handleOnClickUnPatronize(graduate.id)}>
-                          Desapadrinhar
+                        <LoadingButton loading={subimitting} onClick={() => handleOnClicPatronize(graduate.id)}>
+                          Apadrinhar
                         </LoadingButton>
                       </Grid>
                     </Grid>
@@ -289,7 +282,7 @@ const GraduateAssociatedContent = (): JSX.Element => {
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
         <Pagination
           variant="outlined"
-          count={associatedGraduates.pagination.totalPages}
+          count={unAssociatedGraduates.pagination.totalPages}
           page={page}
           siblingCount={1}
           boundaryCount={1}
@@ -315,4 +308,4 @@ const GraduateAssociatedContent = (): JSX.Element => {
   );
 };
 
-export default GraduateAssociatedContent;
+export default GraduateUnAssociatedContent;

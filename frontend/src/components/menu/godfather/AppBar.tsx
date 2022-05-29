@@ -48,12 +48,14 @@ const MenuGodfatherAppBar = (): JSX.Element => {
     localStorage.removeItem('userInfo');
     localStorage.clear();
     handleClose();
+    setOpenDrawer(false);
     navigation(CONSTANTS.ROUTING.HOME, { replace: true });
   };
 
   const handleOnClickMyProfile = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
     handleClose();
+    setOpenDrawer(false);
     setCurrentContent(1);
   };
 
