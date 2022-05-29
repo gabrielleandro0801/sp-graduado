@@ -87,6 +87,9 @@ export default {
         DEFAULT: 'Nào foi possível desapadrinhar o graduando selecionado!',
         SUCCESS: 'Graduando desapadrinhado com sucesso! Esperamos tê-lo como padinho novamente!',
       },
+      DELETE_ACCOUNT: {
+        SUCCESS: 'Conta deletada com sucesso! Esperamos em breve, tê-lo como padrinho novamente!',
+      },
     },
   },
   THEMES: {

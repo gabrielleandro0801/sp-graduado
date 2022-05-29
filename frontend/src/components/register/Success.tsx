@@ -49,7 +49,7 @@ const RegisterSuccess = (props: IRegisterSuccessProps): JSX.Element => {
             my: 4,
           }}
         >
-          {`Obrigado por se registrar, ${type}!`}
+          {`Obrigado por se registrar, ${(CONSTANTS.REGISTER_TYPE as any)[type]}!`}
         </Typography>
       </Box>
       <Grid container direction="column" spacing={3} sx={{ alignItems: 'center', mt: 0 }}>

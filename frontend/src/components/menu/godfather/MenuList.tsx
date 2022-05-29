@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 import CONSTANTS from '../../../commons/Constants';
 import DrawerContext from '../../contexts/Drawer';
-import godfatherImg from '../../../assets/ladder-white.png';
+import godfatherImg from '../../../assets/ladder.png';
 
 const ICON = {
   DEFAULT_SIZE: {

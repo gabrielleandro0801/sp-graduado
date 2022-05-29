@@ -217,7 +217,7 @@ const GraduateUnAssociatedContent = (): JSX.Element => {
                   letterSpacing: -1,
                 }}
               >
-                Seja o padrinho do sonho de um Graduando!
+                Seja o Padrinho do sonho de um Graduando!
               </Typography>
             </Box>
           </Container>

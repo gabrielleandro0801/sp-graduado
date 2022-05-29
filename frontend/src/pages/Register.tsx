@@ -56,6 +56,10 @@ const RegisterPage = (): JSX.Element => {
     setHasError(errorInitialValues);
   };
 
+  const disableConfirmation = (termsAndCoditionsAccepted: boolean): boolean => {
+    return activeStep === 2 && !termsAndCoditionsAccepted;
+  };
+
   const submitForm = async (
     fields: IGraduate | IGodfather,
     formikHelpers: FormikHelpers<IGraduate | IGodfather>,
@@ -192,7 +196,10 @@ const RegisterPage = (): JSX.Element => {
                             fullWidth
                             variant="outlined"
                             loading={formik.isSubmitting}
-                            disabled={formik.isSubmitting}
+                            disabled={
+                              formik.isSubmitting ||
+                              disableConfirmation(Boolean(formik.values.termsAndCoditionsAccepted))
+                            }
                             sx={{
                               mt: 3,
                               mb: 2,
