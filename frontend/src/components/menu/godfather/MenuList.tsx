@@ -32,7 +32,7 @@ const MenuList = (): JSX.Element => {
 
   const handleOnClickLogOut = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    localStorage.removeItem('userInfo');
+    localStorage.removeItem('userInfoGodfather');
     localStorage.clear();
     handleClose();
     navigation(CONSTANTS.ROUTING.HOME, { replace: true });

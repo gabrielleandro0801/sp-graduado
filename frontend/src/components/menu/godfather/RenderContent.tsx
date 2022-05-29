@@ -9,8 +9,13 @@ const GodfatherMenuRenderContent = (): JSX.Element => {
   const { currentContent } = React.useContext(DrawerContext);
 
   const geUserInfoFromStorage = (): any => {
-    const data = localStorage.getItem('userInfo');
-    return data ? JSON.parse(data) : {};
+    const dataGodfather = localStorage.getItem('userInfoGodfather');
+    const dataGraduate = localStorage.getItem('userInfoGraduate');
+
+    if (dataGodfather) return JSON.parse(dataGodfather);
+    if (dataGraduate) return JSON.parse(dataGraduate);
+
+    return {};
   };
 
   switch (currentContent) {

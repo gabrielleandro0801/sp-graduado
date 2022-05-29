@@ -72,7 +72,7 @@ const DialogConfirmation = (props: IDialogConfirmationProps): JSX.Element => {
     try {
       setSubimitting(true);
       await Utils.sleep(2000);
-      localStorage.removeItem('userInfo');
+      localStorage.removeItem('userInfoGodfather');
       localStorage.clear();
       setOpenDialog(false);
       setOpenDialogSuccess({

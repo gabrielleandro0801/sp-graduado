@@ -45,7 +45,7 @@ const MenuGodfatherAppBar = (): JSX.Element => {
 
   const handleOnClickLogOut = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    localStorage.removeItem('userInfo');
+    localStorage.removeItem('userInfoGodfather');
     localStorage.clear();
     handleClose();
     setOpenDrawer(false);
