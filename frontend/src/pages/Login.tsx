@@ -26,8 +26,8 @@ import logoImg from '../assets/graduation-hat-and-diploma-purple.png';
 import ILogin from '../interfaces/ILogin';
 import Login from '../components/Login';
 import LoginModel from '../models/Login';
-import Utils from '../commons/Utils';
 import MaterialLayout from '../components/MaterialLayout';
+import LoginEntity from '../entities/Login';
 
 const LoginPage = (): JSX.Element => {
   const [themeEl, setTheme] = React.useState('light-theme');
@@ -52,11 +52,11 @@ const LoginPage = (): JSX.Element => {
 
   const handleSubmit = async (fields: ILogin, { resetForm, setSubmitting }: FormikHelpers<ILogin>) => {
     try {
-      await Utils.sleep(3000);
+      const { data } = await LoginEntity.singIn(fields);
+
       setSubmitting(false);
       resetForm();
-      // TODO: Call API to login and pass userInfo into route state
-      navigate(CONSTANTS.ROUTING.MENU.GODFATHER, { replace: true, state: { hasOpen: true, userInfo: {} } });
+      navigate(CONSTANTS.ROUTING.MENU.GRADUATE, { replace: true, state: { hasOpen: true, userInfo: { ...data } } });
     } catch (error) {
       setHasError(true);
     }

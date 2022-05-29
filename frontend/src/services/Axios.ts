@@ -13,20 +13,16 @@ class AxiosService implements IRequestAdapter {
   }
 
   async execute(params: IRequestParams): Promise<IResponseParamas> {
-    try {
-      const requestConfig: AxiosRequestConfig = {
-        baseURL: params?.baseUrl,
-        data: params?.body,
-        url: params?.path,
-        params: params?.queryString,
-        method: <Method>params?.method,
-        headers: params?.headers,
-      };
-      const responseParams: IResponseParamas = await this.sendRequest(requestConfig);
-      return responseParams;
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    const requestConfig: AxiosRequestConfig = {
+      baseURL: params?.baseUrl,
+      data: params?.body,
+      url: params?.path,
+      params: params?.queryString,
+      method: <Method>params?.method,
+      headers: params?.headers,
+    };
+    const responseParams: IResponseParamas = await this.sendRequest(requestConfig);
+    return responseParams;
   }
 
   private async sendRequest(requestParams: AxiosRequestConfig): Promise<IResponseParamas> {
@@ -37,10 +33,10 @@ class AxiosService implements IRequestAdapter {
     } catch (error) {
       if (error && error.isAxiosError()) {
         throw new Exception({
-          error: error.response,
-          message: error.message,
+          error: error.response?.data,
+          message: error.response?.data.error,
           statusCode: error.response.status,
-          type: CONSTANTS.EXCEPTIONS.DEFAULT,
+          type: CONSTANTS.EXCEPTIONS.BACKEND,
         });
       }
 

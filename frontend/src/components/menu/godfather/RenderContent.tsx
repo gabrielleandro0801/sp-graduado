@@ -8,12 +8,10 @@ import GodfatherProfileContent from './content/Profile';
 const GodfatherMenuRenderContent = (): JSX.Element => {
   const { currentContent } = React.useContext(DrawerContext);
 
-  const geUserInfoFromStorage = (): any => {
+  const getUserInfoFromStorage = (): any => {
     const dataGodfather = localStorage.getItem('userInfoGodfather');
-    const dataGraduate = localStorage.getItem('userInfoGraduate');
 
     if (dataGodfather) return JSON.parse(dataGodfather);
-    if (dataGraduate) return JSON.parse(dataGraduate);
 
     return {};
   };
@@ -22,7 +20,7 @@ const GodfatherMenuRenderContent = (): JSX.Element => {
     case 0:
       return <GraduateAssociatedContent />;
     case 1:
-      return <GodfatherProfileContent godafatherInfo={{ ...geUserInfoFromStorage() }} />;
+      return <GodfatherProfileContent godafatherInfo={{ ...getUserInfoFromStorage() }} />;
     case 2:
       return <GraduateUnAssociatedContent />;
     default:

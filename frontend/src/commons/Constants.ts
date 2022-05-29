@@ -28,6 +28,7 @@ export default {
     GET: 'GET',
     PUT: 'PUT',
     DELETE: 'DELETE',
+    GET_BY_ID: 'GET_BY_ID',
   },
   HTTP: {
     STATUS: {
@@ -88,7 +89,7 @@ export default {
         SUCCESS: 'Graduando desapadrinhado com sucesso! Esperamos tê-lo como padinho novamente!',
       },
       DELETE_ACCOUNT: {
-        SUCCESS: 'Conta deletada com sucesso! Esperamos em breve, tê-lo como padrinho novamente!',
+        SUCCESS: 'Conta deletada com sucesso. Esperamos, em breve, tê-lo conosco novamente!',
       },
     },
   },
@@ -106,6 +107,7 @@ export default {
     CONTACT: '/contact-us',
     MENU: {
       GODFATHER: '/menu/godfather',
+      GRADUATE: '/menu/graduate',
     },
     PROFILE: {
       GODFATHER: '/profile/godfather',
@@ -178,4 +180,88 @@ export default {
       name: 'Matheus Carpeggiane Montenegro da Silva',
     },
   ],
+  DEFAULT_SPONSOR_ID: 0,
+  BACKEND: {
+    ERROR_MESSAGES: {
+      '/v1/login': {
+        POST: {
+          default: 'Não foi possível efetuar o login. Verifique seu email e senha e tente novamente!',
+          fromTo: [{ from: 'Not found', to: 'Usário não encontrado. Verifique os dados e tente novamente!' }],
+        },
+      },
+      '/v1/students': {
+        POST: {
+          default: 'Não foi possível efetuar o cadastro. Tente novamente!',
+          froTo: [
+            {
+              from: 'There is already a student registered with this document',
+              to: 'Já existe um cadastro para o CPF informado. Verifique os dados e tente novamente!',
+            },
+            {
+              from: 'Student Not Found',
+              to: 'Não foi possivel associar o curso escolhido. Graduando não encontrado no sistema!',
+            },
+          ],
+        },
+        GET_BY_ID: {
+          default: 'Não foi possivel consulta o graduando através do id informado!',
+          fromTo: [{ from: 'Student Not Found', to: 'Graduando não encontrado. Verifique o cadastro!' }],
+        },
+        DELETE: {
+          default: 'Não foi possivel deletar a conta. Tente novamente!',
+          fromTo: [{ from: 'Student Not Found', to: 'Graduando não encontrado para efetuar a deleção da conta!' }],
+        },
+        PUT: {
+          default: 'Não foi possivel associar o curso escolhido. Tente novamente!',
+          fromTo: [
+            {
+              from: 'Student Not Found',
+              to: 'Não foi possivel associar o curso escolhido. Graduando não encontrado no sistema!',
+            },
+          ],
+        },
+      },
+      '/v1/sponsors': {
+        POST: {
+          default: 'Não foi possível efetuar o cadastro. Tente novamente!',
+          froTo: [
+            {
+              from: 'Sponsor Already Exists',
+              to: 'Já existe um cadastro para o CPF/CNPJ informado. Verifique os dados e tente novamente!',
+            },
+          ],
+        },
+        DELETE: {
+          default: 'Não foi possivel deletar a conta. Tente novamente!',
+          fromTo: [
+            {
+              from: 'Sponsor not found',
+              to: 'Padrinho não encontrado para efetuar deleção da conta!',
+            },
+            {
+              from: 'This sponsor has students',
+              to: 'Não foi possível deletar a conta. Você ainda possui graduandos sendo apoiados!',
+            },
+          ],
+        },
+        PUT: {
+          default: 'Não foi possivel apadrinhar o graduando escolhido. Tente novamente!',
+          fromTo: [
+            {
+              from: 'Sponsor not found',
+              to: 'Padrinho não encontrado para efetuar apadrinhamento ao graduando escolhido!',
+            },
+            {
+              from: 'Student Not Found',
+              to: 'Graduando escolhido não encontrado para efetuar apadrinhamento!',
+            },
+            {
+              from: 'Student Already Sponsored',
+              to: 'Graduando escolhido já está sendo apadrinhado. Escolha outro!',
+            },
+          ],
+        },
+      },
+    },
+  },
 };
