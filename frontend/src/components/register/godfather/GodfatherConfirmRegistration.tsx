@@ -167,7 +167,7 @@ const GodfatherConfirmRegistration = (): JSX.Element => {
               <Divider sx={{ m: 2 }} />
             </Box>
             <Grid container>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Typography
                   gutterBottom
                   sx={{

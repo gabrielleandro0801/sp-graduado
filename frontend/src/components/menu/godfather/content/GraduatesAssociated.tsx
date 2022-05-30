@@ -150,7 +150,7 @@ const GraduateAssociatedContent = (): JSX.Element => {
   const [subimitting, setSubimitting] = React.useState(false);
 
   const getUserInfo = (): any => {
-    const userInfo = localStorage.getItem('userInfo');
+    const userInfo = localStorage.getItem('userInfoGodfather');
     return userInfo ? JSON.parse(userInfo) : {};
   };
 

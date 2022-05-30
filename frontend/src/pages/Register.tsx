@@ -27,7 +27,8 @@ import IGodfather from '../interfaces/IGodfather';
 import GodfatherModel from '../models/Godfather';
 import MaterialLayout from '../components/MaterialLayout';
 import AlertDialog from '../components/AlertDialog';
-import Utils from '../commons/Utils';
+import GraduateEntity from '../entities/Graduate';
+import GodfatherEntity from '../entities/Godfather';
 
 const FORM_STEPS = CONSTANTS.REGISTRATION_STEPS;
 const DEFAULT_TYPE = 'GRADUATE';
@@ -56,19 +57,33 @@ const RegisterPage = (): JSX.Element => {
     setHasError(errorInitialValues);
   };
 
+  const disableConfirmation = (termsAndCoditionsAccepted: boolean): boolean => {
+    return activeStep === 2 && !termsAndCoditionsAccepted;
+  };
+
   const submitForm = async (
     fields: IGraduate | IGodfather,
     formikHelpers: FormikHelpers<IGraduate | IGodfather>,
   ): Promise<void> => {
+    const currType = (CONSTANTS.REGISTER_TYPE as any)[fields.type];
     try {
-      await Utils.sleep(3000);
-      formikHelpers.setSubmitting(false);
-      setActiveStep(activeStep + 1);
-      formikHelpers.resetForm();
-      navigate(CONSTANTS.ROUTING.REGISTER.SUCCESS, { replace: true, state: { ...fields } });
+      if (currType === CONSTANTS.REGISTER_TYPE.GRADUATE) {
+        await GraduateEntity.create(fields as IGraduate);
+
+        formikHelpers.setSubmitting(false);
+        setActiveStep(activeStep + 1);
+        formikHelpers.resetForm();
+        navigate(CONSTANTS.ROUTING.REGISTER.SUCCESS, { replace: true, state: { ...fields } });
+      } else {
+        await GodfatherEntity.create(fields as IGodfather);
+
+        formikHelpers.setSubmitting(false);
+        setActiveStep(activeStep + 1);
+        formikHelpers.resetForm();
+        navigate(CONSTANTS.ROUTING.REGISTER.SUCCESS, { replace: true, state: { ...fields } });
+      }
     } catch (error) {
-      // TODO: Fazer De/Para das mensagens retornadas no backend
-      setHasError({ isError: true, message: CONSTANTS.MESSAGES.BACKEND.REGISTER.DEFAULT });
+      setHasError({ isError: true, message: error.message });
     }
   };
 
@@ -192,7 +207,10 @@ const RegisterPage = (): JSX.Element => {
                             fullWidth
                             variant="outlined"
                             loading={formik.isSubmitting}
-                            disabled={formik.isSubmitting}
+                            disabled={
+                              formik.isSubmitting ||
+                              disableConfirmation(Boolean(formik.values.termsAndCoditionsAccepted))
+                            }
                             sx={{
                               mt: 3,
                               mb: 2,

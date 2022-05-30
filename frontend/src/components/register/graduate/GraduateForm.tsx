@@ -14,23 +14,11 @@ import FormTextField from '../../styles/FormTextField';
 import IGraduate from '../../../interfaces/IGraduate';
 import CONSTANTS from '../../../commons/Constants';
 import ICollege from '../../../interfaces/ICollege';
-import GraduateCoursesDialog from '../../GraduateCoursesDialog';
+import GraduateCoursesDialog from './GraduateCoursesDialog';
 import SnackBar from '../../SnackBar';
 import CourseDialogContext from '../../contexts/CourseDialog';
 import StyledTextField from '../../styles/TextField';
-
-const MOCKED_COLLEGES: ICollege[] = [
-  {
-    id: 2,
-    name: 'Universidade Nove de Julho (UNINOVE)',
-    city: 'São Paulo',
-  },
-  {
-    id: 3,
-    name: 'Universidade São Francisco (USF)',
-    city: 'Campinas',
-  },
-];
+import CollegeEntity from '../../../entities/College';
 
 const GraduateForm = (): JSX.Element => {
   const [colleges, setColleges] = React.useState([] as Array<ICollege>);
@@ -38,9 +26,13 @@ const GraduateForm = (): JSX.Element => {
 
   const formik = useFormikContext<IGraduate>();
 
-  const loadColleges = (): void => {
-    const mockedColleges = MOCKED_COLLEGES;
-    setColleges(mockedColleges);
+  const loadColleges = async (): Promise<void> => {
+    try {
+      const { data } = await CollegeEntity.getAll();
+      setColleges(data.items);
+    } catch (error) {
+      setColleges([]);
+    }
   };
 
   React.useEffect(() => {

@@ -15,87 +15,12 @@ import { TransitionProps } from '@mui/material/transitions';
 import { useFormikContext } from 'formik';
 import Button from '@mui/material/Button';
 
-import ICourse from '../interfaces/ICourse';
-import ICoursePagination from '../interfaces/ICoursePagination';
-import IGraduate from '../interfaces/IGraduate';
-import CouseDialogContext from './contexts/CourseDialog';
-
-const MOCKED_COURSES = {
-  previousPage: null,
-  currentPage: 0,
-  nextPage: 1,
-  last: false,
-  totalPages: 1,
-  totalItems: 114,
-  maxItemsPerPage: 50,
-  totalItemsPage: 50,
-  items: [
-    {
-      id: 2,
-      semesters: 10,
-      period: 'Noturno',
-      modality: 'Presencial',
-      name: 'Direito',
-      category: 'Humanas',
-    },
-    {
-      id: 2,
-      semesters: 10,
-      period: 'Matutino',
-      modality: 'Presencial',
-      name: 'Direito',
-      category: 'Humanas',
-    },
-    {
-      id: 2,
-      semesters: 10,
-      period: 'Noturno',
-      modality: 'Presencial',
-      name: 'Engenharia Civil',
-      category: 'Exatas',
-    },
-    {
-      id: 2,
-      semesters: 10,
-      period: 'Matutino',
-      modality: 'Presencial',
-      name: 'Engenharia Civil',
-      category: 'Exatas',
-    },
-    {
-      id: 3,
-      semesters: 10,
-      period: 'Noturno',
-      modality: 'Presencial',
-      name: 'Matemática',
-      category: 'Exatas',
-    },
-    {
-      id: 3,
-      semesters: 10,
-      period: 'Matutino',
-      modality: 'Presencial',
-      name: 'Matemática',
-      category: 'Exatas',
-    },
-    {
-      id: 3,
-      semesters: 10,
-      period: 'Noturno',
-      modality: 'Presencial',
-      name: 'Filosofia',
-      category: 'Humanas',
-    },
-    {
-      id: 3,
-      semesters: 10,
-      period: 'Matutino',
-      modality: 'Presencial',
-      name: 'Filosofia',
-      category: 'Humanas',
-    },
-  ],
-};
+import ICourse from '../../../interfaces/ICourse';
+import ICoursePagination from '../../../interfaces/ICoursePagination';
+import IGraduate from '../../../interfaces/IGraduate';
+import CouseDialogContext from '../../contexts/CourseDialog';
+import CollegeEntity from '../../../entities/College';
+import IGraduateCoursesDialogProps from '../../../interfaces/props/IGraduateCoursesDialogProps';
 
 const coursesInitialValues: ICoursePagination = {
   pagination: {
@@ -110,11 +35,6 @@ const coursesInitialValues: ICoursePagination = {
     items: [],
   },
 };
-interface IGraduateCoursesDialogProps {
-  open: boolean;
-  titleText: string;
-  buttonText: string;
-}
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -135,23 +55,38 @@ const GraduateCoursesDialog = (props: IGraduateCoursesDialogProps): JSX.Element 
 
   const formik = useFormikContext<IGraduate>();
 
-  const loadCourses = (): void => {
-    const mockedCourses = MOCKED_COURSES.items.filter((currCourse: ICourse) => {
-      return currCourse.id === formik.values.college.id;
-    });
-    setCourses({
-      pagination: {
-        previousPage: MOCKED_COURSES.previousPage,
-        currentPage: MOCKED_COURSES.currentPage,
-        nextPage: MOCKED_COURSES.nextPage,
-        lastPage: MOCKED_COURSES.last,
-        totalPages: MOCKED_COURSES.totalPages,
-        totalItems: MOCKED_COURSES.totalItems,
-        maxItemsPerPage: MOCKED_COURSES.maxItemsPerPage,
-        totalItemsPage: MOCKED_COURSES.totalItemsPage,
-        items: mockedCourses,
-      },
-    });
+  const loadCourses = async (): Promise<void> => {
+    try {
+      const { data } = await CollegeEntity.getCoursesByCollegeId(formik.values.college.id);
+
+      setCourses({
+        pagination: {
+          previousPage: data.previousPage,
+          currentPage: data.currentPage,
+          nextPage: data.nextPage,
+          lastPage: data.last,
+          totalPages: data.totalPages,
+          totalItems: data.totalItems,
+          maxItemsPerPage: data.maxItemsPerPage,
+          totalItemsPage: data.totalItemsPage,
+          items: data.items,
+        },
+      });
+    } catch (error) {
+      setCourses({
+        pagination: {
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: 1,
+          lastPage: true,
+          totalPages: 1,
+          totalItems: 0,
+          maxItemsPerPage: 0,
+          totalItemsPage: 0,
+          items: [],
+        },
+      });
+    }
   };
 
   const handleOnClickDialog = (

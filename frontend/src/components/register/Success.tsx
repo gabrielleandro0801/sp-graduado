@@ -5,13 +5,9 @@ import Grid from '@mui/material/Grid';
 
 import Logo from '../Logo';
 import confirmationImg from '../../assets/confirmation-purple.png';
-import IPerson from '../../interfaces/IPerson';
+import IRegisterSuccessProps from '../../interfaces/props/IRegisterSuccessProps';
 import DateTime from '../../commons/DateTime';
 import CONSTANTS from '../../commons/Constants';
-
-interface IRegisterSuccessProps {
-  person: IPerson;
-}
 
 const RegisterSuccess = (props: IRegisterSuccessProps): JSX.Element => {
   const {
@@ -49,7 +45,7 @@ const RegisterSuccess = (props: IRegisterSuccessProps): JSX.Element => {
             my: 4,
           }}
         >
-          {`Obrigado por se registrar, ${type}!`}
+          {`Obrigado por se registrar, ${(CONSTANTS.REGISTER_TYPE as any)[type]}!`}
         </Typography>
       </Box>
       <Grid container direction="column" spacing={3} sx={{ alignItems: 'center', mt: 0 }}>

@@ -6,6 +6,8 @@ import GraduateModel from '../models/Graduate';
 import CONFIG from '../config';
 import CONSTANTS from '../commons/Constants';
 import Exception from '../commons/Exception';
+import Utils from '../commons/Utils';
+import ExceptionHandler from '../commons/ExceptionHandler';
 
 class GraduateEntity {
   private readonly requestService: IRequestAdapter;
@@ -21,7 +23,7 @@ class GraduateEntity {
         baseUrl: String(CONFIG.BACKEND.URL),
         path: CONSTANTS.PATH.STUDENDS.POST,
         body: requestBody,
-        headers: GraduateEntity.getDefaultHeaders(),
+        headers: Utils.defaultHeaders(),
         method: CONSTANTS.METHOD.POST,
       });
 
@@ -37,15 +39,24 @@ class GraduateEntity {
       };
     } catch (error) {
       if (error instanceof Exception) {
-        throw error;
+        ExceptionHandler.throw(
+          error,
+          CONSTANTS.PATH.STUDENDS.POST,
+          CONSTANTS.METHOD.POST,
+          error.message,
+          error.statusCode,
+          error.type,
+        );
       }
 
-      throw new Exception({
+      return ExceptionHandler.throw(
         error,
-        message: CONSTANTS.MESSAGES.DEFAULT[500],
-        statusCode: CONSTANTS.HTTP.STATUS.INTERNAL_SERVER_ERROR,
-        type: CONSTANTS.EXCEPTIONS.UNEXPECTED,
-      });
+        CONSTANTS.PATH.STUDENDS.POST,
+        CONSTANTS.METHOD.POST,
+        CONSTANTS.MESSAGES.DEFAULT[500],
+        CONSTANTS.HTTP.STATUS.INTERNAL_SERVER_ERROR,
+        CONSTANTS.EXCEPTIONS.UNEXPECTED,
+      );
     }
   }
 
@@ -54,8 +65,41 @@ class GraduateEntity {
       const graduateResponse: IResponseParams = await this.requestService.execute({
         baseUrl: String(CONFIG.BACKEND.URL),
         path: CONSTANTS.PATH.STUDENDS.GET_BY_ID.replace('{studentId}', String(graduateId)),
-        headers: GraduateEntity.getDefaultHeaders(),
-        method: CONSTANTS.METHOD.POST,
+        headers: Utils.defaultHeaders(),
+        method: CONSTANTS.METHOD.GET,
+      });
+      return graduateResponse;
+    } catch (error) {
+      if (error instanceof Exception) {
+        ExceptionHandler.throw(
+          error,
+          CONSTANTS.PATH.STUDENDS.POST,
+          CONSTANTS.METHOD.GET_BY_ID,
+          error.message,
+          error.statusCode,
+          error.type,
+        );
+      }
+
+      return ExceptionHandler.throw(
+        error,
+        CONSTANTS.PATH.STUDENDS.POST,
+        CONSTANTS.METHOD.GET_BY_ID,
+        CONSTANTS.MESSAGES.DEFAULT[500],
+        CONSTANTS.HTTP.STATUS.INTERNAL_SERVER_ERROR,
+        CONSTANTS.EXCEPTIONS.UNEXPECTED,
+      );
+    }
+  }
+
+  async getAllUnpatronized(): Promise<IResponseParams> {
+    try {
+      const graduateResponse: IResponseParams = await this.requestService.execute({
+        baseUrl: String(CONFIG.BACKEND.URL),
+        path: CONSTANTS.PATH.STUDENDS.GET,
+        headers: Utils.defaultHeaders(),
+        method: CONSTANTS.METHOD.GET,
+        queryString: { sponsor_id: CONSTANTS.DEFAULT_SPONSOR_ID },
       });
       return graduateResponse;
     } catch (error) {
@@ -72,20 +116,70 @@ class GraduateEntity {
     }
   }
 
+  async getAllPatronized(godfatherId: number): Promise<IResponseParams> {
+    try {
+      const graduateResponse: IResponseParams = await this.requestService.execute({
+        baseUrl: String(CONFIG.BACKEND.URL),
+        path: CONSTANTS.PATH.STUDENDS.GET,
+        headers: Utils.defaultHeaders(),
+        method: CONSTANTS.METHOD.GET,
+        queryString: { sponsor_id: godfatherId },
+      });
+      return graduateResponse;
+    } catch (error) {
+      if (error instanceof Exception) {
+        throw error;
+      }
+
+      throw new Exception({
+        error,
+        message: CONSTANTS.MESSAGES.DEFAULT[500],
+        statusCode: CONSTANTS.HTTP.STATUS.INTERNAL_SERVER_ERROR,
+        type: CONSTANTS.EXCEPTIONS.UNEXPECTED,
+      });
+    }
+  }
+
+  async deleteAccount(graduateId: number): Promise<IResponseParams> {
+    try {
+      const graduateResponse: IResponseParams = await this.requestService.execute({
+        baseUrl: String(CONFIG.BACKEND.URL),
+        path: CONSTANTS.PATH.STUDENDS.DELETE.replace('{studentId}', String(graduateId)),
+        headers: Utils.defaultHeaders(),
+        method: CONSTANTS.METHOD.GET,
+      });
+      return graduateResponse;
+    } catch (error) {
+      if (error instanceof Exception) {
+        ExceptionHandler.throw(
+          error,
+          CONSTANTS.PATH.STUDENDS.POST,
+          CONSTANTS.METHOD.DELETE,
+          error.message,
+          error.statusCode,
+          error.type,
+        );
+      }
+
+      return ExceptionHandler.throw(
+        error,
+        CONSTANTS.PATH.STUDENDS.POST,
+        CONSTANTS.METHOD.DELETE,
+        CONSTANTS.MESSAGES.DEFAULT[500],
+        CONSTANTS.HTTP.STATUS.INTERNAL_SERVER_ERROR,
+        CONSTANTS.EXCEPTIONS.UNEXPECTED,
+      );
+    }
+  }
+
   private async associateToCourse(graduateId: number, courseId: number): Promise<IResponseParams> {
     return this.requestService.execute({
       baseUrl: String(CONFIG.BACKEND.URL),
       path: CONSTANTS.PATH.STUDENDS.PUT.replace('{studentId}', String(graduateId)),
-      headers: GraduateEntity.getDefaultHeaders(),
+      headers: Utils.defaultHeaders(),
       method: CONSTANTS.METHOD.PUT,
       queryString: { courseId },
     });
-  }
-
-  private static getDefaultHeaders(): any {
-    return {
-      'Content-Type': 'application/json',
-    };
   }
 }
 

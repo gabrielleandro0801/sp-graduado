@@ -6,6 +6,8 @@ import CONFIG from '../config';
 import LoginModel from '../models/Login';
 import ILogin from '../interfaces/ILogin';
 import Exception from '../commons/Exception';
+import Utils from '../commons/Utils';
+import ExceptionHandler from '../commons/ExceptionHandler';
 
 class LoginEntity {
   private readonly requestService: IRequestAdapter;
@@ -21,29 +23,32 @@ class LoginEntity {
         baseUrl: String(CONFIG.BACKEND.URL),
         path: CONSTANTS.PATH.LOGIN.POST,
         body: requestBody,
-        headers: LoginEntity.getDefaultHeaders(),
+        headers: Utils.defaultHeaders(),
         method: CONSTANTS.METHOD.POST,
       });
 
       return loginResponse;
     } catch (error) {
       if (error instanceof Exception) {
-        throw error;
+        ExceptionHandler.throw(
+          error,
+          CONSTANTS.PATH.LOGIN.POST,
+          CONSTANTS.METHOD.POST,
+          error.message,
+          error.statusCode,
+          error.type,
+        );
       }
 
-      throw new Exception({
+      return ExceptionHandler.throw(
         error,
-        message: CONSTANTS.MESSAGES.DEFAULT[500],
-        statusCode: CONSTANTS.HTTP.STATUS.INTERNAL_SERVER_ERROR,
-        type: CONSTANTS.EXCEPTIONS.UNEXPECTED,
-      });
+        CONSTANTS.PATH.LOGIN.POST,
+        CONSTANTS.METHOD.POST,
+        CONSTANTS.MESSAGES.DEFAULT[500],
+        CONSTANTS.HTTP.STATUS.INTERNAL_SERVER_ERROR,
+        CONSTANTS.EXCEPTIONS.UNEXPECTED,
+      );
     }
-  }
-
-  private static getDefaultHeaders(): any {
-    return {
-      'Content-Type': 'application/json',
-    };
   }
 }
 

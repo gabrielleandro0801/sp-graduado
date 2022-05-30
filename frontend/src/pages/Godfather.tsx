@@ -18,12 +18,12 @@ const Godfather = (): JSX.Element => {
   };
 
   const isOnStorage = (): boolean => {
-    return !!localStorage.getItem('userInfo');
+    return !!localStorage.getItem('userInfoGodfather');
   };
 
   const persistUserInfoOnLocalStorage = (): void => {
     if (locationState?.userInfo && !isOnStorage()) {
-      localStorage.setItem('userInfo', JSON.stringify(locationState?.userInfo));
+      localStorage.setItem('userInfoGodfather', JSON.stringify(locationState?.userInfo));
     }
   };
 
@@ -55,7 +55,7 @@ const Godfather = (): JSX.Element => {
           buttonText="Fechar"
           open
           onClose={handleOnCloseAlertDialog}
-          textContent="Você não está logado para acessar esta página"
+          textContent="Você não está logado para acessar esta página!"
           titleText="Erro ao Acessar"
         />
       )}

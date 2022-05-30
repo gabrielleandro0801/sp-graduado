@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 import CONSTANTS from '../../../commons/Constants';
 import DrawerContext from '../../contexts/Drawer';
-import godfatherImg from '../../../assets/ladder-white.png';
+import godfatherImg from '../../../assets/ladder.png';
 
 const ICON = {
   DEFAULT_SIZE: {
@@ -32,7 +32,7 @@ const MenuList = (): JSX.Element => {
 
   const handleOnClickLogOut = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    localStorage.removeItem('userInfo');
+    localStorage.removeItem('userInfoGodfather');
     localStorage.clear();
     handleClose();
     navigation(CONSTANTS.ROUTING.HOME, { replace: true });
